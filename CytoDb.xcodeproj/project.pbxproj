@@ -1,0 +1,480 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C5896FD318CDF2620017DCFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD218CDF2620017DCFF /* Foundation.framework */; };
+		C5896FD518CDF2620017DCFF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD418CDF2620017DCFF /* CoreGraphics.framework */; };
+		C5896FD718CDF2620017DCFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD618CDF2620017DCFF /* UIKit.framework */; };
+		C5896FD918CDF2620017DCFF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD818CDF2620017DCFF /* CoreData.framework */; };
+		C5896FDF18CDF2620017DCFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5896FDD18CDF2620017DCFF /* InfoPlist.strings */; };
+		C5896FE118CDF2620017DCFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5896FE018CDF2620017DCFF /* main.m */; };
+		C5896FE518CDF2620017DCFF /* CDBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */; };
+		C5896FE818CDF2620017DCFF /* CytoDb.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5896FE618CDF2620017DCFF /* CytoDb.xcdatamodeld */; };
+		C5896FEA18CDF2620017DCFF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5896FE918CDF2620017DCFF /* Images.xcassets */; };
+		C5896FF118CDF2620017DCFF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FF018CDF2620017DCFF /* XCTest.framework */; };
+		C5896FF218CDF2620017DCFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD218CDF2620017DCFF /* Foundation.framework */; };
+		C5896FF318CDF2630017DCFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD618CDF2620017DCFF /* UIKit.framework */; };
+		C5896FF418CDF2630017DCFF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD818CDF2620017DCFF /* CoreData.framework */; };
+		C5896FFC18CDF2630017DCFF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5896FFA18CDF2630017DCFF /* InfoPlist.strings */; };
+		C5896FFE18CDF2630017DCFF /* CytoDbTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5896FFD18CDF2630017DCFF /* CytoDbTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C5896FF518CDF2630017DCFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5896FC718CDF2620017DCFF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5896FCE18CDF2620017DCFF;
+			remoteInfo = CytoDb;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C5896FCF18CDF2620017DCFF /* CytoDb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CytoDb.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5896FD218CDF2620017DCFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C5896FD418CDF2620017DCFF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C5896FD618CDF2620017DCFF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C5896FD818CDF2620017DCFF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C5896FDC18CDF2620017DCFF /* CytoDb-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CytoDb-Info.plist"; sourceTree = "<group>"; };
+		C5896FDE18CDF2620017DCFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C5896FE018CDF2620017DCFF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C5896FE218CDF2620017DCFF /* CytoDb-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CytoDb-Prefix.pch"; sourceTree = "<group>"; };
+		C5896FE318CDF2620017DCFF /* CDBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDBAppDelegate.h; sourceTree = "<group>"; };
+		C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDBAppDelegate.m; sourceTree = "<group>"; };
+		C5896FE718CDF2620017DCFF /* CytoDb.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CytoDb.xcdatamodel; sourceTree = "<group>"; };
+		C5896FE918CDF2620017DCFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C5896FEF18CDF2620017DCFF /* CytoDbTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CytoDbTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5896FF018CDF2620017DCFF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		C5896FF918CDF2630017DCFF /* CytoDbTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CytoDbTests-Info.plist"; sourceTree = "<group>"; };
+		C5896FFB18CDF2630017DCFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C5896FFD18CDF2630017DCFF /* CytoDbTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CytoDbTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C5896FCC18CDF2620017DCFF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5896FD518CDF2620017DCFF /* CoreGraphics.framework in Frameworks */,
+				C5896FD918CDF2620017DCFF /* CoreData.framework in Frameworks */,
+				C5896FD718CDF2620017DCFF /* UIKit.framework in Frameworks */,
+				C5896FD318CDF2620017DCFF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5896FEC18CDF2620017DCFF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5896FF118CDF2620017DCFF /* XCTest.framework in Frameworks */,
+				C5896FF418CDF2630017DCFF /* CoreData.framework in Frameworks */,
+				C5896FF318CDF2630017DCFF /* UIKit.framework in Frameworks */,
+				C5896FF218CDF2620017DCFF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C5896FC618CDF2620017DCFF = {
+			isa = PBXGroup;
+			children = (
+				C5896FDA18CDF2620017DCFF /* CytoDb */,
+				C5896FF718CDF2630017DCFF /* CytoDbTests */,
+				C5896FD118CDF2620017DCFF /* Frameworks */,
+				C5896FD018CDF2620017DCFF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C5896FD018CDF2620017DCFF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5896FCF18CDF2620017DCFF /* CytoDb.app */,
+				C5896FEF18CDF2620017DCFF /* CytoDbTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C5896FD118CDF2620017DCFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C5896FD218CDF2620017DCFF /* Foundation.framework */,
+				C5896FD418CDF2620017DCFF /* CoreGraphics.framework */,
+				C5896FD618CDF2620017DCFF /* UIKit.framework */,
+				C5896FD818CDF2620017DCFF /* CoreData.framework */,
+				C5896FF018CDF2620017DCFF /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C5896FDA18CDF2620017DCFF /* CytoDb */ = {
+			isa = PBXGroup;
+			children = (
+				C5896FE318CDF2620017DCFF /* CDBAppDelegate.h */,
+				C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */,
+				C5896FE918CDF2620017DCFF /* Images.xcassets */,
+				C5896FE618CDF2620017DCFF /* CytoDb.xcdatamodeld */,
+				C5896FDB18CDF2620017DCFF /* Supporting Files */,
+			);
+			path = CytoDb;
+			sourceTree = "<group>";
+		};
+		C5896FDB18CDF2620017DCFF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C5896FDC18CDF2620017DCFF /* CytoDb-Info.plist */,
+				C5896FDD18CDF2620017DCFF /* InfoPlist.strings */,
+				C5896FE018CDF2620017DCFF /* main.m */,
+				C5896FE218CDF2620017DCFF /* CytoDb-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C5896FF718CDF2630017DCFF /* CytoDbTests */ = {
+			isa = PBXGroup;
+			children = (
+				C5896FFD18CDF2630017DCFF /* CytoDbTests.m */,
+				C5896FF818CDF2630017DCFF /* Supporting Files */,
+			);
+			path = CytoDbTests;
+			sourceTree = "<group>";
+		};
+		C5896FF818CDF2630017DCFF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C5896FF918CDF2630017DCFF /* CytoDbTests-Info.plist */,
+				C5896FFA18CDF2630017DCFF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C5896FCE18CDF2620017DCFF /* CytoDb */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C589700118CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDb" */;
+			buildPhases = (
+				C5896FCB18CDF2620017DCFF /* Sources */,
+				C5896FCC18CDF2620017DCFF /* Frameworks */,
+				C5896FCD18CDF2620017DCFF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CytoDb;
+			productName = CytoDb;
+			productReference = C5896FCF18CDF2620017DCFF /* CytoDb.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C5896FEE18CDF2620017DCFF /* CytoDbTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDbTests" */;
+			buildPhases = (
+				C5896FEB18CDF2620017DCFF /* Sources */,
+				C5896FEC18CDF2620017DCFF /* Frameworks */,
+				C5896FED18CDF2620017DCFF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5896FF618CDF2630017DCFF /* PBXTargetDependency */,
+			);
+			name = CytoDbTests;
+			productName = CytoDbTests;
+			productReference = C5896FEF18CDF2620017DCFF /* CytoDbTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C5896FC718CDF2620017DCFF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CDB;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = Rifter;
+				TargetAttributes = {
+					C5896FEE18CDF2620017DCFF = {
+						TestTargetID = C5896FCE18CDF2620017DCFF;
+					};
+				};
+			};
+			buildConfigurationList = C5896FCA18CDF2620017DCFF /* Build configuration list for PBXProject "CytoDb" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C5896FC618CDF2620017DCFF;
+			productRefGroup = C5896FD018CDF2620017DCFF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C5896FCE18CDF2620017DCFF /* CytoDb */,
+				C5896FEE18CDF2620017DCFF /* CytoDbTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C5896FCD18CDF2620017DCFF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5896FDF18CDF2620017DCFF /* InfoPlist.strings in Resources */,
+				C5896FEA18CDF2620017DCFF /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5896FED18CDF2620017DCFF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5896FFC18CDF2630017DCFF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C5896FCB18CDF2620017DCFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5896FE818CDF2620017DCFF /* CytoDb.xcdatamodeld in Sources */,
+				C5896FE518CDF2620017DCFF /* CDBAppDelegate.m in Sources */,
+				C5896FE118CDF2620017DCFF /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5896FEB18CDF2620017DCFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5896FFE18CDF2630017DCFF /* CytoDbTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C5896FF618CDF2630017DCFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5896FCE18CDF2620017DCFF /* CytoDb */;
+			targetProxy = C5896FF518CDF2630017DCFF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C5896FDD18CDF2620017DCFF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5896FDE18CDF2620017DCFF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C5896FFA18CDF2630017DCFF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5896FFB18CDF2630017DCFF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C5896FFF18CDF2630017DCFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C589700018CDF2630017DCFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C589700218CDF2630017DCFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
+				INFOPLIST_FILE = "CytoDb/CytoDb-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C589700318CDF2630017DCFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
+				INFOPLIST_FILE = "CytoDb/CytoDb-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C589700518CDF2630017DCFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CytoDb.app/CytoDb";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "CytoDbTests/CytoDbTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		C589700618CDF2630017DCFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CytoDb.app/CytoDb";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
+				INFOPLIST_FILE = "CytoDbTests/CytoDbTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C5896FCA18CDF2620017DCFF /* Build configuration list for PBXProject "CytoDb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5896FFF18CDF2630017DCFF /* Debug */,
+				C589700018CDF2630017DCFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C589700118CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C589700218CDF2630017DCFF /* Debug */,
+				C589700318CDF2630017DCFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDbTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C589700518CDF2630017DCFF /* Debug */,
+				C589700618CDF2630017DCFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C5896FE618CDF2620017DCFF /* CytoDb.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C5896FE718CDF2620017DCFF /* CytoDb.xcdatamodel */,
+			);
+			currentVersion = C5896FE718CDF2620017DCFF /* CytoDb.xcdatamodel */;
+			path = CytoDb.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C5896FC718CDF2620017DCFF /* Project object */;
+}
