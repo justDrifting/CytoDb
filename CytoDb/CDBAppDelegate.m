@@ -7,6 +7,10 @@
 //
 
 #import "CDBAppDelegate.h"
+#import "CDBOrganViewController.h"
+#import <Parse/Parse.h>
+
+#define getDataURL @"http://localhost/json.php"
 
 @implementation CDBAppDelegate
 
@@ -16,10 +20,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+    //[self flushDatabase];
+    UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
+    CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
+    organViewController.managedObjectContext = self.managedObjectContext;
+    
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    pageControl.backgroundColor = [UIColor whiteColor];
+    
+    
+    //Parse key:
+    //[Parse setApplicationId:@"bkV5yRYdimjXSsKuJJn59rjklg9JIR2bX3B0ZIrx"clientKey:@"KtkLMjXXlnqmoQPWstKkdUO66ffA88XWiSPfykSA"];
+    
     return YES;
 }
 
@@ -105,6 +119,9 @@
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CytoDb.sqlite"];
     
+    //**************UnComment to delete store*************
+   //[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+    
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
@@ -145,5 +162,21 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+
+#pragma -flush Database
+-(void) flushDatabase{
+    [self.managedObjectContext lock];
+    NSArray *stores = [self.managedObjectContext.persistentStoreCoordinator persistentStores];
+    for(NSPersistentStore *store in stores) {
+        [self.managedObjectContext.persistentStoreCoordinator removePersistentStore:store error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+    }
+    [self.managedObjectContext unlock];
+   //  self.managedObjectModel = nil;
+    //  self.managedObjectContext = nil;
+      self.managedObjectContext.persistentStoreCoordinator = nil;
+}
+
 
 @end
