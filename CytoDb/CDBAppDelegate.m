@@ -8,7 +8,7 @@
 
 #import "CDBAppDelegate.h"
 #import "CDBOrganViewController.h"
-#import <Parse/Parse.h>
+
 
 #define getDataURL @"http://localhost/json.php"
 
