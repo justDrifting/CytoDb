@@ -41,8 +41,6 @@
    // Uncomment to clean up table entry
    //[self removeAllObjects];
    
- 
-
     [self fetchOrgans];
     
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
@@ -64,14 +62,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
     
     return [self.organList count];
