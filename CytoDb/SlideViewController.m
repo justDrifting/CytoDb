@@ -40,6 +40,7 @@
     //This is actually slide Name that appears below the image
     _pageTitles = [[NSMutableArray alloc] init];
     _pageImages = [[NSMutableArray alloc] init];
+    _pageTexts =  [[NSMutableArray alloc] init];
     
     for(Slide *slide in self.slideArray){
       
