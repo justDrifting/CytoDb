@@ -37,16 +37,12 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self removeAllObjects];
+
+   // Uncomment to clean up table entry
+   //[self removeAllObjects];
    
-    
-    // NSLog(@"retrieve started");
-    //[self retrieveData];
-   //NSLog(@"retrieve ended");
-    //[self read];
-    
-   // [self showCoreDataTable];
-   
+ 
+
     [self fetchOrgans];
     
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
