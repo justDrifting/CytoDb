@@ -46,6 +46,7 @@
       
       [_pageTitles addObject:slide.slideName];
       [_pageImages addObject:slide.slideImage];
+      [_pageTexts  addObject:slide.slideDescription];
       //Add any other attribute that need to go into the page view controller
         
      }
