@@ -39,7 +39,7 @@
   [super viewDidLoad];
 
    // Uncomment to clean up table entry
-   //[self removeAllObjects];
+  // [self removeAllObjects];
    
     [self fetchOrgans];
     

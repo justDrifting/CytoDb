@@ -68,7 +68,7 @@
                                      completion:nil];
     
     // Change the size of page view controller **Not Sure why this was used
-   // self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 30);
+     //self.pageViewController.view.frame = CGRectMake(5, 5, self.view.frame.size.width -10, self.view.frame.size.height - 10);
     
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];

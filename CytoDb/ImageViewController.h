@@ -17,4 +17,7 @@
 @property NSString *descriptionText;
 @property NSData *imageFile;
 
+
+
+
 @end

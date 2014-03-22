@@ -43,6 +43,7 @@
 		C589703E18D11EBB0017DCFF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703D18D11EBB0017DCFF /* StoreKit.framework */; };
 		C589704018D11ECA0017DCFF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703F18D11EC90017DCFF /* SystemConfiguration.framework */; };
 		C5A49D5118DA529100386491 /* icon@2x-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A49D5018DA529100386491 /* icon@2x-01.png */; };
+		C5F38D8518DCFC95005C1D61 /* fullViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F38D8418DCFC95005C1D61 /* fullViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,8 @@
 		C589703D18D11EBB0017DCFF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C589703F18D11EC90017DCFF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C5A49D5018DA529100386491 /* icon@2x-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x-01.png"; sourceTree = "<group>"; };
+		C5F38D8318DCFC95005C1D61 /* fullViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fullViewController.h; sourceTree = "<group>"; };
+		C5F38D8418DCFC95005C1D61 /* fullViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fullViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +256,8 @@
 				C589702718D00F760017DCFF /* SlideViewController.m */,
 				C589702318CFC59D0017DCFF /* ImageViewController.h */,
 				C589702418CFC59E0017DCFF /* ImageViewController.m */,
+				C5F38D8318DCFC95005C1D61 /* fullViewController.h */,
+				C5F38D8418DCFC95005C1D61 /* fullViewController.m */,
 				C515939118D7AEEB002EB250 /* CDBImageTransformer.h */,
 				C515939218D7AEEB002EB250 /* CDBImageTransformer.m */,
 			);
@@ -358,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C515938D18D77CAF002EB250 /* Organ.m in Sources */,
+				C5F38D8518DCFC95005C1D61 /* fullViewController.m in Sources */,
 				C589701F18CE5DB50017DCFF /* CDBSlideViewController.m in Sources */,
 				C515939318D7AEEB002EB250 /* CDBImageTransformer.m in Sources */,
 				C589701B18CE04A50017DCFF /* CDBOrganViewController.m in Sources */,

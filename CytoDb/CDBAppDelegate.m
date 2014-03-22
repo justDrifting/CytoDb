@@ -25,6 +25,7 @@
     CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
     organViewController.managedObjectContext = self.managedObjectContext;
     
+    //Page control dots
     UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
