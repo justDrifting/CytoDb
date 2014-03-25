@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ImageViewController.h"
 
-@interface SlideViewController : UIViewController <UIPageViewControllerDataSource>
+@interface SlideViewController : UIViewController < UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
 
 @property (strong,nonatomic)UIPageViewController *pageViewController;
@@ -19,6 +19,6 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic) NSString *selectedConditionName;
 
-@property (nonatomic,weak) NSArray *slideArray; //Container for the slides that will be presented
+@property (nonatomic,weak,readonly) NSArray *slideArray; //Container for the slides that will be presented
 
 @end

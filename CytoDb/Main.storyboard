@@ -64,24 +64,13 @@
             </objects>
             <point key="canvasLocation" x="119" y="-771"/>
         </scene>
-        <!--Page View Controller-->
-        <scene sceneID="yVx-Hy-dTw">
-            <objects>
-                <pageViewController storyboardIdentifier="pageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="JRK-wm-wTA" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="reU-mq-kIw"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                </pageViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JQM-Ku-Nq6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="580" y="-47"/>
-        </scene>
         <!--Slide View Controller-->
         <scene sceneID="7f0-H6-WE9">
             <objects>
                 <viewController id="IWP-FH-hZy" customClass="SlideViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="GoB-u7-tKj"/>
-                        <viewControllerLayoutGuide type="bottom" id="obe-so-gft"/>
+                        <viewControllerLayoutGuide type="top" id="YPP-t7-HoG"/>
+                        <viewControllerLayoutGuide type="bottom" id="lC8-Ap-4nW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="765-tv-fM0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -106,20 +95,15 @@
         <scene sceneID="PwG-WX-PLx">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6C3-1L-XJJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="ImageController" id="8uy-v6-UrL" customClass="ImageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="8uy-v6-UrL" customClass="ImageViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Bq4-p9-ngu"/>
-                        <viewControllerLayoutGuide type="bottom" id="HOK-NA-CZl"/>
+                        <viewControllerLayoutGuide type="top" id="SlL-qL-NVc"/>
+                        <viewControllerLayoutGuide type="bottom" id="Iv6-DX-zFc"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6fC-7Y-Ajc">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="6fC-7Y-Ajc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" restorationIdentifier="slideImage" translatesAutoresizingMaskIntoConstraints="NO" id="EcR-Jg-WGm">
-                                <rect key="frame" x="10" y="68" width="300" height="373"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
-                            </imageView>
                             <textView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description of Slide" translatesAutoresizingMaskIntoConstraints="NO" id="F2s-dp-6GK">
                                 <rect key="frame" x="10" y="441" width="300" height="107"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -127,46 +111,47 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="m3g-bO-b9v">
+                                <rect key="frame" x="10" y="72" width="300" height="361"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hzw-IM-DDn">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="360"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="360" id="14U-r6-ZjG"/>
+                                            <constraint firstAttribute="width" constant="300" id="XaM-hF-Kv0"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Hzw-IM-DDn" secondAttribute="bottom" id="AQ5-gm-FWA"/>
+                                    <constraint firstItem="Hzw-IM-DDn" firstAttribute="top" secondItem="m3g-bO-b9v" secondAttribute="top" id="WkM-bc-Hbi"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hzw-IM-DDn" secondAttribute="trailing" id="bbt-mX-Cqr"/>
+                                    <constraint firstItem="Hzw-IM-DDn" firstAttribute="leading" secondItem="m3g-bO-b9v" secondAttribute="leading" id="r2H-ze-kq5"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="8uy-v6-UrL" id="tlR-uQ-OS5"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="m3g-bO-b9v" firstAttribute="top" secondItem="6fC-7Y-Ajc" secondAttribute="top" constant="72" id="ft2-9J-M9v"/>
+                            <constraint firstItem="m3g-bO-b9v" firstAttribute="leading" secondItem="6fC-7Y-Ajc" secondAttribute="leading" constant="10" id="j2V-5b-cxr"/>
+                        </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="imageDisplay" destination="EcR-Jg-WGm" id="Q1B-Be-TKC"/>
+                        <outlet property="imageDisplay" destination="Hzw-IM-DDn" id="GIw-P4-wz5"/>
+                        <outlet property="imageScrollView" destination="m3g-bO-b9v" id="2M7-DV-Qsn"/>
                         <outlet property="textDisplay" destination="F2s-dp-6GK" id="SWQ-6a-IVX"/>
-                        <segue destination="lke-oT-c3N" kind="modal" identifier="fullViewSegue" modalTransitionStyle="crossDissolve" id="MiQ-TO-36p"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="975" y="-47"/>
-        </scene>
-        <!--Full View Controller-->
-        <scene sceneID="WVn-na-WAS">
-            <objects>
-                <viewController storyboardIdentifier="fullViewController" id="lke-oT-c3N" customClass="fullViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Jyp-m7-IGZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="9w1-0j-c8m"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FQ3-MD-hr5">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zxb-4h-uDF">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="fullImageDisplay" destination="zxb-4h-uDF" id="pi5-jz-pPl"/>
-                        <segue destination="XSQ-Bo-lbB" kind="unwind" identifier="goToSmallView" unwindAction="unwindToImageViewController:" id="n4d-z2-UGm"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dEj-h3-TsO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="XSQ-Bo-lbB" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="975" y="676"/>
+            <point key="canvasLocation" x="971" y="-763"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="amX-9B-V55">

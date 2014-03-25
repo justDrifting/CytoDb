@@ -33,9 +33,14 @@
     
 	// Do any additional setup after loading the view.
     //selectedCondition name was delegated in the segue in the slideViewController
+   
+     self.pageViewController.delegate = self;
+    
     //The selected condition is now used in setting the title and fetchSlides
     [self setTitle: self.selectedConditionName];
     [self fetchSlides]; //This populated the self.slideArray
+    
+   
     
     //This is actually slide Name that appears below the image
     _pageTitles = [[NSMutableArray alloc] init];
@@ -51,13 +56,16 @@
         
      }
     
-    // Create page view controller
-    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"pageViewController"];
     
+    // Create page view controller
+   // self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"pageViewController"];
+    
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+   
     //SlideViewController (self) Will Provide the necessary data for the pageViewController
     self.pageViewController.dataSource = self;
     
-    //Set the first page in the pageViewController using the method "vieControlleratIndex"
+    //Set the first page in the pageViewController using the method "viewControlleratIndex"
     ImageViewController *startingViewController = [self viewControllerAtIndex:0];
     
     // The pages need to be sent as an array even if it is only one page, so we pass it into an array
@@ -67,12 +75,18 @@
                                        animated:NO
                                      completion:nil];
     
-    // Change the size of page view controller **Not Sure why this was used
-     //self.pageViewController.view.frame = CGRectMake(5, 5, self.view.frame.size.width -10, self.view.frame.size.height - 10);
+   
     
-    [self addChildViewController:_pageViewController];
-    [self.view addSubview:_pageViewController.view];
+    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
+    CGRect pageViewRect = self.view.bounds;
+    self.pageViewController.view.frame = pageViewRect;
+    
+    [self addChildViewController:self.pageViewController];
+    [self.view addSubview:self.pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
+    
+    // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
+    self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
 
 
 }
@@ -112,6 +126,7 @@
     return [self viewControllerAtIndex:index];
 }
 
+ 
 - (ImageViewController *)viewControllerAtIndex:(NSUInteger)index
 {
     if (([self.pageTitles count] == 0) || (index >= [self.pageTitles count])) {
@@ -157,7 +172,7 @@
     NSError *error = nil;
     NSArray *fetchedObjects = [context executeFetchRequest:request error:&error];
     
-    self.slideArray=fetchedObjects; //This array will be used to populate the pages
+    _slideArray=fetchedObjects; //This array will be used to populate the pages
     
 }
 

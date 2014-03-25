@@ -8,13 +8,18 @@
 
 #import "ImageViewController.h"
 #import "CDBSlideViewController.h"
-#import "fullViewController.h"
 
 @interface ImageViewController ()
+
+
 
 @end
 
 @implementation ImageViewController
+
+@synthesize imageScrollView = _imageScrollView;
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,15 +33,147 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     //Do any additional setup after loading the view.
     self.textDisplay.text = self.descriptionText;
-    self.imageDisplay.image= [UIImage imageWithData:self.imageFile];
     
-    UITapGestureRecognizer *modalTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToFullView)];
     
-    [self.imageDisplay addGestureRecognizer:modalTap];
+    
+   // UIImage *slideImage = [UIImage imageWithData:self.imageFile];
+    
+    NSLog(@"Image %@ size is %lu",self.descriptionText,self.imageFile.length);
+    self.imageDisplay.image= [UIImage imageWithData:_imageFile scale:1.0f];
+    [self.imageScrollView setMaximumZoomScale:2.0f];
+    [self.imageScrollView setMinimumZoomScale:1.0f];
+     [self.imageScrollView setZoomScale:1.0f];
+    //self.imageDisplay.frame= (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=slideImage.size};
+    self.imageDisplay.contentMode= UIViewContentModeScaleAspectFill;
+   //[self.imageScrollView addSubview:self.imageDisplay];
+    
   
+    
+    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+    doubleTapRecognizer.numberOfTouchesRequired = 1;
+    [self.imageScrollView addGestureRecognizer:doubleTapRecognizer];
+
+    
+    //2
+   // self.imageScrollView.contentSize = slideImage.size;
+    
+
+    // 3
+    
+    
+  /*  UITapGestureRecognizer *twoFingerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTwoFingerTapped:)];
+    twoFingerTapRecognizer.numberOfTapsRequired = 1;
+    twoFingerTapRecognizer.numberOfTouchesRequired = 2;
+    [self.imageScrollView addGestureRecognizer:twoFingerTapRecognizer];
+    
+   */ 
+    
+ // UITapGestureRecognizer *modalTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToFullView)];
+    
+    
+    //[self.imageDisplay addGestureRecognizer:modalTap];
   
+   
+    //[self centerScrollViewContents];
+ //  [self.imageDisplay addGestureRecognizer:modalTap];
+  
+}
+
+
+/*
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // 4
+    CGRect scrollViewFrame = self.imageScrollView.frame;
+    CGFloat scaleWidth = scrollViewFrame.size.width / self.imageScrollView.contentSize.width;
+    CGFloat scaleHeight = scrollViewFrame.size.height / self.imageScrollView.contentSize.height;
+    CGFloat minScale = MIN(scaleWidth, scaleHeight);
+    self.imageScrollView.minimumZoomScale = minScale;
+    
+    // 5
+    self.imageScrollView.maximumZoomScale = 1.0f;
+    self.imageScrollView.zoomScale = minScale;
+    
+    // 6
+    [self centerScrollViewContents];
+
+}
+*/
+
+
+
+- (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
+  
+   // NSLog(@"Double tap detected");
+    
+    
+    CGFloat minZoomScale = self.imageScrollView.minimumZoomScale;
+    CGFloat maxZoomScale = self.imageScrollView.maximumZoomScale;
+    CGFloat midZoomScale = minZoomScale + 0.5*(maxZoomScale - minZoomScale);
+    
+    
+    if(self.imageScrollView.zoomScale > midZoomScale ){
+    [self.imageScrollView setZoomScale:minZoomScale animated:YES];
+    }
+    else{
+    [self.imageScrollView setZoomScale:maxZoomScale animated:YES];
+    }
+  /*
+    // 1
+    CGPoint pointInView = [recognizer locationInView:self.imageDisplay];
+    
+    // 2
+    CGFloat newZoomScale = self.imageScrollView.zoomScale * 1.5f;
+    newZoomScale = MIN(newZoomScale, self.imageScrollView.maximumZoomScale);
+    
+    // 3
+    CGSize scrollViewSize = self.imageScrollView.bounds.size;
+    
+    CGFloat w = scrollViewSize.width / newZoomScale;
+    CGFloat h = scrollViewSize.height / newZoomScale;
+    CGFloat x = pointInView.x - (w / 2.0f);
+    CGFloat y = pointInView.y - (h / 2.0f);
+    
+    CGRect rectToZoomTo = CGRectMake(x, y, w, h);
+    
+    // 4
+    [self.imageScrollView zoomToRect:rectToZoomTo animated:YES];
+   
+   */
+}
+
+/*
+- (void)scrollViewTwoFingerTapped:(UITapGestureRecognizer*)recognizer {
+    // Zoom out slightly, capping at the minimum zoom scale specified by the scroll view
+    CGFloat newZoomScale = self.imageScrollView.zoomScale / 1.5f;
+    newZoomScale = MAX(newZoomScale, self.imageScrollView.minimumZoomScale);
+    [self.imageScrollView setZoomScale:newZoomScale animated:YES];
+}
+
+*/
+
+
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    // Return the view that you want to zoom
+    
+  
+    return self.imageDisplay;
+}
+
+
+
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    // The scroll view has zoomed, so you need to re-center the contents
+   // [self centerScrollViewContents];
+    //NSLog(@"mid ZoomScale is %f", self.imageScrollView.zoomScale);
+    
 }
 
 
@@ -45,127 +182,9 @@
     
 }
 
--(void)goToFullView
-{
-     [self performSegueWithIdentifier:@"fullViewSegue" sender:self];
-
-}
-
-
-/*
--(void)showModalView
-{
-    NSLog(@"I have been touched");
-    
-    if(!self.isLarge){
-    
-        self.isLarge =YES;
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
-    
-    self.fullSizeImageView = [[UIImageView alloc] init];
-    self.fullSizeImageView.frame = CGRectMake(5, 5, self.view.frame.size.width -10, self.view.frame.size.height - 10);
-    
-    UIImage *imageToDisplay = [UIImage imageWithData:self.imageFile];
-  
-    
-    self.fullSizeImageView.contentMode=UIViewContentModeScaleAspectFit;
-    [self.fullSizeImageView setContentMode:UIViewContentModeCenter];
-
-    self.fullSizeImageView.image = imageToDisplay;
-    
-    //UITapGestureRecognizer *modalTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView)];
-    
-   // [imageView addGestureRecognizer:modalTap];
-    
-    //Add this image as a subview
-    [self.view addSubview:self.fullSizeImageView];
-        
-    }
-    else
-    {
-        [[self navigationController] setNavigationBarHidden:NO animated:YES];
-        
-        [UIView animateWithDuration:0.25
-                              delay:0
-                            options: UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.fullSizeImageView.alpha = 0;
-                         }completion:^(BOOL finished){
-                             [self.fullSizeImageView removeFromSuperview];
-                         }];
-        
-        self.isLarge =NO;
-    }
-    
-    //[self presentViewController:modalViewController animated:YES completion:nil];
-    
-    
-
-}
-
-*/
-
-
-/*
--(void)showModalView
-{
-    NSLog(@"I have been touched");
-    
-    if(!self.isLarge){
-        
-        self.isLarge =YES;
-        [[self navigationController] setNavigationBarHidden:YES animated:YES];
-        
-        self.fullSizeImageView = [[UIImageView alloc] init];
-        self.fullSizeImageView.frame = CGRectMake(5, 5, self.view.frame.size.width -10, self.view.frame.size.height - 10);
-        
-        UIImage *imageToDisplay = [UIImage imageWithData:self.imageFile];
-        
-        
-        self.fullSizeImageView.contentMode=UIViewContentModeScaleAspectFill;
-        [self.fullSizeImageView setContentMode:UIViewContentModeCenter];
-        
-        self.fullSizeImageView.image = imageToDisplay;
-        
-        //UITapGestureRecognizer *modalTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissModalView)];
-        
-        // [imageView addGestureRecognizer:modalTap];
-        
-        //Add this image as a subview
-        [self.view addSubview:self.fullSizeImageView];
-        
-    }
-    else
-    {
-        [[self navigationController] setNavigationBarHidden:NO animated:YES];
-        
-        [UIView animateWithDuration:0.25
-                              delay:0
-                            options: UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.fullSizeImageView.alpha = 0;
-                         }completion:^(BOOL finished){
-                             [self.fullSizeImageView removeFromSuperview];
-                         }];
-        
-        self.isLarge =NO;
-    }
-    
-    //[self presentViewController:modalViewController animated:YES completion:nil];
-    
-    
-    
-}*/
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
-    if([[segue identifier]isEqualToString:@"fullViewSegue"]){
-        
-        fullViewController *fullViewCont = (fullViewController *) segue.destinationViewController;
-        fullViewCont.fullImage = [UIImage imageWithData:self.imageFile];
-       
-    }
 }
 
 
@@ -178,16 +197,6 @@
 
 
 
-
-
-
--(void)dismissModalView
-{
-    
-  //NSLog(@"I dismissmodalview");
- // [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-   [self.view removeFromSuperview];
-}
 
 
 @end
