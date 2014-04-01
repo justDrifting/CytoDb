@@ -39,7 +39,7 @@
   [super viewDidLoad];
 
    // Uncomment to clean up table entry
-  // [self removeAllObjects];
+  [self removeAllObjects];
    
     [self fetchOrgans];
     
@@ -148,9 +148,9 @@
 }
 
 
-
-
+#pragma mark - CoreData CRUD Methods
 #pragma -insertSlide
+
 -(void)inserNewSlide:(NSDictionary *)jsonDictionary
 {
  
@@ -161,7 +161,7 @@
     BOOL duplicateSlide = [self duplicateSlideForSlideName:[jsonDictionary objectForKey:@"slideName"]
                                                 ForContext:context];
     
-    if(!duplicateSlide){
+    if(!duplicateSlide){  //If Slide is not duplicate
         
         //CreateSlide
         Slide *slide = [NSEntityDescription insertNewObjectForEntityForName:@"Slide"
@@ -355,17 +355,20 @@
 }
 
 #pragma - protocol methods for NSURLSessionDelegate and NSURLDataDelegate
+
 //Finished Downloading
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     
     NSData *data = [NSData dataWithContentsOfURL:location];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        //[self.progressDisplay setHidden:YES];
-        //[self.activityIndicator stopAnimating];
+    
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    
+   // dispatch_async(dispatch_get_main_queue(), ^{
+     dispatch_async(queue, ^{
     
         NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-      
-        //[self.activityIndicator stopAnimating];
+        
         
         for(int i =0; i< [jsonArray count]; i++)
         {
@@ -374,10 +377,22 @@
             //NSLog(@"jsonDict  = %@",jsonDict);
             [self inserNewSlide:jsonDict];
             
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                    // UI updates always come from the main queue!
+                    float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
+                    [self.progressDisplay setProgress:progress];
+                     if(progress >= 1){
+                         [self.progressDisplay setHidden:YES];
+                         [self fetchOrgans];
+                         [self.tableView reloadData];
+                     
+                     }
+                });
+            
         }
-       
-        [self fetchOrgans];
-        [self.tableView reloadData];
+        
+      
+
 
     });
     
@@ -392,11 +407,11 @@
 
 //Download In process
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    //float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        //    [self.progressDisplay setProgress:progress];
-        //   [self.activityIndicator setHidesWhenStopped:YES];
+        [self.progressDisplay setProgress:progress];
+        // [self.activityIndicator setHidesWhenStopped:YES];
         //[self.activityIndicator startAnimating];
     });
 }

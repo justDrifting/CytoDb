@@ -126,8 +126,9 @@
 }
 
 #pragma mark -
-#pragma mark Helper Methods
-
+#pragma mark Helper Method For SearchBar Implementation
+//This is a critical helper method for the search function.
+//It shows which FRC (Table or Search) is being used by the tableView
 - (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
 {
     return tableView == self.tableView ? self.frc : self.searchFrc;

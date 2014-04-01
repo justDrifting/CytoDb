@@ -18,4 +18,6 @@
 
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 
+@property (weak, nonatomic) IBOutlet UIProgressView *progressDisplay;
+
 @end
