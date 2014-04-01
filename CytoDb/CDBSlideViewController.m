@@ -11,18 +11,28 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
+#import "ECSlidingViewController.h"
+#import <QuartzCore/QuartzCore.h>
+
+
 
 @interface CDBSlideViewController ()
+
+
 
 @end
 
 @implementation CDBSlideViewController
+
+
+@synthesize searchIsActive;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
@@ -30,6 +40,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.searchDisplayController.delegate = self;
+    self.searchDisplayController.searchResultsDataSource=self;
+    self.searchDisplayController.searchResultsDelegate=self;
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -38,9 +52,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self setTitle: [self selectedRowName]];
- //   NSLog(@"From VCB : %@",[self selectedRowName]);
+ 
     [self fetchConditions];
-    
     
     
 }
@@ -49,6 +62,8 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+
 }
 
 #pragma mark - Table view data source
@@ -57,91 +72,107 @@
 {
 
     // Return the number of sections.
-    return 1;
+    
+    NSInteger count = [[[self fetchedResultsControllerForTableView:tableView] sections] count];
+    
+    return count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
-   
-    return [self.conditionArray count];
+    
+    NSInteger numberOfRows = 0;
+    NSFetchedResultsController *fetchController = [self fetchedResultsControllerForTableView:tableView];
+    NSArray *sections = fetchController.sections;
+    if(sections.count > 0)
+    {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+        numberOfRows = [sectionInfo numberOfObjects];
+    }
+    
+    return numberOfRows;
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"ConditionCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+ 
     
-    // Configure the cell...
-   // Condition *condition= [self.conditionArray objectAtIndex:indexPath.row];
-    cell.textLabel.text= [self.conditionArray objectAtIndex:indexPath.row];
+    static NSString *CellIdentifier = @"ConditionCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil && tableView != self.tableView) {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    }
+
+    Condition *condition= [[self fetchedResultsControllerForTableView:tableView] objectAtIndexPath:indexPath];
+    cell.textLabel.text= [condition valueForKey:@"conditionName"];
     
     return cell;
+    
+    
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+   
+    if ([[[self fetchedResultsControllerForTableView:tableView] sections] count] > 0) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
+        return [sectionInfo name];
+    } else return nil;
+    
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+#pragma mark -
+#pragma mark Helper Methods
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
 {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    return tableView == self.tableView ? self.frc : self.searchFrc;
 }
-*/
+
 
 
 #pragma mark - Navigation
 
-// In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
     if([[segue identifier]isEqualToString:@"pushToImage"]){
-     
+        
+        
         SlideViewController *slideViewController = (SlideViewController *)segue.destinationViewController;
         
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        slideViewController.hidesBottomBarWhenPushed = YES;
         
-        //send selected Row name("conditionName") and the database context to the slideview controller
-        slideViewController.selectedConditionName =[self.conditionArray objectAtIndex:indexPath.row];
+        if(self.searchDisplayController.active){
+ 
+            NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+         
+           Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
+           slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+           slideViewController.conditionID =[condition objectID];
+        }
+        else{
+           
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            
+            Condition *condition= [[self frc] objectAtIndexPath:indexPath];
+            slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+            slideViewController.conditionID =[condition objectID];
+
+            
+        }
+        
+
         slideViewController.managedObjectContext=self.managedObjectContext;
     }
 
 }
-
-
 
 -(void)fetchConditions
 {
@@ -155,30 +186,36 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Condition"
                                               inManagedObjectContext:context];
     [request setEntity:entity];
+   
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"ANY organ.organName == %@", self.selectedRowName];
-    
-    [request setPredicate:predicate];
+  
+    if(![self.selectedRowName isEqualToString:@"All"]){
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                                  @"ANY organ.organName == %@", self.selectedRowName];
+        [request setPredicate:predicate];
+    }
     
     NSSortDescriptor *sd = [NSSortDescriptor
-                            sortDescriptorWithKey:@"conditionName"
+                            sortDescriptorWithKey:@"organ.organName"
                             ascending:YES];
     
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sd, nil];
     [request setSortDescriptors:sortDescriptors];
 
-    NSFetchedResultsController *frc = [[NSFetchedResultsController alloc]
+   // NSFetchedResultsController
+    
+    self.frc = [[NSFetchedResultsController alloc]
                                        initWithFetchRequest:request
                                        managedObjectContext:context
-                                       sectionNameKeyPath:@"conditionName"
+                                       sectionNameKeyPath:@"organ.organName"
                                        cacheName:nil];
 
     NSError *error = nil;
-    [frc performFetch:&error];
+    [self.frc performFetch:&error];
     
     self.conditionArray =[[NSMutableArray alloc]init];
-    NSArray *sectionObjects = [frc sections] ;
+    NSArray *sectionObjects = [self.frc sections] ;
     for(int i = 0; i< [sectionObjects count];i++){
         [self.conditionArray addObject:[[sectionObjects objectAtIndex:i] name]];
     }
@@ -187,5 +224,163 @@
 
 
 
+#pragma mark -
+#pragma mark Content Filtering
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    
+    
+    //Grab the context
+    
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Condition"
+                                              inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSSortDescriptor *sd = [NSSortDescriptor
+                            sortDescriptorWithKey:@"organ.organName"
+                            ascending:YES];
+    
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sd, nil];
+    
+    [request setSortDescriptors:sortDescriptors];
+    
+    if([self.selectedRowName isEqualToString:@"All"]){
+    
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                                  @"conditionName CONTAINS[cd] %@",searchText];
+       
+
+       [request setPredicate:predicate];
+    }
+    else{
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                                  @"(organ.organName) == %@ AND (conditionName CONTAINS[cd] %@)",self.selectedRowName, searchText];
+    
+        [request setPredicate:predicate];
+        
+    }
+    
+    self.searchFrc = [[NSFetchedResultsController alloc]
+                initWithFetchRequest:request
+                managedObjectContext:context
+                sectionNameKeyPath:@"organ.organName"
+                cacheName:nil];
+    
+    NSError *error = nil;
+    [self.searchFrc performFetch:&error];
+
+
+}
+
+
+#pragma mark -
+#pragma mark UISearchDisplayController Delegate Methods
+
+//This is where the search happens
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
+    
+    return YES;
+}
+
+
+#pragma mark -
+#pragma mark Search Bar
+- (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView;
+{
+    // search is done so get rid of the search FRC and reclaim memory
+   self.searchFrc.delegate = nil;
+   self.searchFrc = nil;
+}
+
+
+ - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+ {
+     [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
+     return YES;
+ }
+ 
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+ 
+}
+
+#pragma mark -
+#pragma mark FetchedResults Controller Delegate Methods
+/*
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    UITableView *tableView = controller == self.frc ? self.tableView : self.searchDisplayController.searchResultsTableView;
+    [tableView beginUpdates];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    UITableView *tableView = controller == self.frc ? self.tableView : self.searchDisplayController.searchResultsTableView;
+    
+    [tableView beginUpdates];
+}
+ 
+*/
+/*
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    UITableView *tableView = controller == self.frc ? self.tableView : self.searchDisplayController.searchResultsTableView;
+    
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)theIndexPath
+     forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UITableView *tableView = controller == self.frc ? self.tableView : self.searchDisplayController.searchResultsTableView;
+    
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:theIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        //case NSFetchedResultsChangeUpdate:
+         //   [self frc:controller configureCell:[tableView cellForRowAtIndexPath:theIndexPath] atIndexPath:theIndexPath];
+          //  break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:theIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+*/
 
 @end

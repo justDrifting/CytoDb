@@ -15,12 +15,17 @@
 @property (weak, nonatomic) IBOutlet UITextView *textDisplay;
 @property (weak, nonatomic) IBOutlet UIScrollView *imageScrollView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollHeight;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollWidth;
 
 @property NSUInteger pageIndex;
 @property NSString *descriptionText;
 @property NSData *imageFile;
 
-
-
-
+@property UITapGestureRecognizer *singleTap;
+@property UITapGestureRecognizer *doubleTap;
 @end

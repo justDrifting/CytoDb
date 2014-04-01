@@ -43,6 +43,12 @@
 		C589703E18D11EBB0017DCFF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703D18D11EBB0017DCFF /* StoreKit.framework */; };
 		C589704018D11ECA0017DCFF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703F18D11EC90017DCFF /* SystemConfiguration.framework */; };
 		C5A49D5118DA529100386491 /* icon@2x-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A49D5018DA529100386491 /* icon@2x-01.png */; };
+		C5FB677C18E2229C00094986 /* ECPercentDrivenInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB677018E2229C00094986 /* ECPercentDrivenInteractiveTransition.m */; };
+		C5FB677D18E2229C00094986 /* ECSlidingAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB677218E2229C00094986 /* ECSlidingAnimationController.m */; };
+		C5FB677E18E2229C00094986 /* ECSlidingInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB677518E2229C00094986 /* ECSlidingInteractiveTransition.m */; };
+		C5FB677F18E2229C00094986 /* ECSlidingSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB677718E2229C00094986 /* ECSlidingSegue.m */; };
+		C5FB678018E2229C00094986 /* ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB677918E2229C00094986 /* ECSlidingViewController.m */; };
+		C5FB678118E2229C00094986 /* UIViewController+ECSlidingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5FB677B18E2229C00094986 /* UIViewController+ECSlidingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +109,19 @@
 		C589703D18D11EBB0017DCFF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C589703F18D11EC90017DCFF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C5A49D5018DA529100386491 /* icon@2x-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x-01.png"; sourceTree = "<group>"; };
+		C5FB676F18E2229C00094986 /* ECPercentDrivenInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECPercentDrivenInteractiveTransition.h; sourceTree = "<group>"; };
+		C5FB677018E2229C00094986 /* ECPercentDrivenInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECPercentDrivenInteractiveTransition.m; sourceTree = "<group>"; };
+		C5FB677118E2229C00094986 /* ECSlidingAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingAnimationController.h; sourceTree = "<group>"; };
+		C5FB677218E2229C00094986 /* ECSlidingAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingAnimationController.m; sourceTree = "<group>"; };
+		C5FB677318E2229C00094986 /* ECSlidingConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingConstants.h; sourceTree = "<group>"; };
+		C5FB677418E2229C00094986 /* ECSlidingInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingInteractiveTransition.h; sourceTree = "<group>"; };
+		C5FB677518E2229C00094986 /* ECSlidingInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingInteractiveTransition.m; sourceTree = "<group>"; };
+		C5FB677618E2229C00094986 /* ECSlidingSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingSegue.h; sourceTree = "<group>"; };
+		C5FB677718E2229C00094986 /* ECSlidingSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingSegue.m; sourceTree = "<group>"; };
+		C5FB677818E2229C00094986 /* ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSlidingViewController.h; sourceTree = "<group>"; };
+		C5FB677918E2229C00094986 /* ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSlidingViewController.m; sourceTree = "<group>"; };
+		C5FB677A18E2229C00094986 /* UIViewController+ECSlidingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ECSlidingViewController.h"; sourceTree = "<group>"; };
+		C5FB677B18E2229C00094986 /* UIViewController+ECSlidingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ECSlidingViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,8 +274,29 @@
 				C589702418CFC59E0017DCFF /* ImageViewController.m */,
 				C515939118D7AEEB002EB250 /* CDBImageTransformer.h */,
 				C515939218D7AEEB002EB250 /* CDBImageTransformer.m */,
+				C5FB678218E222A700094986 /* ESSlidingView */,
 			);
 			name = "View Controller";
+			sourceTree = "<group>";
+		};
+		C5FB678218E222A700094986 /* ESSlidingView */ = {
+			isa = PBXGroup;
+			children = (
+				C5FB676F18E2229C00094986 /* ECPercentDrivenInteractiveTransition.h */,
+				C5FB677018E2229C00094986 /* ECPercentDrivenInteractiveTransition.m */,
+				C5FB677118E2229C00094986 /* ECSlidingAnimationController.h */,
+				C5FB677218E2229C00094986 /* ECSlidingAnimationController.m */,
+				C5FB677318E2229C00094986 /* ECSlidingConstants.h */,
+				C5FB677418E2229C00094986 /* ECSlidingInteractiveTransition.h */,
+				C5FB677518E2229C00094986 /* ECSlidingInteractiveTransition.m */,
+				C5FB677618E2229C00094986 /* ECSlidingSegue.h */,
+				C5FB677718E2229C00094986 /* ECSlidingSegue.m */,
+				C5FB677818E2229C00094986 /* ECSlidingViewController.h */,
+				C5FB677918E2229C00094986 /* ECSlidingViewController.m */,
+				C5FB677A18E2229C00094986 /* UIViewController+ECSlidingViewController.h */,
+				C5FB677B18E2229C00094986 /* UIViewController+ECSlidingViewController.m */,
+			);
+			name = ESSlidingView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,16 +398,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				C515938D18D77CAF002EB250 /* Organ.m in Sources */,
+				C5FB678118E2229C00094986 /* UIViewController+ECSlidingViewController.m in Sources */,
 				C589701F18CE5DB50017DCFF /* CDBSlideViewController.m in Sources */,
 				C515939318D7AEEB002EB250 /* CDBImageTransformer.m in Sources */,
 				C589701B18CE04A50017DCFF /* CDBOrganViewController.m in Sources */,
 				C5896FE818CDF2620017DCFF /* CytoDb.xcdatamodeld in Sources */,
+				C5FB678018E2229C00094986 /* ECSlidingViewController.m in Sources */,
+				C5FB677F18E2229C00094986 /* ECSlidingSegue.m in Sources */,
 				C589702518CFC59E0017DCFF /* ImageViewController.m in Sources */,
 				C589702818D00F760017DCFF /* SlideViewController.m in Sources */,
 				C515938A18D77CAE002EB250 /* Condition.m in Sources */,
 				C515939018D77CAF002EB250 /* Slide.m in Sources */,
+				C5FB677D18E2229C00094986 /* ECSlidingAnimationController.m in Sources */,
+				C5FB677E18E2229C00094986 /* ECSlidingInteractiveTransition.m in Sources */,
 				C5896FE518CDF2620017DCFF /* CDBAppDelegate.m in Sources */,
 				C5896FE118CDF2620017DCFF /* main.m in Sources */,
+				C5FB677C18E2229C00094986 /* ECPercentDrivenInteractiveTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

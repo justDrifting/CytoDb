@@ -26,10 +26,10 @@
     organViewController.managedObjectContext = self.managedObjectContext;
     
     //Page control dots
-    UIPageControl *pageControl = [UIPageControl appearance];
-    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-    pageControl.backgroundColor = [UIColor whiteColor];
+     //UIPageControl *pageControl = [UIPageControl appearance];
+     //pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+     //pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+     //pageControl.backgroundColor = [UIColor clearColor];
     
     
     //Parse key:

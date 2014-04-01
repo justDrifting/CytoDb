@@ -34,29 +34,44 @@
 {
     [super viewDidLoad];
     
+    
     //Do any additional setup after loading the view.
     self.textDisplay.text = self.descriptionText;
     
     
     
-   // UIImage *slideImage = [UIImage imageWithData:self.imageFile];
     
-    NSLog(@"Image %@ size is %lu",self.descriptionText,self.imageFile.length);
+   // UIImage *slideImage = [UIImage imageWithData:self.imageFile];
+   // self.edgesForExtendedLayout = UIRectEdgeNone;
+    //CGRect imageframe = CGRectMake(200, 10, 300, 360);
     self.imageDisplay.image= [UIImage imageWithData:_imageFile scale:1.0f];
     [self.imageScrollView setMaximumZoomScale:2.0f];
     [self.imageScrollView setMinimumZoomScale:1.0f];
-     [self.imageScrollView setZoomScale:1.0f];
-    //self.imageDisplay.frame= (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=slideImage.size};
+    [self.imageScrollView setZoomScale:1.0f];
     self.imageDisplay.contentMode= UIViewContentModeScaleAspectFill;
    //[self.imageScrollView addSubview:self.imageDisplay];
+   //self.imageDisplay.frame= (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=slideImage.size};
+
+   //Setting up tap gesture
+    _doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
+    _doubleTap.numberOfTapsRequired = 2;
     
+    _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
+    _singleTap.numberOfTapsRequired = 1;
+    [_singleTap requireGestureRecognizerToFail:_doubleTap];
   
     
-    UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
-    doubleTapRecognizer.numberOfTapsRequired = 2;
-    doubleTapRecognizer.numberOfTouchesRequired = 1;
-    [self.imageScrollView addGestureRecognizer:doubleTapRecognizer];
-
+    
+   //Double tap enables Zoom
+    [self.imageScrollView addGestureRecognizer:_doubleTap];
+ 
+    
+    
+  //  self.navigationController.navigationBar.translucent = YES;
+  //  self.wantsFullScreenLayout = YES;
+    
+    
+    
     
     //2
    // self.imageScrollView.contentSize = slideImage.size;
@@ -70,13 +85,12 @@
     twoFingerTapRecognizer.numberOfTouchesRequired = 2;
     [self.imageScrollView addGestureRecognizer:twoFingerTapRecognizer];
     
-   */ 
+   
     
- // UITapGestureRecognizer *modalTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToFullView)];
+   UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
     
-    
-    //[self.imageDisplay addGestureRecognizer:modalTap];
-  
+    [self.view addGestureRecognizer:singleTap];
+  */
    
     //[self centerScrollViewContents];
  //  [self.imageDisplay addGestureRecognizer:modalTap];
@@ -84,29 +98,22 @@
 }
 
 
-/*
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+   
+    [self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(self.interfaceOrientation)];
+    [self autoRotateView:self.imageScrollView toInterfaceOrientation:self.interfaceOrientation];
     
-    // 4
-    CGRect scrollViewFrame = self.imageScrollView.frame;
-    CGFloat scaleWidth = scrollViewFrame.size.width / self.imageScrollView.contentSize.width;
-    CGFloat scaleHeight = scrollViewFrame.size.height / self.imageScrollView.contentSize.height;
-    CGFloat minScale = MIN(scaleWidth, scaleHeight);
-    self.imageScrollView.minimumZoomScale = minScale;
-    
-    // 5
-    self.imageScrollView.maximumZoomScale = 1.0f;
-    self.imageScrollView.zoomScale = minScale;
-    
-    // 6
-    [self centerScrollViewContents];
-
 }
-*/
 
 
+-(void)toggleNavigationBar
+{
+    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
+        [self.navigationController setNavigationBarHidden:!self.navigationController.navigationBarHidden];
+        
+    }
+}
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
   
@@ -170,9 +177,7 @@
 
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    // The scroll view has zoomed, so you need to re-center the contents
-   // [self centerScrollViewContents];
-    //NSLog(@"mid ZoomScale is %f", self.imageScrollView.zoomScale);
+   
     
 }
 
@@ -198,5 +203,43 @@
 
 
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+   // [[self navigationController] setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation) animated:YES];
+    [self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+    [self autoRotateView:self.imageScrollView toInterfaceOrientation:toInterfaceOrientation];
+    
+}
+
+
+-(void)autoRotateView:(UIView *)viewToAutoRotate toInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    switch (toInterfaceOrientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            viewToAutoRotate.transform = CGAffineTransformMakeRotation(M_PI_2); // 90 degress
+            self.imageTopConstraint.constant = 0.0f;
+            self.imageHeight.constant = 500.0f;
+            self.imageWidth.constant = 280.0f;
+            self.scrollHeight.constant = 500.0f;
+            self.scrollWidth.constant = 280.0f;
+            [self.view addGestureRecognizer:_singleTap];
+            break;
+ 
+        case UIInterfaceOrientationPortraitUpsideDown:
+        default:
+            viewToAutoRotate.transform = CGAffineTransformMakeRotation(M_PI); // 180 degrees
+            self.imageTopConstraint.constant = 40.0f;
+            self.imageHeight.constant = 360.0f;
+            self.imageWidth.constant = 300.0f;
+            self.scrollHeight.constant = 360.0f;
+            self.scrollWidth.constant = 300.0f;
+            [[self navigationController] setNavigationBarHidden:NO];
+
+            break;
+      
+    }
+
+}
 
 @end

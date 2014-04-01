@@ -30,19 +30,27 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZu-Ut-SNY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-340" y="-763"/>
+            <point key="canvasLocation" x="308" y="-1095"/>
         </scene>
         <!--Slide View Controller-->
         <scene sceneID="tCd-zd-3kB">
             <objects>
-                <tableViewController id="jwX-wy-9f0" customClass="CDBSlideViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DxViewController" hidesBottomBarWhenPushed="YES" id="jwX-wy-9f0" customClass="CDBSlideViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Kuo-su-sEJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="rme-um-6LY">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="jwX-wy-9f0" id="W2l-3t-i0j"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ConditionCell" id="EDf-W1-XJk">
-                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="ConditionCell" id="EDf-W1-XJk">
+                                <rect key="frame" x="0.0" y="163" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EDf-W1-XJk" id="0SB-TQ-sZy">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -54,20 +62,29 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="jwX-wy-9f0" id="2GI-RA-AXa"/>
-                            <outlet property="delegate" destination="jwX-wy-9f0" id="yEb-oa-tHV"/>
+                            <outlet property="dataSource" destination="jwX-wy-9f0" id="Mdp-xZ-T4h"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="5ZD-0r-xtp"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="EQh-YU-wWu" id="Gx3-8G-xfK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bjD-an-N91" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="EQh-YU-wWu">
+                    <connections>
+                        <outlet property="searchBar" destination="rme-um-6LY" id="oCp-uH-Z00"/>
+                        <outlet property="searchContentsController" destination="jwX-wy-9f0" id="acB-au-ZWU"/>
+                        <outlet property="searchResultsDataSource" destination="jwX-wy-9f0" id="sGx-hf-9bD"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="119" y="-771"/>
+            <point key="canvasLocation" x="767" y="-1103"/>
         </scene>
         <!--Slide View Controller-->
         <scene sceneID="7f0-H6-WE9">
             <objects>
-                <viewController id="IWP-FH-hZy" customClass="SlideViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="IWP-FH-hZy" customClass="SlideViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YPP-t7-HoG"/>
                         <viewControllerLayoutGuide type="bottom" id="lC8-Ap-4nW"/>
@@ -76,43 +93,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Oz-Xp-Pw3">
-                                <rect key="frame" x="0.0" y="0.0" width="42" height="21"/>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dD1-n2-95P">
+                                <rect key="frame" x="20" y="539" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dD1-n2-95P" secondAttribute="trailing" constant="20" symbolic="YES" id="EA9-50-t1Y"/>
+                            <constraint firstItem="dD1-n2-95P" firstAttribute="leading" secondItem="765-tv-fM0" secondAttribute="leading" constant="20" symbolic="YES" id="Hed-p8-ITN"/>
+                            <constraint firstAttribute="bottom" secondItem="dD1-n2-95P" secondAttribute="bottom" constant="-8" id="WL7-fs-n3h"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WMO-Ef-8fN"/>
+                    <connections>
+                        <outlet property="pageControl" destination="dD1-n2-95P" id="QRH-48-ou1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDQ-Si-icw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="589" y="-771"/>
+            <point key="canvasLocation" x="1237" y="-1103"/>
         </scene>
         <!--Image View Controller-->
         <scene sceneID="PwG-WX-PLx">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6C3-1L-XJJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="ImageController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="8uy-v6-UrL" customClass="ImageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageController" autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="8uy-v6-UrL" customClass="ImageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SlL-qL-NVc"/>
                         <viewControllerLayoutGuide type="bottom" id="Iv6-DX-zFc"/>
                     </layoutGuides>
-                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="6fC-7Y-Ajc">
+                    <view key="view" autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFill" id="6fC-7Y-Ajc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description of Slide" translatesAutoresizingMaskIntoConstraints="NO" id="F2s-dp-6GK">
-                                <rect key="frame" x="10" y="441" width="300" height="107"/>
+                                <rect key="frame" x="10" y="422" width="300" height="126"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="m3g-bO-b9v">
-                                <rect key="frame" x="10" y="72" width="300" height="361"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="m3g-bO-b9v">
+                                <rect key="frame" x="10" y="60" width="300" height="360"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hzw-IM-DDn">
@@ -120,38 +142,45 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="360" id="14U-r6-ZjG"/>
-                                            <constraint firstAttribute="width" constant="300" id="XaM-hF-Kv0"/>
+                                            <constraint firstAttribute="width" constant="300" id="YtG-d2-CWC"/>
+                                            <constraint firstAttribute="height" constant="360" id="vWD-m8-fwu"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="Hzw-IM-DDn" secondAttribute="bottom" id="AQ5-gm-FWA"/>
-                                    <constraint firstItem="Hzw-IM-DDn" firstAttribute="top" secondItem="m3g-bO-b9v" secondAttribute="top" id="WkM-bc-Hbi"/>
-                                    <constraint firstAttribute="trailing" secondItem="Hzw-IM-DDn" secondAttribute="trailing" id="bbt-mX-Cqr"/>
-                                    <constraint firstItem="Hzw-IM-DDn" firstAttribute="leading" secondItem="m3g-bO-b9v" secondAttribute="leading" id="r2H-ze-kq5"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hzw-IM-DDn" secondAttribute="trailing" id="DF8-gX-yfT"/>
+                                    <constraint firstItem="Hzw-IM-DDn" firstAttribute="top" secondItem="m3g-bO-b9v" secondAttribute="top" id="DP7-4R-Yzz"/>
+                                    <constraint firstItem="Hzw-IM-DDn" firstAttribute="leading" secondItem="m3g-bO-b9v" secondAttribute="leading" id="WGm-QJ-MKf"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hzw-IM-DDn" secondAttribute="bottom" id="bnr-Dm-1vJ"/>
+                                    <constraint firstAttribute="height" constant="360" id="ckO-ze-R0W"/>
+                                    <constraint firstAttribute="width" constant="300" id="crh-5U-aao"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="8uy-v6-UrL" id="tlR-uQ-OS5"/>
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="m3g-bO-b9v" firstAttribute="top" secondItem="6fC-7Y-Ajc" secondAttribute="top" constant="72" id="ft2-9J-M9v"/>
-                            <constraint firstItem="m3g-bO-b9v" firstAttribute="leading" secondItem="6fC-7Y-Ajc" secondAttribute="leading" constant="10" id="j2V-5b-cxr"/>
+                            <constraint firstItem="m3g-bO-b9v" firstAttribute="top" secondItem="SlL-qL-NVc" secondAttribute="bottom" constant="40" id="515-Rq-iS9"/>
+                            <constraint firstAttribute="centerX" secondItem="m3g-bO-b9v" secondAttribute="centerX" id="wOx-Qf-38x"/>
                         </constraints>
                     </view>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
-                        <outlet property="imageDisplay" destination="Hzw-IM-DDn" id="GIw-P4-wz5"/>
-                        <outlet property="imageScrollView" destination="m3g-bO-b9v" id="2M7-DV-Qsn"/>
+                        <outlet property="imageDisplay" destination="Hzw-IM-DDn" id="Lkg-ld-I1n"/>
+                        <outlet property="imageHeight" destination="vWD-m8-fwu" id="dV1-9A-flv"/>
+                        <outlet property="imageScrollView" destination="m3g-bO-b9v" id="irq-gX-iab"/>
+                        <outlet property="imageTopConstraint" destination="515-Rq-iS9" id="FKo-AR-xqR"/>
+                        <outlet property="imageWidth" destination="YtG-d2-CWC" id="3ca-pN-fMa"/>
+                        <outlet property="scrollHeight" destination="ckO-ze-R0W" id="Kwz-Xg-bJI"/>
+                        <outlet property="scrollWidth" destination="crh-5U-aao" id="BpM-QV-tsc"/>
                         <outlet property="textDisplay" destination="F2s-dp-6GK" id="SWQ-6a-IVX"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6C3-1L-XJJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="971" y="-763"/>
+            <point key="canvasLocation" x="1616" y="-1103"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="amX-9B-V55">
@@ -166,7 +195,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lj6-SL-hyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-764" y="-763"/>
+            <point key="canvasLocation" x="-116" y="-1095"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

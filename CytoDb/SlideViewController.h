@@ -18,7 +18,10 @@
 @property (strong,nonatomic)NSMutableArray *pageTexts;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic) NSString *selectedConditionName;
+@property (nonatomic,strong) NSManagedObjectID *conditionID;
 
 @property (nonatomic,weak,readonly) NSArray *slideArray; //Container for the slides that will be presented
+
+@property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @end

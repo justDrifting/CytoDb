@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 
-@interface CDBSlideViewController : UITableViewController
+@interface CDBSlideViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, NSFetchedResultsControllerDelegate>
+
 
 @property (nonatomic) NSString *selectedRowName;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,strong) NSMutableArray *conditionArray;
+@property (nonatomic,strong) NSFetchedResultsController *frc;
+@property (strong,nonatomic) NSFetchedResultsController *searchFrc;
 
+@property (nonatomic) BOOL searchIsActive;
 
 @end

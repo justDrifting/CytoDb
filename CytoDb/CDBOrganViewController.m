@@ -63,15 +63,20 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
     // Return the number of rows in the section.
-    
-    return [self.organList count];
+    if(section == 0){
+        return 1;
+    }
+    else{
+        return [self.organList count];
+        
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,9 +85,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    if(indexPath.section == 0){
+        cell.textLabel.text=@"All";
+    }
+    else{
+        
+        cell.textLabel.text=[self.organList objectAtIndex:indexPath.row] ;
     
-    cell.textLabel.text=[self.organList objectAtIndex:indexPath.row] ;
-    
+    }
     return cell;
 }
 
@@ -122,7 +132,16 @@
       
         //get indexPath for the  selected Row
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        controller.selectedRowName=[self.organList objectAtIndex:indexPath.row];
+        if(indexPath.section == 0){
+         
+            controller.selectedRowName =@"All";
+            
+        }
+        else{
+        
+           controller.selectedRowName=[self.organList objectAtIndex:indexPath.row];
+        }
+        
         controller.managedObjectContext=self.managedObjectContext;
     }
     
@@ -138,7 +157,7 @@
     //Grab the context
     NSManagedObjectContext *context = [self managedObjectContext ];
     
-    //Is the Slide duplicate
+    //Is the Slide duplicate?
     BOOL duplicateSlide = [self duplicateSlideForSlideName:[jsonDictionary objectForKey:@"slideName"]
                                                 ForContext:context];
     
@@ -206,7 +225,7 @@
     [request setPredicate:[NSPredicate predicateWithFormat:@"organName == %@",organName]];
     NSArray *result = [context executeFetchRequest:request error:nil];
     
-    if(result.count ==0){
+    if(result.count == 0){
         // NSLog(@"No Duplicate for %@ need to create",organName);
         Organ *organ = [NSEntityDescription insertNewObjectForEntityForName:@"Organ" inManagedObjectContext:context];
         [organ setValue:organName forKeyPath:@"organName"];
@@ -257,7 +276,7 @@
     NSArray *result = [context executeFetchRequest:request error:nil];
     
     if(result.count == 0){
-        NSLog(@"No Duplicate for %@ need to create",slideName);
+        NSLog(@"New slide %@ need to create",slideName);
         return NO;
         
     }
@@ -267,7 +286,7 @@
     }
 }
 
-#pragma mark
+#pragma mark -fetch Objects
     
 -(void)fetchOrgans
 {
@@ -287,7 +306,7 @@
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sd, nil];
    [request setSortDescriptors:sortDescriptors];
     
-    NSFetchedResultsController *frc = [[NSFetchedResultsController alloc]
+    NSFetchedResultsController  *frc = [[NSFetchedResultsController alloc]
                                        initWithFetchRequest:request
                                        managedObjectContext:context
                                        sectionNameKeyPath:@"organName"
