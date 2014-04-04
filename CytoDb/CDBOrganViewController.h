@@ -8,16 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CDBOrganViewController : UITableViewController <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate> {
+@interface CDBOrganViewController : UITableViewController <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, UISearchDisplayDelegate, UISearchBarDelegate, NSFetchedResultsControllerDelegate> {
 
     NSURLSession * _session;
 }
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic,strong) NSMutableArray * organList;
+//@property (nonatomic,strong) NSMutableArray * organList;
 
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressDisplay;
+
+@property (nonatomic,strong) NSFetchedResultsController *frc;       //Fetch Results Controller For TableViewController
+@property (strong,nonatomic) NSFetchedResultsController *searchFrc; //Fetch Results Controller For SearchDisplayController
+
 
 @end

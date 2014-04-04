@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "ImageViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface SlideViewController : UIViewController < UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+
 
 
 @property (strong,nonatomic)UIPageViewController *pageViewController;
 @property (strong,nonatomic)NSMutableArray *pageTitles;
 @property (strong,nonatomic)NSMutableArray *pageImages;
+@property (strong,nonatomic)NSMutableArray *pageImageURLs;
 @property (strong,nonatomic)NSMutableArray *pageTexts;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic) NSString *selectedConditionName;
@@ -23,5 +26,12 @@
 @property (nonatomic,weak,readonly) NSArray *slideArray; //Container for the slides that will be presented
 
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
+
+@property (weak, nonatomic) IBOutlet UIButton *detailsViewButton;
+
+@property  NSString *subviewText;
+
+
+@property BOOL showingSubview;
 
 @end

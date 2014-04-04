@@ -10,6 +10,7 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 
 @interface SlideViewController ()
@@ -40,6 +41,7 @@
     //The selected condition is now used in setting the title and fetchSlides
     Condition *condition = (Condition *)[self.managedObjectContext existingObjectWithID:self.conditionID error:nil];
     [self setTitle: condition.conditionName];
+    self.subviewText = condition.conditionDescription;
     [self fetchSlides]; //This populated the self.slideArray
     
    
@@ -47,6 +49,7 @@
     //This is actually slide Name that appears below the image
     _pageTitles = [[NSMutableArray alloc] init];
     _pageImages = [[NSMutableArray alloc] init];
+    _pageImageURLs = [[NSMutableArray alloc] init];
     _pageTexts =  [[NSMutableArray alloc] init];
     
     for(Slide *slide in self.slideArray){
@@ -54,12 +57,13 @@
       [_pageTitles addObject:slide.slideName];
       [_pageImages addObject:slide.slideImage];
       [_pageTexts  addObject:slide.slideDescription];
+      [_pageImageURLs addObject:[NSURL URLWithString:(slide.imageURL)]];
       //Add any other attribute that need to go into the page view controller
      }
     
     
     //Set nav bar color to transparent
-  /* [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+    /* [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                              forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
    */
@@ -91,20 +95,28 @@
     
    
     
-    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-   // CGRect pageViewRect = self.view.frame;
-   // self.pageViewController.view.frame = pageViewRect;
-   // [self.pageViewController.view setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-   // [self.pageViewController.view setBackgroundColor: [UIColor redColor]];
     [self addChildViewController:self.pageViewController];
-    //[self.pageViewController didMoveToParentViewController:self];
     [self.view addSubview:self.pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
-   //self.pageViewController.view.frame = CGRectMake(0.0, 0.0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height + 40.0);
     
+   
+
+    
+    //Add Tapgesture to thetext field
+     UITapGestureRecognizer  *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                          action:@selector(toggleBottomToolBar)];
+    singleTap.numberOfTapsRequired = 1;
+    
+    [self.view addSubview:_detailsViewButton];
+    
+    [_detailsViewButton addGestureRecognizer: singleTap];
+ 
+    
+ 
     // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
     self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
     
+    //Custom pageControl
     self.pageControl.numberOfPages = self.pageTitles.count;
     self.pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     self.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
@@ -112,6 +124,112 @@
 
 
 }
+
+
+-(void)toggleBottomToolBar
+{
+    
+    if (!self.showingSubview){
+        [self showBottomToolBar];
+    }
+    else{
+        [self hideBottomToolBar];
+    }
+    
+}
+
+-(void)showBottomToolBar
+{
+    UITextView *subview = [[UITextView alloc] initWithFrame:CGRectMake(10, 568, 300, 37)];
+    subview.backgroundColor = [UIColor clearColor];
+    subview.text = self.subviewText;
+    
+    [subview setTextColor:[UIColor blackColor]];
+    [subview setFont:[UIFont systemFontOfSize:14]];
+    // [subview setTextContainerInset:UIEdgeInsetsMake(40, 20,40,20)];
+    [subview setEditable:NO];
+    [subview setSelectable:NO];
+    [subview setScrollEnabled:YES];
+    UIToolbar* bgToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 568, 320, 37)];
+    bgToolbar.barStyle = UIBarStyleDefault;
+    
+    //Custom pulldownbutton
+    UIView *pulldownButton = [[UIView alloc]initWithFrame:CGRectMake(140, 568, 40, 6)];
+    [pulldownButton.layer setCornerRadius:3.0f];
+    [pulldownButton setBackgroundColor:[UIColor grayColor]];
+    
+    //[subview.superview insertSubview:bgToolbar belowSubview:subview];
+    
+    [bgToolbar setShadowImage:nil forToolbarPosition:UIBarPositionTop];
+    [self.view addSubview:bgToolbar];
+    [self.view addSubview:subview];
+    [self.view addSubview:pulldownButton];
+    pulldownButton.tag=9;
+    subview.tag=99;
+    bgToolbar.tag=999;
+    
+    
+    
+    
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         pulldownButton.frame = CGRectMake(140, 400, 40, 6);
+                         bgToolbar.frame= CGRectMake(0, 390, 320, 178);
+                         subview.frame =CGRectMake(10, 412, 300, 129);
+                     }
+                     completion:^(BOOL finished){
+                         
+                         UITapGestureRecognizer *tapToClose = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideBottomToolBar)];
+                         tapToClose.numberOfTapsRequired = 1;
+                         
+                          UISwipeGestureRecognizer *swipedown=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(hideBottomToolBar)];
+                          
+                          swipedown.direction=UISwipeGestureRecognizerDirectionDown;
+                         
+                         NSArray *gestures = [NSArray arrayWithObjects:tapToClose,swipedown, nil];
+                         
+                         [bgToolbar setGestureRecognizers:gestures];
+                         [subview addGestureRecognizer:tapToClose];
+                         [pulldownButton setGestureRecognizers:gestures];
+                         
+                         
+                         
+                         
+                     }];
+    
+    self.showingSubview = YES;
+    
+    
+
+}
+
+-(void)hideBottomToolBar
+{
+    UIView *taggedButton = [self.view viewWithTag:9];
+    UIView *taggedView = [self.view viewWithTag:99];
+    UIView *taggedToolbar = [self.view viewWithTag:999];
+    [UIView animateWithDuration:0.3
+                          delay:0.1
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         taggedButton.frame = CGRectMake(140, 568, 40, 8);
+                         taggedView.frame = CGRectMake(10, 531, 300, 0);// its final location
+                         taggedToolbar.frame = CGRectMake(0, 568, 320, 0);
+                     }
+                     completion:^(BOOL finished){
+                         [taggedButton removeFromSuperview];
+                         [taggedView removeFromSuperview];
+                         [taggedToolbar removeFromSuperview];
+                     }];
+    
+    
+    //taggedView = nil;
+    self.showingSubview = NO;
+
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -157,7 +275,9 @@
     
     // Create a new view controller and pass suitable data.
     ImageViewController *imageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageController"];
+    
     imageViewController.imageFile = self.pageImages[index];
+    imageViewController.imageURL = self.pageImageURLs[index];
     imageViewController.descriptionText = self.pageTexts[index];
     imageViewController.pageIndex = index;
     
@@ -208,6 +328,17 @@
     
     _slideArray=fetchedObjects; //This array will be used to populate the pages
     
+}
+
+
+#pragma -mark
+#pragma - Custom textView
+- (CGFloat)textViewHeightForText:(NSString *)text andWidth:(CGFloat)width
+{
+    UITextView *textView = [[UITextView alloc] init];
+    [textView setText:text];
+    CGSize size = [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
+    return size.height;
 }
 
 

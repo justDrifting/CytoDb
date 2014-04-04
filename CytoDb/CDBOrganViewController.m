@@ -12,7 +12,7 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
-#import "CDBImageTransformer.h"
+
 
 
 //#define dataURLString @"http://localhost/json.php"
@@ -39,7 +39,12 @@
   [super viewDidLoad];
 
    // Uncomment to clean up table entry
-  [self removeAllObjects];
+  //[self removeAllObjects];
+    
+    self.searchDisplayController.delegate = self;
+    self.searchDisplayController.searchResultsDataSource=self;
+    self.searchDisplayController.searchResultsDelegate=self;
+
    
     [self fetchOrgans];
     
@@ -49,6 +54,8 @@
                 action:@selector(refreshView:)
     forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refresh;
+    
+   
   
 }
 
@@ -63,37 +70,72 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    NSInteger count = [[[self fetchedResultsControllerForTableView:tableView] sections] count];
+    
+    return count;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-    // Return the number of rows in the section.
-    if(section == 0){
-        return 1;
+    
+    NSInteger numberOfRows = 0;
+    NSFetchedResultsController *fetchController = [self fetchedResultsControllerForTableView:tableView];
+    NSArray *sections = fetchController.sections;
+    if(sections.count > 0)
+    {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+        numberOfRows = [sectionInfo numberOfObjects];
     }
-    else{
-        return [self.organList count];
-        
-    }
+    return numberOfRows;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"OrganCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil && tableView != self.tableView) {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    }
     
-    // Configure the cell...
-    if(indexPath.section == 0){
-        cell.textLabel.text=@"All";
+    //if search display is active
+    if(self.searchDisplayController.active){
+        
+        Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
+        cell.textLabel.text= [condition valueForKey:@"conditionName"];
     }
     else{
-        
-        cell.textLabel.text=[self.organList objectAtIndex:indexPath.row] ;
-    
+        Organ *organ= [[self frc] objectAtIndexPath:indexPath];
+        cell.textLabel.text = [organ valueForKey:@"organName"];
     }
-    return cell;
+
+    
+     return cell;
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if(self.searchDisplayController.active){
+        if ([[[self fetchedResultsControllerForTableView:tableView] sections] count] > 0) {
+            id <NSFetchedResultsSectionInfo> sectionInfo = [[[self fetchedResultsControllerForTableView:tableView] sections] objectAtIndex:section];
+            return [sectionInfo name];
+        } else return nil;
+    }else return nil;
+}
+
+
+
+#pragma mark -
+#pragma Critical Search Helper method
+
+//This is a critical helper method for the search function.
+//It shows which FRC (Table or Search) is being used by the tableView
+- (NSFetchedResultsController *)fetchedResultsControllerForTableView:(UITableView *)tableView
+{
+    return tableView == self.tableView ? self.frc : self.searchFrc;
 }
 
 
@@ -117,7 +159,25 @@
 }
 
 
+
 #pragma mark - Navigation
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if(!self.searchDisplayController.active){
+        
+        UITableViewCell *sender = [self.tableView cellForRowAtIndexPath:indexPath];
+        [self performSegueWithIdentifier:@"pushToConditions" sender:sender];
+    }
+    else{
+        UITableViewCell *sender = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        [self performSegueWithIdentifier:@"pushToSlides" sender:sender];
+    }
+
+}
+
+
 
 // In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -125,24 +185,35 @@
     
     // Pass the selected object to the new view controller.
     
-    if([[segue identifier]isEqualToString:@"pushToSlideView"])
+  
+    if([[segue identifier]isEqualToString:@"pushToConditions"])
     {
+        
         // Get the new view controller using [segue destinationViewController].
-        CDBSlideViewController *controller = (CDBSlideViewController *)segue.destinationViewController;
+        CDBSlideViewController *destinationController = (CDBSlideViewController *)segue.destinationViewController;
       
         //get indexPath for the  selected Row
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        if(indexPath.section == 0){
-         
-            controller.selectedRowName =@"All";
-            
-        }
-        else{
         
-           controller.selectedRowName=[self.organList objectAtIndex:indexPath.row];
-        }
         
-        controller.managedObjectContext=self.managedObjectContext;
+        Organ *organ= [[self frc] objectAtIndexPath:indexPath];
+        destinationController.selectedRowName=[organ valueForKey:@"organName"];
+        destinationController.managedObjectContext=self.managedObjectContext;
+        
+    }
+    
+    if([[segue identifier]isEqualToString:@"pushToSlides"])
+    {
+        // Get the new view controller using [segue destinationViewController].
+        SlideViewController *slideViewController =(SlideViewController *)segue.destinationViewController;
+        
+        //get indexPath for the  selected Row
+        NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+        
+        Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
+        slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+        slideViewController.conditionID =[condition objectID];
+        slideViewController.managedObjectContext=self.managedObjectContext;
     }
     
 }
@@ -306,19 +377,15 @@
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sd, nil];
    [request setSortDescriptors:sortDescriptors];
     
-    NSFetchedResultsController  *frc = [[NSFetchedResultsController alloc]
+    self.frc = [[NSFetchedResultsController alloc]
                                        initWithFetchRequest:request
                                        managedObjectContext:context
-                                       sectionNameKeyPath:@"organName"
-                                       cacheName:nil];
+                                       sectionNameKeyPath:nil
+                                       cacheName:@"organList"];
     NSError *error;
-    [frc performFetch:&error]; //FetchedResultsController is generated here
-    self.organList =[[NSMutableArray alloc]init];
-    NSArray *sectionObjects = [frc sections] ;
-    for(int i = 0; i< [sectionObjects count];i++){
-        [self.organList addObject:[[sectionObjects objectAtIndex:i] name]];
-    }
+    [self.frc performFetch:&error]; //FetchedResultsController is generated here
     
+   
 }
 
 #pragma mark - Custom NSURLSession Call
@@ -470,6 +537,100 @@
 
 }
 
+
+
+//This is the main search engine
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    
+    
+    //Grab the context
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Condition"
+                                              inManagedObjectContext:context];
+    [request setEntity:entity];
+    
+    NSSortDescriptor *sd = [NSSortDescriptor
+                            sortDescriptorWithKey:@"organ.organName"
+                            ascending:YES];
+    
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sd, nil];
+    
+    [request setSortDescriptors:sortDescriptors];
+    
+    //Remove white space from begining and end of search string
+    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
+    
+    
+    
+        //Create searchTerm From searchText
+        NSArray *searchTerms = [searchText componentsSeparatedByString:@" "];
+        
+        NSString *predicateFormat = @"(organ.organName CONTAINS[cd] %@) OR (conditionName CONTAINS[cd] %@)";
+        NSPredicate *predicate;
+        if ([searchTerms count] == 1) {
+            NSString *term = [searchTerms objectAtIndex:0];
+            predicate = [NSPredicate predicateWithFormat:predicateFormat, term, term];
+        } else {
+            NSMutableArray *subPredicates = [NSMutableArray array];
+            for (NSString *term in searchTerms) {
+                NSPredicate *p = [NSPredicate predicateWithFormat:predicateFormat, term, term];
+                [subPredicates addObject:p];
+            }
+            predicate = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
+        }
+        
+        [request setPredicate:predicate];
+        
+    self.searchFrc = [[NSFetchedResultsController alloc]
+                      initWithFetchRequest:request
+                      managedObjectContext:context
+                      sectionNameKeyPath:@"organ.organName"
+                      cacheName:nil];
+    
+    NSError *error = nil;
+    [self.searchFrc performFetch:&error];
+    
+}
+
+
+#pragma mark -
+#pragma mark UISearchDisplayController Delegate Methods
+
+//This is where the search happens
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
+    
+    return YES;
+}
+
+
+#pragma mark -
+#pragma mark Search Bar
+- (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView;
+{
+    // search is done so get rid of the search FRC and reclaim memory
+    self.searchFrc.delegate = nil;
+    self.searchFrc = nil;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:nil];
+    return YES;
+}
+
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    
+}
 
 
 @end

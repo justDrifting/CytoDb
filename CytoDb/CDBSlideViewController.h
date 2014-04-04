@@ -15,9 +15,9 @@
 @property (nonatomic) NSString *selectedRowName;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,strong) NSMutableArray *conditionArray;
-@property (nonatomic,strong) NSFetchedResultsController *frc;
-@property (strong,nonatomic) NSFetchedResultsController *searchFrc;
+@property (nonatomic,strong) NSFetchedResultsController *frc;       //Fetch Results Controller For TableViewController
+@property (strong,nonatomic) NSFetchedResultsController *searchFrc; //Fetch Results Controller For SearchDisplayController
 
-@property (nonatomic) BOOL searchIsActive;
+
 
 @end

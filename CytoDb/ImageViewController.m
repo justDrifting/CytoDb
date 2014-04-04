@@ -8,6 +8,9 @@
 
 #import "ImageViewController.h"
 #import "CDBSlideViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
+#define TMP NSTemporaryDirectory()
 
 @interface ImageViewController ()
 
@@ -34,23 +37,50 @@
 {
     [super viewDidLoad];
     
+   
     
     //Do any additional setup after loading the view.
     self.textDisplay.text = self.descriptionText;
+    //[self getCachedImage:self.imageURL];
     
+    [self.imageDisplay setImageWithURL:self.imageURL
+                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
+   //self.imageDisplay.image= [UIImage imageWithData:_imageFile scale:1.0f];
     
+    //Asyncronous download of image
+   /* NSCache *memoryCache; //assume there is a memoryCache for images or videos
+    dispatch_async(dispatch_get_global_queue(0,0), ^{
+        
+        NSData *imageData = [NSData dataWithContentsOfURL:self.imageURL];
+        
+        if ( imageData == nil ){
+            return;
+        }
+        else{
+            // STORE IN FILESYSTEM
+            NSString* cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            NSString *file = [cachesDirectory stringByAppendingPathComponent:[self.imageURL absoluteString]];
+            [imageData writeToFile:file atomically:YES];
+            
+            // STORE IN MEMORY
+            [memoryCache setObject:imageData forKey:[self.imageURL absoluteString]];
+            
+                    //Main Dispatch Task to decompressData
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // WARNING: is the cell still using the same data by this point??
+                        self.imageDisplay.image= [UIImage imageWithData:imageData];
+                    }); //End Inner Block
+      
+        }//End ifelse
+    });//End GCD Block
+    */
     
-   // UIImage *slideImage = [UIImage imageWithData:self.imageFile];
-   // self.edgesForExtendedLayout = UIRectEdgeNone;
-    //CGRect imageframe = CGRectMake(200, 10, 300, 360);
-    self.imageDisplay.image= [UIImage imageWithData:_imageFile scale:1.0f];
     [self.imageScrollView setMaximumZoomScale:2.0f];
     [self.imageScrollView setMinimumZoomScale:1.0f];
     [self.imageScrollView setZoomScale:1.0f];
     self.imageDisplay.contentMode= UIViewContentModeScaleAspectFill;
-   //[self.imageScrollView addSubview:self.imageDisplay];
-   //self.imageDisplay.frame= (CGRect){.origin=CGPointMake(0.0f, 0.0f), .size=slideImage.size};
+   
 
    //Setting up tap gesture
     _doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
@@ -58,23 +88,15 @@
     
     _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
     _singleTap.numberOfTapsRequired = 1;
+  
+    //Isolating Single Taps From DoubleTaps
     [_singleTap requireGestureRecognizerToFail:_doubleTap];
   
     
-    
-   //Double tap enables Zoom
+    //Double tap enables Zoom
     [self.imageScrollView addGestureRecognizer:_doubleTap];
  
     
-    
-  //  self.navigationController.navigationBar.translucent = YES;
-  //  self.wantsFullScreenLayout = YES;
-    
-    
-    
-    
-    //2
-   // self.imageScrollView.contentSize = slideImage.size;
     
 
     // 3
@@ -113,6 +135,8 @@
         [self.navigationController setNavigationBarHidden:!self.navigationController.navigationBarHidden];
         
     }
+    
+    [[self.parentViewController.view viewWithTag:99 ] removeFromSuperview];
 }
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
@@ -217,7 +241,7 @@
     switch (toInterfaceOrientation) {
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            viewToAutoRotate.transform = CGAffineTransformMakeRotation(M_PI_2); // 90 degress
+            viewToAutoRotate.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90 degress
             self.imageTopConstraint.constant = 0.0f;
             self.imageHeight.constant = 500.0f;
             self.imageWidth.constant = 280.0f;
@@ -228,7 +252,7 @@
  
         case UIInterfaceOrientationPortraitUpsideDown:
         default:
-            viewToAutoRotate.transform = CGAffineTransformMakeRotation(M_PI); // 180 degrees
+            viewToAutoRotate.transform = CGAffineTransformMakeRotation(0); // 0 degrees
             self.imageTopConstraint.constant = 40.0f;
             self.imageHeight.constant = 360.0f;
             self.imageWidth.constant = 300.0f;
@@ -237,9 +261,76 @@
             [[self navigationController] setNavigationBarHidden:NO];
 
             break;
-      
     }
 
 }
+
+
+- (void) getCachedImage: (NSURL *) imageURL
+{
+    // Generate a unique path to a resource representing the image you want
+    NSString *filename = [imageURL absoluteString];
+    
+    
+    NSString *uniquePath = [TMP stringByAppendingPathComponent: filename];
+    UIImage *image;
+    
+    // Check for a cached version
+    if([[NSFileManager defaultManager] fileExistsAtPath: uniquePath])
+    {
+        NSLog(@"image is in Cache");
+        image = [UIImage imageWithContentsOfFile: uniquePath]; // this is the cached image
+    }
+    else
+    {
+        // get a new one
+        NSLog(@"Need to get image %@ from URL",filename);
+        [self cacheImage: imageURL];
+        image = [UIImage imageWithContentsOfFile: uniquePath];
+    }
+    self.imageDisplay.image= image;
+    //return image;
+    
+}
+
+
+- (void) cacheImage: (NSURL *) imageURL
+{
+    // Generate a unique path to a resource representing the image you want
+    NSString *filename = [imageURL absoluteString];
+    NSString *uniquePath = [TMP stringByAppendingPathComponent: filename];
+    
+    // Check for file existence
+    if(![[NSFileManager defaultManager] fileExistsAtPath: uniquePath])
+    {
+        // The file doesn't exist, we should get a copy of it
+        
+        // Fetch image
+        dispatch_async(dispatch_get_global_queue(0,0), ^{
+            
+            NSData *imageData = [NSData dataWithContentsOfURL:self.imageURL];
+            UIImage *image = [[UIImage alloc] initWithData: imageData];
+            
+        
+                // STORE IN FILESYSTEM
+               // NSString* cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+               // NSString *file = [cachesDirectory stringByAppendingPathComponent:[self.imageURL absoluteString]];
+                //[imageData writeToFile:file atomically:YES];
+                [UIImagePNGRepresentation(image) writeToFile: uniquePath atomically: YES];
+                // STORE IN MEMORY
+               // [memoryCache setObject:imageData forKey:[self.imageURL absoluteString]];
+                
+                //Main Dispatch Task to decompressData
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // WARNING: is the cell still using the same data by this point??
+                    
+                      self.imageDisplay.image= [UIImage imageWithData:imageData];
+                }); //End Inner Block
+            
+        });//End GCD Block
+    }
+
+}
+
 
 @end

@@ -11,7 +11,6 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
-#import "ECSlidingViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 
@@ -25,7 +24,6 @@
 @implementation CDBSlideViewController
 
 
-@synthesize searchIsActive;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -53,8 +51,7 @@
     
     [self setTitle: [self selectedRowName]];
  
-    [self fetchConditions];
-    
+    [self fetchConditions];    
     
 }
 
@@ -148,11 +145,9 @@
         
         SlideViewController *slideViewController = (SlideViewController *)segue.destinationViewController;
         
-        slideViewController.hidesBottomBarWhenPushed = YES;
-        
         if(self.searchDisplayController.active){
  
-            NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+           NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
          
            Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
            slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
@@ -174,6 +169,10 @@
     }
 
 }
+
+
+#pragma mark -
+#pragma mark Content Filtering
 
 -(void)fetchConditions
 {
@@ -223,10 +222,7 @@
     
 }
 
-
-
-#pragma mark -
-#pragma mark Content Filtering
+//This is the main search engine
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
@@ -249,12 +245,29 @@
     
     [request setSortDescriptors:sortDescriptors];
     
-    if([self.selectedRowName isEqualToString:@"All"]){
+    //Remove white space from begining and end of search string
+    searchText = [searchText stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]];
     
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                                  @"conditionName CONTAINS[cd] %@",searchText];
+    
+    if([self.selectedRowName isEqualToString:@"All"]){ //This is a global search searching combination on "organ" & "condition"
+        
+        //Create searchTerm From searchText
+        NSArray *searchTerms = [searchText componentsSeparatedByString:@" "];
        
-
+        NSString *predicateFormat = @"(organ.organName CONTAINS[cd] %@) OR (conditionName CONTAINS[cd] %@)";
+        NSPredicate *predicate;
+        if ([searchTerms count] == 1) {
+            NSString *term = [searchTerms objectAtIndex:0];
+            predicate = [NSPredicate predicateWithFormat:predicateFormat, term, term];
+        } else {
+            NSMutableArray *subPredicates = [NSMutableArray array];
+            for (NSString *term in searchTerms) {
+                NSPredicate *p = [NSPredicate predicateWithFormat:predicateFormat, term, term];
+                [subPredicates addObject:p];
+            }
+            predicate = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
+        }
+       
        [request setPredicate:predicate];
     }
     else{

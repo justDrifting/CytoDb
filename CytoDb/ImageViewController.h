@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ImageViewController : UIViewController <UIScrollViewDelegate>
 
@@ -25,6 +25,8 @@
 @property NSUInteger pageIndex;
 @property NSString *descriptionText;
 @property NSData *imageFile;
+@property NSURL *imageURL;
+@property UIImage *pageImage;
 
 @property UITapGestureRecognizer *singleTap;
 @property UITapGestureRecognizer *doubleTap;
