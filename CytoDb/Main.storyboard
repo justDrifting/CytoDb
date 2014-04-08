@@ -36,10 +36,18 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Cyto Slides Database" id="KV3-R4-51K"/>
+                    <navigationItem key="navigationItem" title="Cyto Slides Database" id="KV3-R4-51K">
+                        <barButtonItem key="rightBarButtonItem" title="All" id="c9X-5j-yke">
+                            <connections>
+                                <action selector="showAll:" destination="ayT-Ue-gNq" id="n3v-sZ-v4R"/>
+                                <segue destination="jwX-wy-9f0" kind="push" identifier="showAllConditions" id="sF7-7K-ci3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="progressDisplay" destination="jar-Rz-4LI" id="EQL-qE-8h8"/>
                         <outlet property="searchDisplayController" destination="vC7-Xb-3w7" id="gjk-oW-OQa"/>
+                        <outlet property="showAllButton" destination="c9X-5j-yke" id="3Ec-nb-gsR"/>
                         <segue destination="jwX-wy-9f0" kind="push" identifier="pushToConditions" id="bCh-hp-Yg1"/>
                         <segue destination="IWP-FH-hZy" kind="push" identifier="pushToSlides" id="Uhc-8Q-51s"/>
                     </connections>
@@ -104,7 +112,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="767" y="-1103"/>
+            <point key="canvasLocation" x="755" y="-1655"/>
         </scene>
         <!--Slide View Controller-->
         <scene sceneID="7f0-H6-WE9">
@@ -145,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDQ-Si-icw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="469" y="-375"/>
+            <point key="canvasLocation" x="1177" y="-1103"/>
         </scene>
         <!--Image View Controller-->
         <scene sceneID="PwG-WX-PLx">
@@ -237,6 +245,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="sF7-7K-ci3"/>
         <segue reference="Uhc-8Q-51s"/>
     </inferredMetricsTieBreakers>
 </document>

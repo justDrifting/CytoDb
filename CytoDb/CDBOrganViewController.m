@@ -39,7 +39,7 @@
   [super viewDidLoad];
 
    // Uncomment to clean up table entry
-  //[self removeAllObjects];
+   [self removeAllObjects];
     
     self.searchDisplayController.delegate = self;
     self.searchDisplayController.searchResultsDataSource=self;
@@ -47,6 +47,8 @@
 
    
     [self fetchOrgans];
+    
+    
     
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
@@ -56,7 +58,7 @@
     self.refreshControl = refresh;
     
    
-  
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -216,6 +218,17 @@
         slideViewController.managedObjectContext=self.managedObjectContext;
     }
     
+    
+    if([[segue identifier]isEqualToString:@"showAllConditions"])
+    {
+        // Get the new view controller using [segue destinationViewController].
+        CDBSlideViewController *destinationController = (CDBSlideViewController *)segue.destinationViewController;
+        
+        destinationController.selectedRowName=@"All";
+        destinationController.managedObjectContext=self.managedObjectContext;
+
+    }
+
 }
 
 
@@ -246,15 +259,15 @@
 
         //Fetch or Create the Condition entity
         NSManagedObjectID *conditionID =
-        [self fetchOrCreateConditionIDForConditionName:[jsonDictionary objectForKey:@"conditionName"]
-                              ConditionDiffertialGroup:[jsonDictionary objectForKey:@"conditiondifferentialGroup"]ConditionDescription:[jsonDictionary objectForKey:@"conditionDescription"]
+        [self fetchOrCreateConditionIDForConditionName:[jsonDictionary objectForKey:@"dxName"]
+                              ConditionDiffertialGroup:[jsonDictionary objectForKey:@"conditiondifferentialGroup"]ConditionDescription:[jsonDictionary objectForKey:@"dxDescription"]
                                             ForContext:context];
         
         Condition *condition = (Condition *)[context existingObjectWithID:conditionID error:nil];
         
         //Fetch or Create the organ entity
         NSManagedObjectID *organID =
-        [self fetchOrCreateOrganIDForOrganName:[jsonDictionary objectForKey:@"organName"]
+        [self fetchOrCreateOrganIDForOrganName:[jsonDictionary objectForKey:@"sourceName"]
                                     ForContext:context];
         Organ *organ= (Organ *)[context existingObjectWithID:organID error:nil];
         
@@ -274,9 +287,9 @@
         // Save everything
         NSError *error = nil;
         if ([context save:&error]) {
-           NSLog(@"The save was successful!");
+              NSLog(@"The save was successful!");
         } else {
-           NSLog(@"The save wasn't successful: %@", [error userInfo]);
+             NSLog(@"The save wasn't successful: %@", [error userInfo]);
         }
      }
     else
@@ -384,6 +397,9 @@
                                        cacheName:@"organList"];
     NSError *error;
     [self.frc performFetch:&error]; //FetchedResultsController is generated here
+    
+    [self.showAllButton setEnabled:[[self.frc fetchedObjects] count]];
+       // NSLog(@"Frc Object Count  %lu",[[self.frc fetchedObjects] count]);
     
    
 }
@@ -633,4 +649,6 @@
 }
 
 
+- (IBAction)showAll:(id)sender {
+}
 @end

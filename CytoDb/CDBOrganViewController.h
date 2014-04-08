@@ -23,5 +23,7 @@
 @property (nonatomic,strong) NSFetchedResultsController *frc;       //Fetch Results Controller For TableViewController
 @property (strong,nonatomic) NSFetchedResultsController *searchFrc; //Fetch Results Controller For SearchDisplayController
 
+- (IBAction)showAll:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *showAllButton;
 @end
