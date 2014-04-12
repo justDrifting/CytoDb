@@ -122,7 +122,7 @@
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CytoDb.sqlite"];
     
     //**************UnComment to delete store*************
-   //[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+  // [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];

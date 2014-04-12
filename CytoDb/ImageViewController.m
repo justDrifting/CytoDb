@@ -9,6 +9,7 @@
 #import "ImageViewController.h"
 #import "CDBSlideViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "Features.h"
 
 #define TMP NSTemporaryDirectory()
 
@@ -43,6 +44,7 @@
     self.textDisplay.text = self.descriptionText;
     //[self getCachedImage:self.imageURL];
     
+    //SDWebImage call
     [self.imageDisplay setImageWithURL:self.imageURL
                       placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
@@ -264,7 +266,7 @@
     }
 
 }
-
+/*
 
 - (void) getCachedImage: (NSURL *) imageURL
 {
@@ -331,6 +333,6 @@
     }
 
 }
-
+*/
 
 @end

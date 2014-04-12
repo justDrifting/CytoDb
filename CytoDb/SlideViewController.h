@@ -10,13 +10,13 @@
 #import "ImageViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface SlideViewController : UIViewController < UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+@interface SlideViewController : UIViewController < UIPageViewControllerDataSource,UIPageViewControllerDelegate, UITableViewDelegate, UITableViewDataSource >
 
 
 
 @property (strong,nonatomic)UIPageViewController *pageViewController;
 @property (strong,nonatomic)NSMutableArray *pageTitles;
-@property (strong,nonatomic)NSMutableArray *pageImages;
+//@property (strong,nonatomic)NSMutableArray *pageImages;
 @property (strong,nonatomic)NSMutableArray *pageImageURLs;
 @property (strong,nonatomic)NSMutableArray *pageTexts;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -24,6 +24,8 @@
 @property (nonatomic,strong) NSManagedObjectID *conditionID;
 
 @property (nonatomic,weak,readonly) NSArray *slideArray; //Container for the slides that will be presented
+//Need to change this to weak
+@property (nonatomic,strong,readonly) NSArray *featureArray; //Container for the slides that will be presented
 
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 

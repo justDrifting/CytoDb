@@ -10,6 +10,7 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
+#import "Features.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 
@@ -42,20 +43,19 @@
     Condition *condition = (Condition *)[self.managedObjectContext existingObjectWithID:self.conditionID error:nil];
     [self setTitle: condition.conditionName];
     self.subviewText = condition.conditionDescription;
-    [self fetchSlides]; //This populated the self.slideArray
+   [self fetchSlides]; //This populated the self.slideArray
+   [self fetchFeatures]; //This populated the self.featureArray
     
-   
-    
-    //This is actually slide Name that appears below the image
+
     _pageTitles = [[NSMutableArray alloc] init];
-    _pageImages = [[NSMutableArray alloc] init];
+    //_pageImages = [[NSMutableArray alloc] init];
     _pageImageURLs = [[NSMutableArray alloc] init];
     _pageTexts =  [[NSMutableArray alloc] init];
     
     for(Slide *slide in self.slideArray){
       
       [_pageTitles addObject:slide.slideName];
-      [_pageImages addObject:slide.slideImage];
+      //[_pageImages addObject:slide.slideImage];
       [_pageTexts  addObject:slide.slideDescription];
       [_pageImageURLs addObject:[NSURL URLWithString:(slide.imageURL)]];
       //Add any other attribute that need to go into the page view controller
@@ -140,21 +140,26 @@
 
 -(void)showBottomToolBar
 {
-    UITextView *subview = [[UITextView alloc] initWithFrame:CGRectMake(10, 568, 300, 37)];
-    subview.backgroundColor = [UIColor clearColor];
-    subview.text = self.subviewText;
+    CGRect screenRect = [[UIScreen mainScreen]bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat fractionOfView = 0.20f;
     
-    [subview setTextColor:[UIColor blackColor]];
-    [subview setFont:[UIFont systemFontOfSize:14]];
+    UITableView *featureTable = [[UITableView alloc] initWithFrame:CGRectMake(0, screenHeight, screenWidth, 0)];
+    [featureTable setDataSource:self];
+    [featureTable setDelegate:self];
+    [featureTable setBackgroundColor:[UIColor clearColor]];
+    //remove extra section lines
+    [featureTable setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
+   
+
     // [subview setTextContainerInset:UIEdgeInsetsMake(40, 20,40,20)];
-    [subview setEditable:NO];
-    [subview setSelectable:NO];
-    [subview setScrollEnabled:YES];
-    UIToolbar* bgToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 568, 320, 37)];
+    //bg tool bar starting position
+    UIToolbar* bgToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, screenHeight, screenWidth, 0)];
     bgToolbar.barStyle = UIBarStyleDefault;
     
     //Custom pulldownbutton
-    UIView *pulldownButton = [[UIView alloc]initWithFrame:CGRectMake(140, 568, 40, 6)];
+    UIView *pulldownButton = [[UIView alloc]initWithFrame:CGRectMake(140, screenHeight, 40, 6)];
     [pulldownButton.layer setCornerRadius:3.0f];
     [pulldownButton setBackgroundColor:[UIColor grayColor]];
     
@@ -162,10 +167,12 @@
     
     [bgToolbar setShadowImage:nil forToolbarPosition:UIBarPositionTop];
     [self.view addSubview:bgToolbar];
-    [self.view addSubview:subview];
+    //[self.view addSubview:subview];
+    [self.view addSubview:featureTable];
     [self.view addSubview:pulldownButton];
     pulldownButton.tag=9;
-    subview.tag=99;
+    //subview.tag=99;
+    featureTable.tag =99;
     bgToolbar.tag=999;
     
     
@@ -175,9 +182,11 @@
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         pulldownButton.frame = CGRectMake(140, 400, 40, 6);
-                         bgToolbar.frame= CGRectMake(0, 390, 320, 178);
-                         subview.frame =CGRectMake(10, 412, 300, 129);
+                         
+                         
+                         pulldownButton.frame = CGRectMake(screenWidth*0.5-20, screenHeight*fractionOfView +10, 40, 6);
+                         bgToolbar.frame= CGRectMake(0, screenHeight*fractionOfView, screenWidth, screenHeight*(1.0-fractionOfView) );
+                         featureTable.frame =CGRectMake(0, screenHeight*fractionOfView +20.0, screenWidth, screenHeight*(1.0-fractionOfView)-40);
                      }
                      completion:^(BOOL finished){
                          
@@ -191,10 +200,8 @@
                          NSArray *gestures = [NSArray arrayWithObjects:tapToClose,swipedown, nil];
                          
                          [bgToolbar setGestureRecognizers:gestures];
-                         [subview addGestureRecognizer:tapToClose];
+                         [featureTable addGestureRecognizer:tapToClose];
                          [pulldownButton setGestureRecognizers:gestures];
-                         
-                         
                          
                          
                      }];
@@ -276,7 +283,7 @@
     // Create a new view controller and pass suitable data.
     ImageViewController *imageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageController"];
     
-    imageViewController.imageFile = self.pageImages[index];
+  //  imageViewController.imageFile = self.pageImages[index];
     imageViewController.imageURL = self.pageImageURLs[index];
     imageViewController.descriptionText = self.pageTexts[index];
     imageViewController.pageIndex = index;
@@ -285,7 +292,7 @@
 }
 
 
-//These are used for displaying the pageControl if commented out the pageControlWont Show
+//These are used for displaying the pageControl if commented out the pageControl wont Show
 /*
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController
 {
@@ -320,13 +327,49 @@
                               @"ANY condition == %@", self.conditionID];
 
     
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"slideName"
+                                                                 ascending:YES];
     [request setEntity:entity];
     [request setPredicate:predicate];
-    
+    [request setSortDescriptors:@[sortDescriptor]];
     NSError *error = nil;
     NSArray *fetchedObjects = [context executeFetchRequest:request error:&error];
     
     _slideArray=fetchedObjects; //This array will be used to populate the pages
+    
+}
+
+-(void)fetchFeatures
+{
+    //Grab the context
+    
+    
+    NSManagedObjectContext *context = self.managedObjectContext;
+    
+    
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Features"
+                                              inManagedObjectContext:context];
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              @"ANY condition == %@", self.conditionID];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"featureOrder"
+                                                                     ascending:YES];
+    [request setEntity:entity];
+    [request setPredicate:predicate];
+    [request setSortDescriptors:@[sortDescriptor]];
+
+
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:request error:&error];
+    
+    _featureArray =fetchedObjects; //This array will be used to populate the pages
+    
     
 }
 
@@ -341,6 +384,82 @@
     return size.height;
 }
 
+//UITABLEVIEW PROTOCOL METHODS
+#pragma -mark
+#pragma -Table View delegate and data source methods
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    
+    
+    NSInteger count = _featureArray.count;
+    
+    return count;
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    Features *feature = [_featureArray objectAtIndex:section];
+      return feature.featureName;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil)
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    
+   // cell.backgroundView = [[UIView alloc] init];
+   // [cell.backgroundView setBackgroundColor:[UIColor clearColor]];
+    
+    cell.backgroundColor=[UIColor clearColor];
+    Features *feature = [_featureArray objectAtIndex:indexPath.section];
+    cell.textLabel.text = feature.featureDescription;
+    cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
+    cell.textLabel.numberOfLines=0;
+    cell.textLabel.lineBreakMode= NSLineBreakByWordWrapping;
+    
+    return cell;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    Features *feature = [_featureArray objectAtIndex:indexPath.section];
+    NSString *cellText =feature.featureDescription;
+    UIFont *cellFont = [UIFont systemFontOfSize:15.0f];
+    
+    NSAttributedString *attributedText =
+    [[NSAttributedString alloc]
+     initWithString:cellText
+     attributes:@
+     {
+     NSFontAttributeName: cellFont
+     }];
+    CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(tableView.bounds.size.width, CGFLOAT_MAX)
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                               context:nil];
+    return rect.size.height + 20;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    // Background color
+    view.tintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.95f];
+    // Text Color
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]];
+    [header.textLabel setFont:[UIFont systemFontOfSize:14.0f]];
+
+}
 
 @end

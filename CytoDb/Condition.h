@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * conditionDifferentialGroup;
 @property (nonatomic, retain) Organ *organ;
 @property (nonatomic, retain) NSSet *slides;
+@property (nonatomic, retain) NSSet *features;
 @end
 
 @interface Condition (CoreDataGeneratedAccessors)

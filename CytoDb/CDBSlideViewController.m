@@ -11,6 +11,7 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
+#import "Features.h"
 #import <QuartzCore/QuartzCore.h>
 
 

@@ -9,7 +9,7 @@
 #import "Condition.h"
 #import "Organ.h"
 #import "Slide.h"
-
+#import "Features.h"
 
 @implementation Condition
 
@@ -18,5 +18,7 @@
 @dynamic conditionDescription;
 @dynamic organ;
 @dynamic slides;
+@dynamic features;
+
 
 @end

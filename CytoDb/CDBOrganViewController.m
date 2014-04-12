@@ -12,11 +12,13 @@
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
+#import "Features.h"
 
 
 
 //#define dataURLString @"http://localhost/json.php"
 #define dataURLString @"http://proqms.info/json.php"
+#define zDataURLString @"http://proqms.info/json04.php"
 
 @interface CDBOrganViewController ()
 
@@ -38,12 +40,23 @@
 {
   [super viewDidLoad];
 
-   // Uncomment to clean up table entry
-   [self removeAllObjects];
-    
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
+    [imageCache cleanDisk];
+
     self.searchDisplayController.delegate = self;
     self.searchDisplayController.searchResultsDataSource=self;
     self.searchDisplayController.searchResultsDelegate=self;
+ 
+    //App launching for first time
+    if(![self coreDataHasEntriesForEntityName:@"Slide"])
+    {
+        [self retrieveData];
+        
+        NSLog(@"Nothing in Core Data Downloading Database");
+    }
+    
 
    
     [self fetchOrgans];
@@ -58,7 +71,7 @@
     self.refreshControl = refresh;
     
    
-    
+   
 }
 
 - (void)didReceiveMemoryWarning
@@ -235,7 +248,133 @@
 #pragma mark - CoreData CRUD Methods
 #pragma -insertSlide
 
--(void)inserNewSlide:(NSDictionary *)jsonDictionary
+-(void)insertSlide:(NSArray *)sourceArray
+{
+    
+    //Grab the context
+    NSManagedObjectContext *context = [self managedObjectContext ];
+    
+    [self deleteManagedObjectForEntityName:@"Organ" InContext:context];
+    [self deleteManagedObjectForEntityName:@"Condition" InContext:context];
+    [self deleteManagedObjectForEntityName:@"Slide" InContext:context];
+    [self deleteManagedObjectForEntityName:@"Features" InContext:context];
+    
+    
+    
+    
+    for (NSDictionary *sourceDict in sourceArray) {
+        
+        
+        Organ *organ = [NSEntityDescription insertNewObjectForEntityForName:@"Organ"
+                                                     inManagedObjectContext:context];
+        
+        [organ setValue:[sourceDict objectForKey:@"sourceName"] forKey:@"organName"];
+        
+        organ.organName = [sourceDict objectForKey:@"sourceName"];
+        
+
+        NSArray *conditionArray = [[NSArray alloc] initWithArray:[sourceDict objectForKey:@"dxs"]];
+    
+        for (NSDictionary *dxDict in conditionArray ) {
+            //NSLog(@"Dx Name is %@",[dxDict objectForKey:@"dxName"]);
+        
+            Condition *condition = [NSEntityDescription insertNewObjectForEntityForName:@"Condition"
+                                                         inManagedObjectContext:context];
+            
+            [condition setValue:[dxDict objectForKey:@"dxName"] forKey:@"conditionName"];
+            [condition setValue:[dxDict objectForKey:@"dxDescription"] forKey:@"conditionDescription"];
+            [condition setOrgan:organ];
+            
+            NSArray *slideArray = [[NSArray alloc] initWithArray:[dxDict objectForKey:@"slides"]];
+           
+            for (NSDictionary *slideDict in slideArray) {
+                //NSLog(@"Slide url is %@",[slideDict objectForKey:@"imageURL"]);
+                Slide *slide = [NSEntityDescription insertNewObjectForEntityForName:@"Slide"
+                                                                     inManagedObjectContext:context];
+                
+                [slide setValue:[slideDict objectForKey:@"slideName"] forKey:@"slideName"];
+                [slide setValue:[slideDict objectForKey:@"slideDescription"] forKey:@"slideDescription"];
+                [slide setValue:[slideDict objectForKey:@"imageURL"] forKey:@"imageURL"];
+               
+
+                [slide setCondition:condition];
+                
+                // NSLog(@"Slide  %@",[slideDict objectForKey:@"slideName"]);
+              
+            }
+           
+            if([[dxDict objectForKey:@"features"] isKindOfClass:[NSNull class]]){
+                
+                //Create features with just the dxDescription:
+                Features *feature = [NSEntityDescription insertNewObjectForEntityForName:@"Features"
+                                                                  inManagedObjectContext:context];
+                //Initialize this with the condition description as dummy:
+                [feature setValue:@"Description" forKey:@"featureName"];
+                [feature setValue:condition.conditionDescription forKey:@"featureDescription"];
+                
+                NSNumber *order = [NSNumber numberWithInteger:1];
+                [feature setValue:order forKey:@"featureOrder"];
+                //This links it to the condition
+                [feature setCondition:condition];
+               
+            }
+            else{
+            
+                
+               NSArray *featureArray
+                = [[NSArray alloc] initWithArray:[dxDict objectForKey:@"features"]];
+                
+               
+                for (NSDictionary *featureDict in featureArray) {
+                    
+                    Features *feature = [NSEntityDescription insertNewObjectForEntityForName:@"Features"
+                                                                      inManagedObjectContext:context];
+                    
+                    
+                    [feature setValue:[featureDict objectForKey:@"featureName"] forKey:@"featureName"];
+                    [feature setValue:[featureDict objectForKey:@"featureDescription"] forKey:@"featureDescription"];
+                    
+                    //Convert the feature order json string to number ** PITA **
+                    NSString *numberString = [featureDict objectForKey:@"featureOrder"];
+                    NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
+                    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                    NSNumber * featurOrder = [numberFormatter numberFromString:numberString];
+                    [feature setValue:featurOrder forKey:@"featureOrder"];
+                    
+                    
+                    //This links it to the condition
+                    [feature setCondition:condition];
+                    
+    
+                  
+                }
+                
+            }//endElse
+            
+            
+            
+        }
+        
+        
+    }
+
+    // Save everything
+    NSError *error = nil;
+    if ([context save:&error]) {
+        NSLog(@"The save was successful!");
+    } else {
+        NSLog(@"The save wasn't successful: %@", [error userInfo]);
+    }
+    
+    
+    
+}
+
+
+
+
+
+-(void)insertNewSlide:(NSDictionary *)jsonDictionary
 {
  
     //Grab the context
@@ -427,13 +566,18 @@
 -(void)retrieveData
 {
     //get URL from string
-    NSURL *dataURL = [NSURL URLWithString:dataURLString];
+   // NSURL *dataURL = [NSURL URLWithString:dataURLString];
+     NSLog(@"Start of retrieve data");
+    
+    NSURL *dataURL = [NSURL URLWithString:zDataURLString];
     
     //initiate the download task property
     self.downloadTask = [self.session downloadTaskWithURL:dataURL];
     
     //start download
     [self.downloadTask resume];
+    
+    
     
 }
 
@@ -446,40 +590,60 @@
     
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_async(queue, ^{
     
-   // dispatch_async(dispatch_get_main_queue(), ^{
-     dispatch_async(queue, ^{
-    
-        NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        
+       NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+      
+        //NSLog(@"jsonArray  = %@",jsonArray);
+       
+        if(jsonArray == nil || jsonArray.count == 0 ){
+        
+            NSLog(@"Downloaded Empty Array");
+           [self.progressDisplay setHidden:YES];
+           [self.tableView reloadData];
+        }
+        else {
+        
+            [self insertSlide:jsonArray];
+            //[self.progressDisplay setHidden:YES];
+            [self fetchOrgans];
+            [self.tableView reloadData];
+            
+        
+          //  for(int i = 0; i<=jsonArray.count; i++)
+          // {
+            
+            //Main Thread for progress bar update
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // UI updates always come from the main queue!
+               // float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
+                //[self.progressDisplay setProgress:progress];
+                //if(progress >= 1){
+                    [self.progressDisplay setHidden:YES];
+                    [self fetchOrgans];
+                    [self.tableView reloadData];
+                    
+                    
+             //   }
+            });
+           //}
+            
+          
+            
         
         
-        for(int i =0; i< [jsonArray count]; i++)
-        {
+
             
-            NSDictionary* jsonDict = jsonArray[i];
-            //NSLog(@"jsonDict  = %@",jsonDict);
-            [self inserNewSlide:jsonDict];
             
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // UI updates always come from the main queue!
-                    float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
-                    [self.progressDisplay setProgress:progress];
-                     if(progress >= 1){
-                         [self.progressDisplay setHidden:YES];
-                         [self fetchOrgans];
-                         [self.tableView reloadData];
-                     
-                     }
-                });
+            
+            
             
         }
-        
-      
 
 
     });
     
-   // [session finishTasksAndInvalidate];
 
 }
 
@@ -490,7 +654,9 @@
 
 //Download In process
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    
     float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.progressDisplay setProgress:progress];
@@ -499,61 +665,25 @@
     });
 }
 
-- (void)removeAllObjects
+
+#pragma -Delete Objects By Name
+
+-(void)deleteManagedObjectForEntityName:(NSString *)entityName InContext:(NSManagedObjectContext *)context
 {
+    NSFetchRequest * allEntity = [[NSFetchRequest alloc]init];
+    NSEntityDescription * entityForName = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     
-    NSFetchRequest * allOrgans = [[NSFetchRequest alloc]init];
-    NSEntityDescription * entityForName = [NSEntityDescription entityForName:@"Organ"inManagedObjectContext:self.managedObjectContext];
-    
-    [allOrgans setEntity:entityForName];
-    [allOrgans setIncludesPropertyValues:NO];
+    [allEntity setEntity:entityForName];
+    [allEntity setIncludesPropertyValues:NO];
     
     NSError *error = nil;
-    NSArray *organs = [self.managedObjectContext executeFetchRequest:allOrgans error:&error];
-    for (NSManagedObject * organ in organs){
-        [self.managedObjectContext deleteObject:organ];
-    }
-    
-    
-    NSFetchRequest * allConditions = [[NSFetchRequest alloc]init];
-    entityForName = [NSEntityDescription entityForName:@"Condition"inManagedObjectContext:self.managedObjectContext];
-    
-    [allConditions setEntity:entityForName];
-    [allConditions setIncludesPropertyValues:NO];
-    
-    error = nil;
-    NSArray *conditions = [self.managedObjectContext executeFetchRequest:allConditions error:&error];
-    for (NSManagedObject * condition in conditions){
-        [self.managedObjectContext deleteObject:condition];
-    }
-    
-    
-    allConditions = [[NSFetchRequest alloc]init];
-    entityForName = [NSEntityDescription entityForName:@"Slide"inManagedObjectContext:self.managedObjectContext];
-    
-    [allConditions setEntity:entityForName];
-    [allConditions setIncludesPropertyValues:NO];
-    
-    error = nil;
-    conditions = [self.managedObjectContext executeFetchRequest:allConditions error:&error];
-    for (NSManagedObject * condition in conditions){
-        [self.managedObjectContext deleteObject:condition];
+    NSArray *entityArray = [self.managedObjectContext executeFetchRequest:allEntity error:&error];
+    for (NSManagedObject * entity in entityArray){
+        [self.managedObjectContext deleteObject:entity];
     }
 
-    
-    
-    
-    // Save everything
-   
-    if ([self.managedObjectContext save:&error]) {
-        NSLog(@"The save was successful!");
-    } else {
-        NSLog(@"The save wasn't successful: %@", [error userInfo]);
-    }
 
 }
-
-
 
 //This is the main search engine
 
@@ -651,4 +781,61 @@
 
 - (IBAction)showAll:(id)sender {
 }
+                             
+
+- (NSManagedObject*)managedObjectFromStructure:(NSDictionary*)structureDictionary withManagedObjectContext:(NSManagedObjectContext*)moc
+    {
+        NSString *objectName = [structureDictionary objectForKey:@"ManagedObjectName"];
+        NSManagedObject *managedObject = [NSEntityDescription insertNewObjectForEntityForName:objectName inManagedObjectContext:moc];
+        [managedObject setValuesForKeysWithDictionary:structureDictionary];
+        
+  /*
+        for (NSString *relationshipName in [[[managedObject entity] relationshipsByName] allKeys]) {
+            NSRelationshipDescription *description = [relationshipName objectForKey:relationshipName];
+            if (![description isToMany]) {
+                NSDictionary *childStructureDictionary = [structureDictionary objectForKey:relationshipName];
+                NSManagedObject *childObject = [self managedObjectFromStructure:childStructureDictionary withManagedObjectContext:moc];
+                
+             //   [managedObject  setObject:childObject forKey:relationshipName];
+                continue;
+            }
+            NSMutableSet *relationshipSet = [managedObject mutableSetValueForKey:relationshipName];
+            NSArray *relationshipArray = [structureDictionary objectForKey:relationshipName];
+            for (NSDictionary *childStructureDictionary in relationshipArray) {
+                NSManagedObject *childObject = [self managedObjectFromStructure:childStructureDictionary withManagedObjectContext:moc];
+                [relationshipSet addObject:childObject];
+            }
+        }*/
+        return managedObject;
+    }
+                             
+- (NSArray*)managedObjectsFromJSONStructure:(NSArray*)structureArray withManagedObjectContext:(NSManagedObjectContext*)moc
+{
+        NSMutableArray *objectArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *structureDictionary in structureArray) {
+            [objectArray addObject:[self managedObjectFromStructure:structureDictionary withManagedObjectContext:moc]];
+        }
+        return objectArray;
+}
+                             
+#pragma -mark
+#pragma -is Core Data Empty
+
+- (BOOL)coreDataHasEntriesForEntityName:(NSString *)entityName {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
+    [request setEntity:entity];
+    [request setFetchLimit:1];
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (!results) {
+        NSLog(@"Fetch error: %@", error);
+        abort();
+    }
+    if ([results count] == 0) {
+        return NO;
+    }
+    return YES;
+}
+
 @end

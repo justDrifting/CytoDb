@@ -59,6 +59,7 @@
 		C5CF3C1F18EBD52E00F9DCA8 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C1018EBD52E00F9DCA8 /* UIImage+WebP.m */; };
 		C5CF3C2018EBD52E00F9DCA8 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C1218EBD52E00F9DCA8 /* UIImageView+WebCache.m */; };
 		C5CF3C2318EC587100F9DCA8 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CF3C2218EC587100F9DCA8 /* placeholder.png */; };
+		C5CF3C2618F5B5BE00F9DCA8 /* Features.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C2518F5B5BE00F9DCA8 /* Features.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +150,8 @@
 		C5CF3C1118EBD52E00F9DCA8 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		C5CF3C1218EBD52E00F9DCA8 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		C5CF3C2218EC587100F9DCA8 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		C5CF3C2418F5B5BE00F9DCA8 /* Features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Features.h; sourceTree = "<group>"; };
+		C5CF3C2518F5B5BE00F9DCA8 /* Features.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Features.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +285,8 @@
 			isa = PBXGroup;
 			children = (
 				C5896FE618CDF2620017DCFF /* CytoDb.xcdatamodeld */,
+				C5CF3C2418F5B5BE00F9DCA8 /* Features.h */,
+				C5CF3C2518F5B5BE00F9DCA8 /* Features.m */,
 				C515938E18D77CAF002EB250 /* Slide.h */,
 				C515938F18D77CAF002EB250 /* Slide.m */,
 				C515938B18D77CAF002EB250 /* Organ.h */,
@@ -466,6 +471,7 @@
 				C5896FE518CDF2620017DCFF /* CDBAppDelegate.m in Sources */,
 				C5CF3C1518EBD52E00F9DCA8 /* SDImageCache.m in Sources */,
 				C5CF3C1C18EBD52E00F9DCA8 /* UIButton+WebCache.m in Sources */,
+				C5CF3C2618F5B5BE00F9DCA8 /* Features.m in Sources */,
 				C5CF3C1418EBD52E00F9DCA8 /* NSData+ImageContentType.m in Sources */,
 				C5896FE118CDF2620017DCFF /* main.m in Sources */,
 			);

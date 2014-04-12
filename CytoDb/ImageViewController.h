@@ -24,7 +24,7 @@
 
 @property NSUInteger pageIndex;
 @property NSString *descriptionText;
-@property NSData *imageFile;
+//@property NSData *imageFile;
 @property NSURL *imageURL;
 @property UIImage *pageImage;
 
