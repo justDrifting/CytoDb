@@ -42,23 +42,25 @@
     //The selected condition is now used in setting the title and fetchSlides
     Condition *condition = (Condition *)[self.managedObjectContext existingObjectWithID:self.conditionID error:nil];
     [self setTitle: condition.conditionName];
-    self.subviewText = condition.conditionDescription;
-   [self fetchSlides]; //This populated the self.slideArray
-   [self fetchFeatures]; //This populated the self.featureArray
+
+    [self fetchSlides]; //This populated the self.slideArray
+    [self fetchFeatures]; //This populated the self.featureArray
     
 
     _pageTitles = [[NSMutableArray alloc] init];
-    //_pageImages = [[NSMutableArray alloc] init];
+    _pageThumbURLs = [[NSMutableArray alloc] init];
     _pageImageURLs = [[NSMutableArray alloc] init];
     _pageTexts =  [[NSMutableArray alloc] init];
     
     for(Slide *slide in self.slideArray){
       
       [_pageTitles addObject:slide.slideName];
-      //[_pageImages addObject:slide.slideImage];
+      [_pageThumbURLs addObject:slide.slideImagePath];
       [_pageTexts  addObject:slide.slideDescription];
-      [_pageImageURLs addObject:[NSURL URLWithString:(slide.imageURL)]];
+      [_pageImageURLs addObject:slide.imageURL];
       //Add any other attribute that need to go into the page view controller
+        
+
      }
     
     
@@ -121,8 +123,13 @@
     self.pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     self.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     [self.view addSubview:_pageControl.viewForBaselineLayout];
-
-
+  
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial02"]){
+        [self displayTutorial];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial02"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+  
 }
 
 
@@ -283,10 +290,11 @@
     // Create a new view controller and pass suitable data.
     ImageViewController *imageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageController"];
     
-  //  imageViewController.imageFile = self.pageImages[index];
+    
     imageViewController.imageURL = self.pageImageURLs[index];
     imageViewController.descriptionText = self.pageTexts[index];
     imageViewController.pageIndex = index;
+    imageViewController.thumbURL = self.pageThumbURLs[index];
     
     return imageViewController;
 }
@@ -460,6 +468,62 @@
     [header.textLabel setTextColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]];
     [header.textLabel setFont:[UIFont systemFontOfSize:14.0f]];
 
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    // [[self navigationController] setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation) animated:YES];
+    [self.detailsViewButton setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+   // [self autoRotateView:self.imageScrollView toInterfaceOrientation:toInterfaceOrientation];
+    UIView *taggedButton = [self.view viewWithTag:9];
+    UIView *taggedView = [self.view viewWithTag:99];
+    UIView *taggedToolbar = [self.view viewWithTag:999];
+    if(self.showingSubview){
+    
+        [taggedButton setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+        [taggedView setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+        [taggedToolbar setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+    }
+
+}
+
+
+-(void)displayTutorial
+{
+    UIViewController *userguideViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"slideTutorialViewController"];
+    [userguideViewController.view setBackgroundColor:[[UIColor blackColor]colorWithAlphaComponent:0.5f]];
+   //Add Tapgesture to the userguide
+    UITapGestureRecognizer  *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(dismissUserGuide)];
+    
+    
+    singleTap.numberOfTapsRequired = 1;
+    
+    [self.view addSubview:userguideViewController.view];
+    userguideViewController.view.tag=9999;
+    //[userguideViewController  didMoveToParentViewController:self];
+    [userguideViewController.view addGestureRecognizer:singleTap];
+    
+}
+
+-(void)dismissUserGuide
+{
+     UIView *taggedView = [self.view viewWithTag:9999];
+    [UIView animateWithDuration:0.8f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                       
+                         taggedView.alpha = 0.0f;
+                   // taggedView.frame = CGRectMake(10, 531, 300, 0);// its final location
+                       
+                     }
+                     completion:^(BOOL finished){
+                        
+                         [taggedView removeFromSuperview];
+                        
+                     }];
+    
 }
 
 @end

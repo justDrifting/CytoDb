@@ -53,6 +53,19 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZu-Ut-SNY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="6dZ-Em-26K">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yNR-oT-Ujw" userLabel="User Agreement">
+                            <rect key="frame" x="139" y="220" width="42" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
                 <searchDisplayController id="vC7-Xb-3w7">
                     <connections>
                         <outlet property="delegate" destination="ayT-Ue-gNq" id="9hb-BE-P3t"/>
@@ -64,6 +77,30 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="308" y="-1095"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="KFh-Xb-4Ya">
+            <objects>
+                <viewController storyboardIdentifier="mainTutorialViewController" id="r9b-ji-qD8" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="76l-bZ-dYq"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ie0-rG-qr5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9Ih-e3-MG8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorialPage2.png" translatesAutoresizingMaskIntoConstraints="NO" id="b0O-UM-CWV">
+                                <rect key="frame" x="20" y="22" width="280" height="309"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-4K-zKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="311" y="-408"/>
         </scene>
         <!--Slide View Controller-->
         <scene sceneID="tCd-zd-3kB">
@@ -127,7 +164,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <pageControl opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dD1-n2-95P">
-                                <rect key="frame" x="20" y="531" width="280" height="37"/>
+                                <rect key="frame" x="20" y="539" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsh-e9-Q64">
@@ -142,7 +179,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dD1-n2-95P" secondAttribute="trailing" constant="20" symbolic="YES" id="EA9-50-t1Y"/>
                             <constraint firstItem="dD1-n2-95P" firstAttribute="leading" secondItem="765-tv-fM0" secondAttribute="leading" constant="20" symbolic="YES" id="Hed-p8-ITN"/>
-                            <constraint firstAttribute="bottom" secondItem="dD1-n2-95P" secondAttribute="bottom" id="WL7-fs-n3h"/>
+                            <constraint firstAttribute="bottom" secondItem="dD1-n2-95P" secondAttribute="bottom" constant="-8" id="WL7-fs-n3h"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WMO-Ef-8fN"/>
@@ -223,6 +260,30 @@
             </objects>
             <point key="canvasLocation" x="1616" y="-1103"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="MN5-A8-gtY">
+            <objects>
+                <viewController storyboardIdentifier="slideTutorialViewController" id="4Re-46-ywa" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Vff-xC-kAX"/>
+                        <viewControllerLayoutGuide type="bottom" id="6K2-9H-ffJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yCB-vQ-TAt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorial.png" translatesAutoresizingMaskIntoConstraints="NO" id="ukZ-1u-Zk5">
+                                <rect key="frame" x="39" y="76" width="243" height="472"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4lV-R9-r0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1627" y="-436"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="amX-9B-V55">
             <objects>
@@ -239,13 +300,17 @@
             <point key="canvasLocation" x="-116" y="-1095"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tutorial.png" width="1371" height="2942"/>
+        <image name="tutorialPage2.png" width="2424" height="2561"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="sF7-7K-ci3"/>
         <segue reference="Uhc-8Q-51s"/>
+        <segue reference="sF7-7K-ci3"/>
     </inferredMetricsTieBreakers>
 </document>

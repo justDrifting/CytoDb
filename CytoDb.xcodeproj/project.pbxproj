@@ -60,6 +60,10 @@
 		C5CF3C2018EBD52E00F9DCA8 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C1218EBD52E00F9DCA8 /* UIImageView+WebCache.m */; };
 		C5CF3C2318EC587100F9DCA8 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CF3C2218EC587100F9DCA8 /* placeholder.png */; };
 		C5CF3C2618F5B5BE00F9DCA8 /* Features.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C2518F5B5BE00F9DCA8 /* Features.m */; };
+		C5CF3C2E190038CE00F9DCA8 /* tutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CF3C2D190038CE00F9DCA8 /* tutorial.png */; };
+		C5CF3C301900605100F9DCA8 /* page1Tutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CF3C2F1900605100F9DCA8 /* page1Tutorial.png */; };
+		C5CF3C34190065B100F9DCA8 /* tutorialPage2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5CF3C33190065B100F9DCA8 /* tutorialPage2.png */; };
+		C5CF3C371900756000F9DCA8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C361900756000F9DCA8 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +156,11 @@
 		C5CF3C2218EC587100F9DCA8 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		C5CF3C2418F5B5BE00F9DCA8 /* Features.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Features.h; sourceTree = "<group>"; };
 		C5CF3C2518F5B5BE00F9DCA8 /* Features.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Features.m; sourceTree = "<group>"; };
+		C5CF3C2D190038CE00F9DCA8 /* tutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorial.png; sourceTree = "<group>"; };
+		C5CF3C2F1900605100F9DCA8 /* page1Tutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page1Tutorial.png; sourceTree = "<group>"; };
+		C5CF3C33190065B100F9DCA8 /* tutorialPage2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialPage2.png; sourceTree = "<group>"; };
+		C5CF3C351900755F00F9DCA8 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		C5CF3C361900756000F9DCA8 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,7 +262,10 @@
 		C5896FDB18CDF2620017DCFF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C5CF3C2D190038CE00F9DCA8 /* tutorial.png */,
+				C5CF3C2F1900605100F9DCA8 /* page1Tutorial.png */,
 				C5CF3C2218EC587100F9DCA8 /* placeholder.png */,
+				C5CF3C33190065B100F9DCA8 /* tutorialPage2.png */,
 				C5896FDC18CDF2620017DCFF /* CytoDb-Info.plist */,
 				C5A49D5018DA529100386491 /* icon@2x-01.png */,
 				C5896FDD18CDF2620017DCFF /* InfoPlist.strings */,
@@ -309,6 +321,8 @@
 				C589702718D00F760017DCFF /* SlideViewController.m */,
 				C589702318CFC59D0017DCFF /* ImageViewController.h */,
 				C589702418CFC59E0017DCFF /* ImageViewController.m */,
+				C5CF3C351900755F00F9DCA8 /* Reachability.h */,
+				C5CF3C361900756000F9DCA8 /* Reachability.m */,
 				C5CF3C2118EBD77600F9DCA8 /* SDWebImage */,
 			);
 			name = "View Controller";
@@ -428,9 +442,12 @@
 			files = (
 				C589701818CE01CC0017DCFF /* Main.storyboard in Resources */,
 				C5CF3C2318EC587100F9DCA8 /* placeholder.png in Resources */,
+				C5CF3C301900605100F9DCA8 /* page1Tutorial.png in Resources */,
 				C5896FDF18CDF2620017DCFF /* InfoPlist.strings in Resources */,
+				C5CF3C2E190038CE00F9DCA8 /* tutorial.png in Resources */,
 				C5A49D5118DA529100386491 /* icon@2x-01.png in Resources */,
 				C5896FEA18CDF2620017DCFF /* Images.xcassets in Resources */,
+				C5CF3C34190065B100F9DCA8 /* tutorialPage2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +466,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5CF3C371900756000F9DCA8 /* Reachability.m in Sources */,
 				C515938D18D77CAF002EB250 /* Organ.m in Sources */,
 				C5CF3C1318EBD52E00F9DCA8 /* MKAnnotationView+WebCache.m in Sources */,
 				C5CF3C2018EBD52E00F9DCA8 /* UIImageView+WebCache.m in Sources */,

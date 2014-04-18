@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CDBOrganViewController : UITableViewController <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, UIDocumentInteractionControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate> {
+@interface CDBOrganViewController : UITableViewController <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, UIDocumentInteractionControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate, NSFetchedResultsControllerDelegate> {
 
     NSURLSession * _session;
     NSURLSession * _backgroundSession;

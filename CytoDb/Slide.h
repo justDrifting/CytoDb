@@ -14,7 +14,7 @@
 @interface Slide : NSManagedObject
 
 @property (nonatomic, retain) NSDate * created;
-@property (nonatomic, retain) NSData * slideImage;
+@property (nonatomic, retain) NSString * slideImagePath;
 @property (nonatomic, retain) NSString * imageURL;
 @property (nonatomic, retain) NSString * slideMag;
 @property (nonatomic, retain) NSNumber * slideMark;

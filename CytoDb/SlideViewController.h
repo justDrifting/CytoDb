@@ -16,7 +16,7 @@
 
 @property (strong,nonatomic)UIPageViewController *pageViewController;
 @property (strong,nonatomic)NSMutableArray *pageTitles;
-//@property (strong,nonatomic)NSMutableArray *pageImages;
+@property (strong,nonatomic)NSMutableArray *pageThumbURLs;
 @property (strong,nonatomic)NSMutableArray *pageImageURLs;
 @property (strong,nonatomic)NSMutableArray *pageTexts;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -31,7 +31,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *detailsViewButton;
 
-@property  NSString *subviewText;
 
 
 @property BOOL showingSubview;

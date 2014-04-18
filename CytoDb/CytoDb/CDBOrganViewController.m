@@ -14,8 +14,6 @@
 #import "Slide.h"
 #import "Features.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "Reachability.h"
-
 
 
 //#define dataURLString @"http://localhost/json.php"
@@ -49,7 +47,20 @@
     self.searchDisplayController.searchResultsDelegate=self;
     
     
+    // CHECK IF HAVE SHOWN SETTINGS
+    NSUserDefaults* ud = [NSUserDefaults standardUserDefaults];
+    BOOL hasShownSettings = [ud boolForKey: @"hasShownSettings"];
     
+    // SHOW SETTINGS VIEW
+    if (!hasShownSettings) {
+        YourViewController *settingsVC = [[YourViewController alloc] init];
+        [self presentViewController: settingsVC animated: YES completion:^{
+            
+            // SAVE THAT WE HAVE SHOWN SETTINGS PAGE
+            [ud setBool: YES forKey: @"hasShownSettings"];
+        }];
+    }
+ 
 /*    //Grab the context
     NSManagedObjectContext *context = [self managedObjectContext ];
 
@@ -65,7 +76,7 @@
     [imageCache cleanDisk];
 
   */  
-    //If core data is empty start downloading database
+    //App launching for first time
     if(![self coreDataHasEntriesForEntityName:@"Slide"])
     {
         [self retrieveData];
@@ -77,12 +88,7 @@
    
     [self fetchOrgans];
     
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial01"]){
-        [self displayTutorial];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial01"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-
+    
     
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
@@ -91,7 +97,7 @@
     forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refresh;
     
-
+   
    
 }
 
@@ -175,7 +181,7 @@
 }
 
 
-#pragma  -Refresh table
+#pragma mark -Refresh table
 -(void) refreshView: (UIRefreshControl *)refresh
 {
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
@@ -617,23 +623,8 @@
 
 -(void)retrieveData
 {
-    
-    if(![self internetIsActive] && ![self coreDataHasEntriesForEntityName:@"Slide"]){
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Unavailable"
-                                                        message:@"Please check internet connection"
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        //if alert is dismissed it will again try to retrieve data
-    }
-    else{
-
-
     //get URL from string
    
-    
     
     NSURL *dataURL = [NSURL URLWithString:zDataURLString];
     
@@ -643,21 +634,19 @@
     //start download
     [self.downloadTask resume];
     
-    }
+    
     
 }
 
 -(void)retrieveThumbnailFromURL:(NSURL *)thumbnailURL
 {
-    
     self.backgroundDownloadTask = [self.backgroundSession downloadTaskWithURL:thumbnailURL];
     
     //start download
     [self.backgroundDownloadTask resume];
-    
+
+                                  
 }
-
-
 
 #pragma - protocol methods for NSURLSessionDelegate and NSURLDataDelegate
 
@@ -995,72 +984,6 @@
         
     }
     
-}
-
-
--(void)displayTutorial
-{
-    UIViewController *userguideViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainTutorialViewController"];
-    [userguideViewController.view setBackgroundColor:[[UIColor blackColor]colorWithAlphaComponent:0.5f]];
-    //Add Tapgesture to the userguide
-    UITapGestureRecognizer  *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(dismissUserGuide)];
-    
-    
-    singleTap.numberOfTapsRequired = 1;
-    
-    [self.view addSubview:userguideViewController.view];
-    userguideViewController.view.tag=9999;
-    //[userguideViewController  didMoveToParentViewController:self];
-    [userguideViewController.view addGestureRecognizer:singleTap];
-    
-}
-
--(void)dismissUserGuide
-{
-    UIView *taggedView = [self.view viewWithTag:9999];
-    [UIView animateWithDuration:0.8f
-                          delay:0.0f
-                        options:UIViewAnimationOptionTransitionNone
-                     animations:^{
-                         
-                         taggedView.alpha = 0.0f;
-
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                         [taggedView removeFromSuperview];
-                         
-                     }];
-    
-}
-
-#pragma -Internet Check
-
--(BOOL)internetIsActive
-{
-
-    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-    if (networkStatus == NotReachable) {
-        NSLog(@"There IS NO internet connection");
-        return NO;
-    } else {
-        NSLog(@"There IS internet connection");
-        
-        return YES;
-    }
-    
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    // the user clicked OK
-    if (buttonIndex == 0 && ![self coreDataHasEntriesForEntityName:@"Slide"]) {
-        // do something here..
-        NSLog(@"No Internet and empty core dat : app is unusable");
-        [self retrieveData];
-    }
 }
 
 @end

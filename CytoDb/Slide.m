@@ -13,7 +13,7 @@
 @implementation Slide
 
 @dynamic created;
-@dynamic slideImage;
+@dynamic slideImagePath;
 @dynamic imageURL;
 @dynamic slideMag;
 @dynamic slideMark;

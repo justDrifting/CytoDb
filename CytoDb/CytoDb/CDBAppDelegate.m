@@ -34,18 +34,7 @@
     
     //Parse key:
     //[Parse setApplicationId:@"bkV5yRYdimjXSsKuJJn59rjklg9JIR2bX3B0ZIrx"clientKey:@"KtkLMjXXlnqmoQPWstKkdUO66ffA88XWiSPfykSA"];
-  /*
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
-    {
-        // app already launched
-    }
-    else
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        // This is the first launch ever
-    }
-    */
+    
     
     return YES;
 }
@@ -190,8 +179,6 @@
     //  self.managedObjectContext = nil;
       self.managedObjectContext.persistentStoreCoordinator = nil;
 }
-
-
 
 
 @end

@@ -42,41 +42,41 @@
     
     //Do any additional setup after loading the view.
     self.textDisplay.text = self.descriptionText;
-    //[self getCachedImage:self.imageURL];
     
-    //SDWebImage call
-    [self.imageDisplay setImageWithURL:self.imageURL
-                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
-   //self.imageDisplay.image= [UIImage imageWithData:_imageFile scale:1.0f];
+  
+   
+   //Filepath for the thumbnail
+    NSString *filepath = [self documentsPathForFileName:self.thumbURL];
+    NSData *data = [NSData dataWithContentsOfFile:filepath];
+    UIImage *placeholderImage = [UIImage imageWithData:data];
+  
     
-    //Asyncronous download of image
-   /* NSCache *memoryCache; //assume there is a memoryCache for images or videos
-    dispatch_async(dispatch_get_global_queue(0,0), ^{
+    if(placeholderImage ==nil){
         
-        NSData *imageData = [NSData dataWithContentsOfURL:self.imageURL];
+        placeholderImage = [UIImage imageNamed:@"placeholder.png"];
+        NSLog(@"no image yet");
+    }
+    
+    
+    
+   [self.imageDisplay setImageWithURL:[NSURL URLWithString: self.imageURL]
+                      placeholderImage:placeholderImage];
+    
+    
+    // CHECK IF HAVE SHOWN SETTINGS
+    NSUserDefaults* ud = [NSUserDefaults standardUserDefaults];
+    BOOL hasShownSettings = [ud boolForKey: @"hasShownGuide"];
+    
+    // SHOW SETTINGS VIEW
+    if (!hasShownSettings) {
         
-        if ( imageData == nil ){
-            return;
-        }
-        else{
-            // STORE IN FILESYSTEM
-            NSString* cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            NSString *file = [cachesDirectory stringByAppendingPathComponent:[self.imageURL absoluteString]];
-            [imageData writeToFile:file atomically:YES];
-            
-            // STORE IN MEMORY
-            [memoryCache setObject:imageData forKey:[self.imageURL absoluteString]];
-            
-                    //Main Dispatch Task to decompressData
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        // WARNING: is the cell still using the same data by this point??
-                        self.imageDisplay.image= [UIImage imageWithData:imageData];
-                    }); //End Inner Block
-      
-        }//End ifelse
-    });//End GCD Block
-    */
+        //[self showUserAgreement];
+        // SAVE THAT WE HAVE SHOWN SETTINGS PAGE
+        [ud setBool: YES forKey: @"hasShownSettings"];
+        
+    }
+
     
     [self.imageScrollView setMaximumZoomScale:2.0f];
     [self.imageScrollView setMinimumZoomScale:1.0f];
@@ -99,25 +99,8 @@
     [self.imageScrollView addGestureRecognizer:_doubleTap];
  
     
-    
+   
 
-    // 3
-    
-    
-  /*  UITapGestureRecognizer *twoFingerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewTwoFingerTapped:)];
-    twoFingerTapRecognizer.numberOfTapsRequired = 1;
-    twoFingerTapRecognizer.numberOfTouchesRequired = 2;
-    [self.imageScrollView addGestureRecognizer:twoFingerTapRecognizer];
-    
-   
-    
-   UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
-    
-    [self.view addGestureRecognizer:singleTap];
-  */
-   
-    //[self centerScrollViewContents];
- //  [self.imageDisplay addGestureRecognizer:modalTap];
   
 }
 
@@ -138,7 +121,7 @@
         
     }
     
-    [[self.parentViewController.view viewWithTag:99 ] removeFromSuperview];
+   // [[self.parentViewController.view viewWithTag:99 ] removeFromSuperview];
 }
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
@@ -223,6 +206,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    //Clear Cache if needed
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
+    [imageCache cleanDisk];
     
 }
 
@@ -234,7 +222,9 @@
    // [[self navigationController] setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation) animated:YES];
     [self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
     [self autoRotateView:self.imageScrollView toInterfaceOrientation:toInterfaceOrientation];
+    [self.navigationController setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
     
+      
 }
 
 
@@ -250,6 +240,7 @@
             self.scrollHeight.constant = 500.0f;
             self.scrollWidth.constant = 280.0f;
             [self.view addGestureRecognizer:_singleTap];
+            
             break;
  
         case UIInterfaceOrientationPortraitUpsideDown:
@@ -334,5 +325,19 @@
 
 }
 */
+
+
+#pragma -document path
+- (NSString *)documentsPathForFileName:(NSString *)name
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    
+    return [documentsPath stringByAppendingPathComponent:name];
+}
+
+
+
+
 
 @end
