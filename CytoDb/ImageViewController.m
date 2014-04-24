@@ -8,7 +8,7 @@
 
 #import "ImageViewController.h"
 #import "CDBSlideViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 #import "Features.h"
 
 #define TMP NSTemporaryDirectory()

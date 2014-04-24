@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ImageViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 
 @interface SlideViewController : UIViewController < UIPageViewControllerDataSource,UIPageViewControllerDelegate, UITableViewDelegate, UITableViewDataSource >
 

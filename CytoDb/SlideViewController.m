@@ -11,7 +11,7 @@
 #import "Condition.h"
 #import "Slide.h"
 #import "Features.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 
 
 @interface SlideViewController ()

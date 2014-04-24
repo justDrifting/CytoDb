@@ -8,12 +8,13 @@
 
 #import "CDBOrganViewController.h"
 #import "CDBSlideViewController.h"
+#import "CDBAppDelegate.h"
 #import "SlideViewController.h"
 #import "Organ.h"
 #import "Condition.h"
 #import "Slide.h"
 #import "Features.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+WebCache.h"
 #import "Reachability.h"
 
 
@@ -24,6 +25,8 @@
 
 @interface CDBOrganViewController ()
 
+@property (nonatomic) NSURLSession *backgroundSession;
+@property (nonatomic) NSURLSessionDownloadTask *backgroundDownloadTask;
 
 @end
 
@@ -68,6 +71,7 @@
     //If core data is empty start downloading database
     if(![self coreDataHasEntriesForEntityName:@"Slide"])
     {
+        [self.showAllButton setEnabled:NO];
         [self retrieveData];
         
         NSLog(@"Nothing in Core Data Downloading Database");
@@ -83,15 +87,14 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
-    
+
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+   
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [refresh addTarget:self
+   [refresh addTarget:self
                 action:@selector(refreshView:)
     forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refresh;
-    
-
    
 }
 
@@ -192,6 +195,8 @@
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:lastUpdated];
     [refresh endRefreshing];
     
+
+        
 }
 
 
@@ -275,11 +280,12 @@
     //Grab the context
     NSManagedObjectContext *context = [self managedObjectContext ];
     
-    [self deleteManagedObjectForEntityName:@"Organ" InContext:context];
-    [self deleteManagedObjectForEntityName:@"Condition" InContext:context];
+  
+    
     [self deleteManagedObjectForEntityName:@"Slide" InContext:context];
     [self deleteManagedObjectForEntityName:@"Features" InContext:context];
-    
+    [self deleteManagedObjectForEntityName:@"Condition" InContext:context];
+    [self deleteManagedObjectForEntityName:@"Organ" InContext:context];
     
     
     
@@ -384,12 +390,9 @@
                 }
                 
             }//endElse
-            
-            
-            
+
         }
-        
-        
+
     }
 
     // Save everything
@@ -406,7 +409,7 @@
 
 
 
-
+//This is unused
 
 -(void)insertNewSlide:(NSDictionary *)jsonDictionary
 {
@@ -471,6 +474,7 @@
     }
 }
 
+//Fetch or create unused
 
 #pragma -fetchOrCreate
 
@@ -572,6 +576,7 @@
     [self.frc performFetch:&error]; //FetchedResultsController is generated here
     
     [self.showAllButton setEnabled:[[self.frc fetchedObjects] count]];
+    
        // NSLog(@"Frc Object Count  %lu",[[self.frc fetchedObjects] count]);
     
    
@@ -599,54 +604,55 @@
 
 //getter method for the private instance Variable "_setter"
 - (NSURLSession *)backgroundSession {
-    if (!_backgroundSession) {
-        // Create Session Configuration
-        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfiguration:@"com.backgroundSession"];
-        //Modify Session configuration
-        [sessionConfiguration setAllowsCellularAccess:YES];
-        [sessionConfiguration setHTTPAdditionalHeaders:@{ @"Accept" : @"application/json" }];
-        
-        // Create Session with "self as data delegate
-        _backgroundSession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
-    }
     
-    return _backgroundSession;
+    /*
+     Using disptach_once here ensures that multiple background sessions with the same identifier are not created in this instance of the application. If you want to support multiple background sessions within a single process, you should create each session with its own identifier.
+     */
+	static NSURLSession *backgroundSession = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration backgroundSessionConfiguration:@"com.example.apple-samplecode.SimpleBackgroundTransfer.BackgroundSession"];
+		backgroundSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
+	});
+	return backgroundSession;
 }
 
 
 
 -(void)retrieveData
 {
+    //Check if background session exists, if yes then do nothing
+     if (self.backgroundDownloadTask)
+     {   NSLog(@" DOWNLOAD TASK EXISTS");
+        return;
+    }
     
-    if(![self internetIsActive] && ![self coreDataHasEntriesForEntityName:@"Slide"]){
+    if(![self internetIsActive]){
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Unavailable"
-                                                        message:@"Please check internet connection"
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        //if alert is dismissed it will again try to retrieve data
+            //Alert User of no internet
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Internet Unavailable"
+                                                            message:@"Internet required for database download"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+            NSLog(@"Showing alert");
+    
+        return;
     }
-    else{
-
-
-    //get URL from string
+    /*
+     Create a new download task using the URL session. Tasks start in the “suspended” state; to start a task you need to explicitly call -resume on a task after creating it.
+     */
+    NSURL *downloadURL = [NSURL URLWithString:zDataURLString];
+	NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
+	self.backgroundDownloadTask = [self.session downloadTaskWithRequest:request];
+    [self.backgroundDownloadTask resume];
+    
    
-    
-    
-    NSURL *dataURL = [NSURL URLWithString:zDataURLString];
-    
-    //initiate the download task property
-    self.downloadTask = [self.session downloadTaskWithURL:dataURL];
-    
-    //start download
-    [self.downloadTask resume];
-    
-    }
-    
 }
 
+//This is not being used
 -(void)retrieveThumbnailFromURL:(NSURL *)thumbnailURL
 {
     
@@ -663,15 +669,14 @@
 
 //Finished Downloading
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    
+  
+  /*
     if(downloadTask == self.downloadTask){
     NSData *data = [NSData dataWithContentsOfURL:location];
     
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(queue, ^{
-    
-        
        NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
       
         //NSLog(@"jsonArray  = %@",jsonArray);
@@ -690,11 +695,9 @@
             [self fetchOrgans];
             [self.tableView reloadData];
             [self downloadThumbnailsForSlides];
-            
-        
-          //  for(int i = 0; i<=jsonArray.count; i++)
-          // {
-            
+            self.loading =NO;
+            //[self.refreshControl endRefreshing];
+
             //Main Thread for progress bar update
             dispatch_async(dispatch_get_main_queue(), ^{
                 // UI updates always come from the main queue!
@@ -704,37 +707,79 @@
                     [self.progressDisplay setHidden:YES];
                     [self fetchOrgans];
                     [self.tableView reloadData];
-                    
-                    
-             //   }
             });
-           //}
-            
         }
-
-
     });
     }
+    */
     
-    
-    if(downloadTask == self.backgroundDownloadTask)
+   if(downloadTask == self.backgroundDownloadTask)
     {
     
-        NSLog(@"finished bkg download");
-    
-    }
-    
+        NSData *data = [NSData dataWithContentsOfURL:location];
+        
+        //Send the parsing task to GCD
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+        dispatch_async(queue, ^{
+            
+            NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            //NSLog(@"jsonArray  = %@",jsonArray);
+            
+            //If array is empty do nothing
+            if(jsonArray == nil || jsonArray.count == 0){
+                
+                NSLog(@"Downloaded Empty Array");
+                //[self.progressDisplay setHidden:YES];
+                //[self.tableView reloadData];
 
+            }
+            else {
+                
+               // [self insertSlide:jsonArray];
+                //[self.progressDisplay setHidden:YES];
+               //[self fetchOrgans];
+               // [self.tableView reloadData];
+                //[self downloadThumbnailsForSlides];
+                
+                
+                //Main Thread for progress bar update
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // UI updates always come from the main queue!
+                    // float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
+                    //[self.progressDisplay setProgress:progress];
+                    //if(progress >= 1){
+                    [self.progressDisplay setHidden:YES];
+                    [self insertSlide:jsonArray];
+                    [self fetchOrgans];
+                    [self.tableView reloadData];
+                    
+                    dispatch_queue_t queue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+                    dispatch_async(queue2, ^{
+                        self.loading = YES;
+                        [self downloadThumbnailsForSlides];
+                    });
+
+                });
+                
+            }
+
+        });
+  
+    }
 }
+                       
+
 
 //Resume Download
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes {
+
+    
     
 }
 
 //Download In process
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    
+   /*
     if(downloadTask == self.downloadTask){
     float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
     
@@ -746,26 +791,105 @@
     });
         
     }
-    
-    
+    */
+    //Background Task
     if(downloadTask == self.backgroundDownloadTask){
-        float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    
         
-        
+        double progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+        NSLog(@"DownloadTask: progress: %lf", progress);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.progressDisplay setProgress:progress];
-            // [self.activityIndicator setHidesWhenStopped:YES];
-            //[self.activityIndicator startAnimating];
-            NSLog(@"DownloadTask: %@ progress: %lf", downloadTask, progress);
+            self.progressDisplay.progress = progress;
         });
+    }
+}
+
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    
+    
+    if (error == nil)
+    {
+        NSLog(@"Task: %@ completed successfully", task);
+    }
+    else
+    {
+        NSLog(@"Task: %@ completed with error: %@", task, [error localizedDescription]);
         
     }
+	
+    double progress = (double)task.countOfBytesReceived / (double)task.countOfBytesExpectedToReceive;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		self.progressDisplay.progress = progress;
+	});
+    
+    self.backgroundDownloadTask = nil;
 }
 
 
 -(void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
+    CDBAppDelegate *appDelegate = (CDBAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.backgroundSessionCompletionHandler) {
+        void (^completionHandler)() = appDelegate.backgroundSessionCompletionHandler;
+        appDelegate.backgroundSessionCompletionHandler = nil;
+        completionHandler();
+    }
+    
+    NSLog(@"All tasks are finished");
 
+}
+
+
+#pragma download Thumbnails
+-(void)downloadThumbnailsForSlides
+{
+   
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    [request setEntity:[NSEntityDescription entityForName:@"Slide"inManagedObjectContext:self.managedObjectContext]];
+    NSArray *slideArray = [self.managedObjectContext executeFetchRequest:request error:nil];
+    
+    for(Slide *slide in slideArray){
+        
+        
+        //convert imageURL to thumbURL
+        NSString *imageURL = slide.imageURL;
+        imageURL = [imageURL stringByReplacingOccurrencesOfString:@"Images" withString:@"thumbnails"];
+        imageURL = [imageURL stringByReplacingOccurrencesOfString:@"png" withString:@"jpg"];
+        
+        NSURL *originURL =[NSURL URLWithString:imageURL];
+        
+        
+        //background download the thumbnail and store it to the thumb file path
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        [manager downloadWithURL:originURL
+                         options:SDWebImageHighPriority
+                        progress:nil
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
+         {
+             if (image) {
+                 
+                 NSData *thumbData =[NSData dataWithData:UIImageJPEGRepresentation(image,1.0f)];
+                 //Save the file to slideImagePath
+                 NSError *error =nil;
+                 
+                 NSString *filepath =[self documentsPathForFileName:slide.slideImagePath];
+                 [thumbData writeToFile:filepath options:NSDataWritingAtomic error:&error];
+                 
+                 // NSLog(@"Write returned error: %@", [error localizedDescription]);
+             }
+             
+             if(slide == slideArray.lastObject) {
+                 NSLog(@"last slide downloaded");
+                 self.loading =NO;
+             }
+             
+         }];
+        
+    }
+    
+    
 }
 
 
@@ -781,10 +905,11 @@
     
     NSError *error = nil;
     NSArray *entityArray = [self.managedObjectContext executeFetchRequest:allEntity error:&error];
+  
     for (NSManagedObject * entity in entityArray){
         [self.managedObjectContext deleteObject:entity];
     }
-
+  
 
 }
 
@@ -953,49 +1078,6 @@
 
 
 
--(void)downloadThumbnailsForSlides
-{
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc]init];
-    [request setEntity:[NSEntityDescription entityForName:@"Slide"inManagedObjectContext:self.managedObjectContext]];
-    NSArray *slideArray = [self.managedObjectContext executeFetchRequest:request error:nil];
-    for(Slide *slide in slideArray){
-        
-        //NSString *destinationURL=[NSURL URLWithString:slide.slideImagePath];
-        
-        //convert imageURL to thumbURL
-        NSString *imageURL = slide.imageURL;
-        imageURL = [imageURL stringByReplacingOccurrencesOfString:@"Images" withString:@"thumbnails"];
-        imageURL = [imageURL stringByReplacingOccurrencesOfString:@"png" withString:@"jpg"];
-        
-        NSURL *originURL =[NSURL URLWithString:imageURL];
-        
-         
-         //background download the thumbnail and store it to the thumb file path
-         SDWebImageManager *manager = [SDWebImageManager sharedManager];
-         [manager downloadWithURL:originURL
-                          options:SDWebImageLowPriority
-                         progress:nil
-                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-                        {
-                              if (image) {
-                                  
-                                // NSFileManager *fileManager = [NSFileManager defaultManager];
-                                //  [fileManager removeItemAtURL:destinationURL error:NULL];
-         
-                                    NSData *thumbData =[NSData dataWithData:UIImageJPEGRepresentation(image,1.0f)];
-                                    //Save the file to slideImagePath
-                                   NSError *error =nil;
-                                  
-                                  NSString *filepath =[self documentsPathForFileName:slide.slideImagePath];
-                                  [thumbData writeToFile:filepath options:NSDataWritingAtomic error:&error];
-                                //  NSLog(@"Write returned error: %@", [error localizedDescription]);
-                                                                 }
-                         }];
-        
-    }
-    
-}
 
 
 -(void)displayTutorial

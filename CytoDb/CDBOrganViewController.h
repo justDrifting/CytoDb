@@ -11,14 +11,13 @@
 @interface CDBOrganViewController : UITableViewController <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, UIDocumentInteractionControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate, NSFetchedResultsControllerDelegate, UIAlertViewDelegate> {
 
     NSURLSession * _session;
-    NSURLSession * _backgroundSession;
+    
 }
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 //@property (nonatomic,strong) NSMutableArray * organList;
 
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
-@property (strong, nonatomic) NSURLSessionDownloadTask *backgroundDownloadTask;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressDisplay;
 
@@ -31,5 +30,7 @@
 
 
 @property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
+
+@property BOOL loading;
 
 @end

@@ -30,8 +30,6 @@
 		C589701F18CE5DB50017DCFF /* CDBSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C589701E18CE5DB50017DCFF /* CDBSlideViewController.m */; };
 		C589702518CFC59E0017DCFF /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C589702418CFC59E0017DCFF /* ImageViewController.m */; };
 		C589702818D00F760017DCFF /* SlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C589702718D00F760017DCFF /* SlideViewController.m */; };
-		C589702C18D11AF40017DCFF /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589702B18D11AF40017DCFF /* PassKit.framework */; };
-		C589702E18D11C4F0017DCFF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589702D18D11C4F0017DCFF /* Parse.framework */; };
 		C589703018D11CFB0017DCFF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589702F18D11CFB0017DCFF /* AudioToolbox.framework */; };
 		C589703218D11D0E0017DCFF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703118D11D0E0017DCFF /* CFNetwork.framework */; };
 		C589703418D11D5F0017DCFF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703318D11D5F0017DCFF /* libz.dylib */; };
@@ -39,10 +37,8 @@
 		C589703818D11E940017DCFF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703718D11E940017DCFF /* CoreLocation.framework */; };
 		C589703A18D11EA20017DCFF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703918D11EA20017DCFF /* QuartzCore.framework */; };
 		C589703C18D11EAE0017DCFF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703B18D11EAE0017DCFF /* Security.framework */; };
-		C589703E18D11EBB0017DCFF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703D18D11EBB0017DCFF /* StoreKit.framework */; };
 		C589704018D11ECA0017DCFF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703F18D11EC90017DCFF /* SystemConfiguration.framework */; };
 		C5A49D5118DA529100386491 /* icon@2x-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A49D5018DA529100386491 /* icon@2x-01.png */; };
-		C5CF3BF118EBCFC500F9DCA8 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5CF3BF018EBCFC500F9DCA8 /* SDWebImage.framework */; };
 		C5CF3BF318EBD04C00F9DCA8 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5CF3BF218EBD04C00F9DCA8 /* ImageIO.framework */; };
 		C5CF3C1318EBD52E00F9DCA8 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3BF718EBD52E00F9DCA8 /* MKAnnotationView+WebCache.m */; };
 		C5CF3C1418EBD52E00F9DCA8 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3BF918EBD52E00F9DCA8 /* NSData+ImageContentType.m */; };
@@ -83,6 +79,7 @@
 		C515938C18D77CAF002EB250 /* Organ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Organ.m; sourceTree = "<group>"; };
 		C515938E18D77CAF002EB250 /* Slide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slide.h; sourceTree = "<group>"; };
 		C515938F18D77CAF002EB250 /* Slide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slide.m; sourceTree = "<group>"; };
+		C5218E021901BC46003478DB /* CytoDb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CytoDb.entitlements; sourceTree = "<group>"; };
 		C5896FCF18CDF2620017DCFF /* CytoDb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CytoDb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5896FD218CDF2620017DCFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5896FD418CDF2620017DCFF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -110,8 +107,6 @@
 		C589702418CFC59E0017DCFF /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 		C589702618D00F760017DCFF /* SlideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideViewController.h; sourceTree = "<group>"; };
 		C589702718D00F760017DCFF /* SlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideViewController.m; sourceTree = "<group>"; };
-		C589702B18D11AF40017DCFF /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
-		C589702D18D11C4F0017DCFF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		C589702F18D11CFB0017DCFF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C589703118D11D0E0017DCFF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C589703318D11D5F0017DCFF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -119,10 +114,8 @@
 		C589703718D11E940017DCFF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C589703918D11EA20017DCFF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C589703B18D11EAE0017DCFF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		C589703D18D11EBB0017DCFF /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C589703F18D11EC90017DCFF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C5A49D5018DA529100386491 /* icon@2x-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x-01.png"; sourceTree = "<group>"; };
-		C5CF3BF018EBCFC500F9DCA8 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = ../SDWebImage.framework; sourceTree = "<group>"; };
 		C5CF3BF218EBD04C00F9DCA8 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		C5CF3BF618EBD52E00F9DCA8 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		C5CF3BF718EBD52E00F9DCA8 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
@@ -169,9 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5CF3BF318EBD04C00F9DCA8 /* ImageIO.framework in Frameworks */,
-				C5CF3BF118EBCFC500F9DCA8 /* SDWebImage.framework in Frameworks */,
 				C589704018D11ECA0017DCFF /* SystemConfiguration.framework in Frameworks */,
-				C589703E18D11EBB0017DCFF /* StoreKit.framework in Frameworks */,
 				C589703C18D11EAE0017DCFF /* Security.framework in Frameworks */,
 				C589703A18D11EA20017DCFF /* QuartzCore.framework in Frameworks */,
 				C589703818D11E940017DCFF /* CoreLocation.framework in Frameworks */,
@@ -179,8 +170,6 @@
 				C589703418D11D5F0017DCFF /* libz.dylib in Frameworks */,
 				C589703218D11D0E0017DCFF /* CFNetwork.framework in Frameworks */,
 				C589703018D11CFB0017DCFF /* AudioToolbox.framework in Frameworks */,
-				C589702E18D11C4F0017DCFF /* Parse.framework in Frameworks */,
-				C589702C18D11AF40017DCFF /* PassKit.framework in Frameworks */,
 				C5896FD518CDF2620017DCFF /* CoreGraphics.framework in Frameworks */,
 				C5896FD918CDF2620017DCFF /* CoreData.framework in Frameworks */,
 				C5896FD718CDF2620017DCFF /* UIKit.framework in Frameworks */,
@@ -225,9 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				C5CF3BF218EBD04C00F9DCA8 /* ImageIO.framework */,
-				C5CF3BF018EBCFC500F9DCA8 /* SDWebImage.framework */,
 				C589703F18D11EC90017DCFF /* SystemConfiguration.framework */,
-				C589703D18D11EBB0017DCFF /* StoreKit.framework */,
 				C589703B18D11EAE0017DCFF /* Security.framework */,
 				C589703918D11EA20017DCFF /* QuartzCore.framework */,
 				C589703718D11E940017DCFF /* CoreLocation.framework */,
@@ -235,8 +222,6 @@
 				C589703318D11D5F0017DCFF /* libz.dylib */,
 				C589703118D11D0E0017DCFF /* CFNetwork.framework */,
 				C589702F18D11CFB0017DCFF /* AudioToolbox.framework */,
-				C589702D18D11C4F0017DCFF /* Parse.framework */,
-				C589702B18D11AF40017DCFF /* PassKit.framework */,
 				C5896FD218CDF2620017DCFF /* Foundation.framework */,
 				C5896FD418CDF2620017DCFF /* CoreGraphics.framework */,
 				C5896FD618CDF2620017DCFF /* UIKit.framework */,
@@ -249,6 +234,7 @@
 		C5896FDA18CDF2620017DCFF /* CytoDb */ = {
 			isa = PBXGroup;
 			children = (
+				C5218E021901BC46003478DB /* CytoDb.entitlements */,
 				C5896FE318CDF2620017DCFF /* CDBAppDelegate.h */,
 				C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */,
 				C589701C18CE04B50017DCFF /* View Controller */,
@@ -412,6 +398,17 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Rifter;
 				TargetAttributes = {
+					C5896FCE18CDF2620017DCFF = {
+						DevelopmentTeam = 5VK22XQ77P;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.Passbook = {
+								enabled = 0;
+							};
+						};
+					};
 					C5896FEE18CDF2620017DCFF = {
 						TestTargetID = C5896FCE18CDF2620017DCFF;
 					};
@@ -608,18 +605,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Bobby/Documents/iPhone,
-					Development/CytoDb,
-					/Users/Bobby/Documents/iPhone,
-					Development,
+					/Users/Bobby/Documents/iPhoneDevelopment/CytoDb,
+					/Users/Bobby/Documents/iPhoneDevelopment,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
 				INFOPLIST_FILE = "CytoDb/CytoDb-Info.plist";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -629,18 +627,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/Bobby/Documents/iPhone,
-					Development/CytoDb,
-					/Users/Bobby/Documents/iPhone,
-					Development,
+					/Users/Bobby/Documents/iPhoneDevelopment/CytoDb,
+					/Users/Bobby/Documents/iPhoneDevelopment,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
 				INFOPLIST_FILE = "CytoDb/CytoDb-Info.plist";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
