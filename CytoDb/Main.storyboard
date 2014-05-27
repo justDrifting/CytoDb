@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Organ View Controller - Cyto Slides Database-->
+        <!--Organ View Controller - Cytology Atlas-->
         <scene sceneID="0PG-df-bMW">
             <objects>
                 <tableViewController id="ayT-Ue-gNq" customClass="CDBOrganViewController" sceneMemberID="viewController">
@@ -36,7 +36,7 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Cyto Slides Database" id="KV3-R4-51K">
+                    <navigationItem key="navigationItem" title="Cytology Atlas" id="KV3-R4-51K">
                         <barButtonItem key="rightBarButtonItem" title="All" id="c9X-5j-yke">
                             <connections>
                                 <action selector="showAll:" destination="ayT-Ue-gNq" id="n3v-sZ-v4R"/>
@@ -90,13 +90,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorialPage2.png" translatesAutoresizingMaskIntoConstraints="NO" id="b0O-UM-CWV">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="280" placeholderIntrinsicHeight="309" image="tutorialPage2.png" translatesAutoresizingMaskIntoConstraints="NO" id="b0O-UM-CWV">
                                 <rect key="frame" x="20" y="22" width="280" height="309"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="92G-W1-FKc"/>
+                                    <constraint firstAttribute="height" constant="309" id="v01-83-tdn"/>
+                                </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="b0O-UM-CWV" firstAttribute="top" secondItem="76l-bZ-dYq" secondAttribute="bottom" constant="2" id="SaQ-4d-YrV"/>
+                            <constraint firstAttribute="trailing" secondItem="b0O-UM-CWV" secondAttribute="trailing" constant="20" id="Vkp-9o-R3r"/>
+                        </constraints>
                     </view>
+                    <size key="freeformSize" width="320" height="568"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-4K-zKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -297,12 +306,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorial.png" translatesAutoresizingMaskIntoConstraints="NO" id="ukZ-1u-Zk5">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="243" placeholderIntrinsicHeight="472" image="tutorial.png" translatesAutoresizingMaskIntoConstraints="NO" id="ukZ-1u-Zk5">
                                 <rect key="frame" x="39" y="76" width="243" height="472"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="243" id="PRD-Rr-eln"/>
+                                    <constraint firstAttribute="height" constant="472" id="kyy-Au-v7r"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="ukZ-1u-Zk5" secondAttribute="centerX" id="7Hu-5m-gs2"/>
+                            <constraint firstItem="ukZ-1u-Zk5" firstAttribute="top" secondItem="Vff-xC-kAX" secondAttribute="bottom" constant="56" id="e9q-rE-93P"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4lV-R9-r0t" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -53,22 +53,6 @@
     self.searchDisplayController.searchResultsDelegate=self;
     
     
-    
-/*    //Grab the context
-    NSManagedObjectContext *context = [self managedObjectContext ];
-
-    [self deleteManagedObjectForEntityName:@"Organ" InContext:context];
-    [self deleteManagedObjectForEntityName:@"Condition" InContext:context];
-    [self deleteManagedObjectForEntityName:@"Slide" InContext:context];
-    [self deleteManagedObjectForEntityName:@"Features" InContext:context];
-
-    //Clear Cache if needed
-    SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    [imageCache clearMemory];
-    [imageCache clearDisk];
-    [imageCache cleanDisk];
-
-  */  
     //If core data is empty start downloading database
     if(![self coreDataHasEntriesForEntityName:@"Slide"])
     {
@@ -93,8 +77,8 @@
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial01"]){
         [self displayTutorial];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial01"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+       // [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial01"];
+       // [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
 
@@ -1086,15 +1070,30 @@
     UITapGestureRecognizer  *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(dismissUserGuide)];
     
-    
     singleTap.numberOfTapsRequired = 1;
     
+   /* [userguideViewController.view setFrame:CGRectMake(0, 0, self.view.frame.size.width,
+                                                      self.view.frame.size.height)];
+    
+    userguideViewController.view.center=self.view.center;
+   
+    userguideViewController.view.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+    */
+    
+    [self addChildViewController:userguideViewController];
     [self.view addSubview:userguideViewController.view];
+    [userguideViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    
+     userguideViewController.view.frame = self.view.bounds;
+     userguideViewController.view.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2);
+    
     userguideViewController.view.tag=9999;
     //[userguideViewController  didMoveToParentViewController:self];
     [userguideViewController.view addGestureRecognizer:singleTap];
     
 }
+
+
 
 -(void)dismissUserGuide
 {
@@ -1111,9 +1110,24 @@
                      completion:^(BOOL finished){
                          
                          [taggedView removeFromSuperview];
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial01"];
+                         [[NSUserDefaults standardUserDefaults] synchronize];
                          
                      }];
     
+}
+
+
+
+-(BOOL)shouldAutorotate
+{
+    
+    
+    //if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial01"])
+    //    return NO;
+    //else
+    NSLog(@"Attempting to autorotate");
+    return NO;
 }
 
 #pragma -Internet Check

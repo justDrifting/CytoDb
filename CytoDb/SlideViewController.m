@@ -132,8 +132,7 @@
             
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial02"]){
         [self displayTutorial];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial02"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        
     }
   
 }
@@ -525,6 +524,8 @@
     singleTap.numberOfTapsRequired = 1;
     
     [self.view addSubview:userguideViewController.view];
+    [userguideViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    
     userguideViewController.view.tag=9999;
     //[userguideViewController  didMoveToParentViewController:self];
     [userguideViewController.view addGestureRecognizer:singleTap];
@@ -546,6 +547,8 @@
                      completion:^(BOOL finished){
                         
                          [taggedView removeFromSuperview];
+                         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial02"];
+                         [[NSUserDefaults standardUserDefaults] synchronize];
                         
                      }];
     

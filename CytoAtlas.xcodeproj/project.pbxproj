@@ -80,12 +80,12 @@
 		C515938E18D77CAF002EB250 /* Slide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slide.h; sourceTree = "<group>"; };
 		C515938F18D77CAF002EB250 /* Slide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slide.m; sourceTree = "<group>"; };
 		C5218E021901BC46003478DB /* CytoDb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CytoDb.entitlements; sourceTree = "<group>"; };
-		C5896FCF18CDF2620017DCFF /* CytoDb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CytoDb.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5896FCF18CDF2620017DCFF /* CytoAtlas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CytoAtlas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5896FD218CDF2620017DCFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5896FD418CDF2620017DCFF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C5896FD618CDF2620017DCFF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C5896FD818CDF2620017DCFF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		C5896FDC18CDF2620017DCFF /* CytoDb-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CytoDb-Info.plist"; sourceTree = "<group>"; };
+		C5896FDC18CDF2620017DCFF /* CytoAtlas-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CytoAtlas-Info.plist"; sourceTree = "<group>"; };
 		C5896FDE18CDF2620017DCFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5896FE018CDF2620017DCFF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C5896FE218CDF2620017DCFF /* CytoDb-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CytoDb-Prefix.pch"; sourceTree = "<group>"; };
@@ -93,9 +93,9 @@
 		C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDBAppDelegate.m; sourceTree = "<group>"; };
 		C5896FE718CDF2620017DCFF /* CytoDb.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CytoDb.xcdatamodel; sourceTree = "<group>"; };
 		C5896FE918CDF2620017DCFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C5896FEF18CDF2620017DCFF /* CytoDbTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CytoDbTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5896FEF18CDF2620017DCFF /* CytoAtlasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CytoAtlasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5896FF018CDF2620017DCFF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		C5896FF918CDF2630017DCFF /* CytoDbTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CytoDbTests-Info.plist"; sourceTree = "<group>"; };
+		C5896FF918CDF2630017DCFF /* CytoAtlasTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CytoAtlasTests-Info.plist"; sourceTree = "<group>"; };
 		C5896FFB18CDF2630017DCFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5896FFD18CDF2630017DCFF /* CytoDbTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CytoDbTests.m; sourceTree = "<group>"; };
 		C589701718CE01CC0017DCFF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -204,8 +204,8 @@
 		C5896FD018CDF2620017DCFF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C5896FCF18CDF2620017DCFF /* CytoDb.app */,
-				C5896FEF18CDF2620017DCFF /* CytoDbTests.xctest */,
+				C5896FCF18CDF2620017DCFF /* CytoAtlas.app */,
+				C5896FEF18CDF2620017DCFF /* CytoAtlasTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,7 +252,7 @@
 				C5CF3C2F1900605100F9DCA8 /* page1Tutorial.png */,
 				C5CF3C2218EC587100F9DCA8 /* placeholder.png */,
 				C5CF3C33190065B100F9DCA8 /* tutorialPage2.png */,
-				C5896FDC18CDF2620017DCFF /* CytoDb-Info.plist */,
+				C5896FDC18CDF2620017DCFF /* CytoAtlas-Info.plist */,
 				C5A49D5018DA529100386491 /* icon@2x-01.png */,
 				C5896FDD18CDF2620017DCFF /* InfoPlist.strings */,
 				C5896FE018CDF2620017DCFF /* main.m */,
@@ -273,7 +273,7 @@
 		C5896FF818CDF2630017DCFF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C5896FF918CDF2630017DCFF /* CytoDbTests-Info.plist */,
+				C5896FF918CDF2630017DCFF /* CytoAtlasTests-Info.plist */,
 				C5896FFA18CDF2630017DCFF /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -353,9 +353,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C5896FCE18CDF2620017DCFF /* CytoDb */ = {
+		C5896FCE18CDF2620017DCFF /* CytoAtlas */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C589700118CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDb" */;
+			buildConfigurationList = C589700118CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoAtlas" */;
 			buildPhases = (
 				C5896FCB18CDF2620017DCFF /* Sources */,
 				C5896FCC18CDF2620017DCFF /* Frameworks */,
@@ -365,14 +365,14 @@
 			);
 			dependencies = (
 			);
-			name = CytoDb;
+			name = CytoAtlas;
 			productName = CytoDb;
-			productReference = C5896FCF18CDF2620017DCFF /* CytoDb.app */;
+			productReference = C5896FCF18CDF2620017DCFF /* CytoAtlas.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C5896FEE18CDF2620017DCFF /* CytoDbTests */ = {
+		C5896FEE18CDF2620017DCFF /* CytoAtlasTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDbTests" */;
+			buildConfigurationList = C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoAtlasTests" */;
 			buildPhases = (
 				C5896FEB18CDF2620017DCFF /* Sources */,
 				C5896FEC18CDF2620017DCFF /* Frameworks */,
@@ -383,9 +383,9 @@
 			dependencies = (
 				C5896FF618CDF2630017DCFF /* PBXTargetDependency */,
 			);
-			name = CytoDbTests;
+			name = CytoAtlasTests;
 			productName = CytoDbTests;
-			productReference = C5896FEF18CDF2620017DCFF /* CytoDbTests.xctest */;
+			productReference = C5896FEF18CDF2620017DCFF /* CytoAtlasTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -414,7 +414,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C5896FCA18CDF2620017DCFF /* Build configuration list for PBXProject "CytoDb" */;
+			buildConfigurationList = C5896FCA18CDF2620017DCFF /* Build configuration list for PBXProject "CytoAtlas" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -426,8 +426,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C5896FCE18CDF2620017DCFF /* CytoDb */,
-				C5896FEE18CDF2620017DCFF /* CytoDbTests */,
+				C5896FCE18CDF2620017DCFF /* CytoAtlas */,
+				C5896FEE18CDF2620017DCFF /* CytoAtlasTests */,
 			);
 		};
 /* End PBXProject section */
@@ -505,7 +505,7 @@
 /* Begin PBXTargetDependency section */
 		C5896FF618CDF2630017DCFF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C5896FCE18CDF2620017DCFF /* CytoDb */;
+			target = C5896FCE18CDF2620017DCFF /* CytoAtlas */;
 			targetProxy = C5896FF518CDF2630017DCFF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -613,10 +613,10 @@
 					/Users/Bobby/Documents/iPhoneDevelopment,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
-				INFOPLIST_FILE = "CytoDb/CytoDb-Info.plist";
+				GCC_PREFIX_HEADER = "CytoDb/CytoAtlas-Prefix.pch";
+				INFOPLIST_FILE = "CytoDb/CytoAtlas-Info.plist";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = CytoAtlas;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -635,10 +635,10 @@
 					/Users/Bobby/Documents/iPhoneDevelopment,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
-				INFOPLIST_FILE = "CytoDb/CytoDb-Info.plist";
+				GCC_PREFIX_HEADER = "CytoDb/CytoAtlas-Prefix.pch";
+				INFOPLIST_FILE = "CytoDb/CytoAtlas-Info.plist";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = CytoAtlas;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -659,8 +659,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "CytoDbTests/CytoDbTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "CytoDbTests/CytoAtlasTests-Info.plist";
+				PRODUCT_NAME = CytoAtlasTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -677,8 +677,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CytoDb/CytoDb-Prefix.pch";
-				INFOPLIST_FILE = "CytoDbTests/CytoDbTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "CytoDbTests/CytoAtlasTests-Info.plist";
+				PRODUCT_NAME = CytoAtlasTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -687,7 +687,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C5896FCA18CDF2620017DCFF /* Build configuration list for PBXProject "CytoDb" */ = {
+		C5896FCA18CDF2620017DCFF /* Build configuration list for PBXProject "CytoAtlas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C5896FFF18CDF2630017DCFF /* Debug */,
@@ -696,7 +696,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C589700118CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDb" */ = {
+		C589700118CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoAtlas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C589700218CDF2630017DCFF /* Debug */,
@@ -705,7 +705,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoDbTests" */ = {
+		C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoAtlasTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C589700518CDF2630017DCFF /* Debug */,
