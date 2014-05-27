@@ -16,6 +16,7 @@
 @interface ImageViewController ()
 
 
+@property (weak, nonatomic) IBOutlet UITextView *imageLoadingText;
 
 @end
 
@@ -42,27 +43,93 @@
     
     //Do any additional setup after loading the view.
     self.textDisplay.text = self.descriptionText;
-    
-    
   
    
    //Filepath for the thumbnail
-    NSString *filepath = [self documentsPathForFileName:self.thumbURL];
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    UIImage *placeholderImage = [UIImage imageWithData:data];
+    //NSString *filepath = [self documentsPathForFileName:self.thumbURL];
+    //NSData *data = [NSData dataWithContentsOfFile:filepath];
+    //UIImage *placeholderImage = [UIImage imageWithData:data];
   
+    //convert imageURL to thumbURL
+     NSString *thumbURL = self.imageURL;
+     thumbURL = [thumbURL stringByReplacingOccurrencesOfString:@"Images" withString:@"thumbnails"];
+     thumbURL = [thumbURL stringByReplacingOccurrencesOfString:@"png" withString:@"jpg"];
     
-    if(placeholderImage ==nil){
+   // NSURL *smallImageURL =[NSURL URLWithString:thumbURL];
+   /* if(placeholderImage == nil){
         
         placeholderImage = [UIImage imageNamed:@"placeholder.png"];
         NSLog(@"no image yet");
     }
+ 
+    
+    [self.imageDisplay setImageWithURL:smallImageURL
+                        placeholderImage:nil
+                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                            [self.imageDisplay setImageWithURL:[NSURL URLWithString: self.imageURL]
+                                              placeholderImage:image];
+                        }];
+
+ */
+   
+   // _progressView.frame = self.imageDisplay.bounds;
+    //[self.imageDisplay addSubview:_progressView];
+    
+    //[self.imageDisplay addSubview:activityIndicator];
+    //[activityIndicator startAnimating];
+    
+    NSURL *iURL= [NSURL URLWithString: self.imageURL];
+    
+   // [self.imageDisplay setImageWithURL:[NSURL URLWithString:thumbURL]];
+    
+    [self.imageDisplay setImageWithURL:[NSURL URLWithString:thumbURL]
+                      placeholderImage:nil
+                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                          
+                          // Slowly download the larger version of the image
+                          SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                          [manager downloadWithURL:iURL
+                                           options:0
+                                          progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                          }
+                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                             
+                                             
+                                             //If no image
+                                             if(!image){
+                                                 
+                                                 [_imageLoadingText setText:[NSString stringWithFormat:@"%@\r%@", @"Image Unavilable",@"Check Internet Connection"]];
+                                                 
+                                             }
+                                             else  self.imageDisplay.image = image;
+                                             
+                                         }];
+                      }];
+  
     
     
     
-   [self.imageDisplay setImageWithURL:[NSURL URLWithString: self.imageURL]
-                      placeholderImage:placeholderImage];
-    
+   /*  [self.imageDisplay setImageWithURL:iURL
+                     placeholderImage:nil
+                              options:SDWebImageLowPriority
+                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                 [_progressView setProgress:(float)receivedSize/(float)expectedSize];
+                                 [_imageLoadingText setText:@"Loading"];
+                             }
+                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                 
+                                 [_progressView setHidden:YES];
+
+                                 
+                                 //If no image
+                                 if(!image){
+                                     
+                                     [_imageLoadingText setText:[NSString stringWithFormat:@"%@\r%@", @"Image Unavilable",@"Check Internet Connection"]];
+                                 
+                                 }
+                             }];
+ 
+    */
     
     // CHECK IF HAVE SHOWN SETTINGS
     NSUserDefaults* ud = [NSUserDefaults standardUserDefaults];
@@ -230,10 +297,15 @@
 
 -(void)autoRotateView:(UIView *)viewToAutoRotate toInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
+   // CGRect screenRect = [[UIScreen mainScreen]bounds];
+   // CGFloat screenWidth = screenRect.size.width;
+   // CGFloat screenHeight = screenRect.size.height;
+    
     switch (toInterfaceOrientation) {
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
             viewToAutoRotate.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90 degress
+           // self.progressView.transform = CGAffineTransformMakeRotation(M_PI/2);
             self.imageTopConstraint.constant = 0.0f;
             self.imageHeight.constant = 500.0f;
             self.imageWidth.constant = 280.0f;
@@ -246,6 +318,7 @@
         case UIInterfaceOrientationPortraitUpsideDown:
         default:
             viewToAutoRotate.transform = CGAffineTransformMakeRotation(0); // 0 degrees
+            //self.progressView.transform = CGAffineTransformMakeRotation(0);
             self.imageTopConstraint.constant = 40.0f;
             self.imageHeight.constant = 360.0f;
             self.imageWidth.constant = 300.0f;

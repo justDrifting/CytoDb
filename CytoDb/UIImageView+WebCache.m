@@ -19,23 +19,9 @@ static char operationArrayKey;
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder {
-   // [self setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
+  
+    [self setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
     
-  /*  UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
-    [activity startAnimating];
-    [activity setFrame:CGRectMake(self.frame.origin.x - 20, self.frame.origin.y - 10, self.frame.size.width, self.frame.size.height)];
-    [self addSubview:activity];
-    */
-    //[self setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
-    
-    [self setImageWithURL:url
-         placeholderImage:placeholder
-                  options:0
-                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType)
-     {
-      //   [activity removeFromSuperview];
-         if(!image){ NSLog(@"SDWebimage Fail");}
-     }];
 }
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options {

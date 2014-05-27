@@ -133,6 +133,14 @@
 }
 
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+    [self.detailsViewButton setHidden:UIInterfaceOrientationIsLandscape(self.interfaceOrientation)];
+    
+    
+}
+
 -(void)toggleBottomToolBar
 {
     
@@ -486,6 +494,26 @@
     }
 
 }
+
+
+-(void)autoRotateView:(UIView *)viewToAutoRotate toInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    ;
+    switch (toInterfaceOrientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+    
+            self.pageControlXposition.constant = 100.0f;
+            break;
+            
+        case UIInterfaceOrientationPortraitUpsideDown:
+        default:
+            self.pageControlXposition.constant = 346.0f;
+            break;
+    }
+    
+}
+
 
 
 -(void)displayTutorial

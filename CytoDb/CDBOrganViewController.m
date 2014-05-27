@@ -22,6 +22,7 @@
 //#define dataURLString @"http://localhost/json.php"
 #define dataURLString @"http://proqms.info/json.php"
 #define zDataURLString @"http://proqms.info/json04.php"
+//#define zDataURLString @"http://localhost/json04_local.php"
 
 @interface CDBOrganViewController ()
 
@@ -75,6 +76,15 @@
         [self retrieveData];
         
         NSLog(@"Nothing in Core Data Downloading Database");
+      UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100.0, 100.0, 120.0, 40.0)];
+        // UILabel *loadingLabel = [UILabel alloc];
+        [loadingLabel setBackgroundColor:[UIColor darkGrayColor]];
+        [loadingLabel setTextColor:[UIColor whiteColor]];
+        [loadingLabel setTextAlignment:NSTextAlignmentCenter];
+        [loadingLabel setCenter:self.view.center];
+        [self.view addSubview:loadingLabel];
+        loadingLabel.tag = 888;
+        loadingLabel.text = @"Loading";
     }
     
 
@@ -186,6 +196,8 @@
     //Custom refresh logic
     
     //pull data from URL
+    
+   
     [self retrieveData];
     
     //....After Refresh.....
@@ -644,6 +656,9 @@
     /*
      Create a new download task using the URL session. Tasks start in the “suspended” state; to start a task you need to explicitly call -resume on a task after creating it.
      */
+    [self.progressDisplay setHidden:NO];
+    [self.progressDisplay setProgress:0.0f];
+    
     NSURL *downloadURL = [NSURL URLWithString:zDataURLString];
 	NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
 	self.backgroundDownloadTask = [self.session downloadTaskWithRequest:request];
@@ -670,48 +685,6 @@
 //Finished Downloading
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
   
-  /*
-    if(downloadTask == self.downloadTask){
-    NSData *data = [NSData dataWithContentsOfURL:location];
-    
-    
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-    dispatch_async(queue, ^{
-       NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-      
-        //NSLog(@"jsonArray  = %@",jsonArray);
-       
-        if(jsonArray == nil || jsonArray.count == 0 ){
-        
-            NSLog(@"Downloaded Empty Array");
-           [self.progressDisplay setHidden:YES];
-           [self.tableView reloadData];
-            
-        }
-        else {
-        
-            [self insertSlide:jsonArray];
-            //[self.progressDisplay setHidden:YES];
-            [self fetchOrgans];
-            [self.tableView reloadData];
-            [self downloadThumbnailsForSlides];
-            self.loading =NO;
-            //[self.refreshControl endRefreshing];
-
-            //Main Thread for progress bar update
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // UI updates always come from the main queue!
-               // float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
-                //[self.progressDisplay setProgress:progress];
-                //if(progress >= 1){
-                    [self.progressDisplay setHidden:YES];
-                    [self fetchOrgans];
-                    [self.tableView reloadData];
-            });
-        }
-    });
-    }
-    */
     
    if(downloadTask == self.backgroundDownloadTask)
     {
@@ -748,16 +721,24 @@
                     // float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
                     //[self.progressDisplay setProgress:progress];
                     //if(progress >= 1){
-                    [self.progressDisplay setHidden:YES];
+                    //[self.progressDisplay setHidden:YES];
+                    
+                    NSLog(@"Going to the main thread to insert Slides");
                     [self insertSlide:jsonArray];
                     [self fetchOrgans];
+                    UIView *loadingLable = [self.view viewWithTag:888];
+                    [loadingLable setHidden:YES];
                     [self.tableView reloadData];
-                    
+               /*
+                    if(!self.loading){
                     dispatch_queue_t queue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
                     dispatch_async(queue2, ^{
                         self.loading = YES;
+                        
                         [self downloadThumbnailsForSlides];
                     });
+                    }
+                */
 
                 });
                 
@@ -795,12 +776,13 @@
     //Background Task
     if(downloadTask == self.backgroundDownloadTask){
     
-        
+     /*
         double progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
         NSLog(@"DownloadTask: progress: %lf", progress);
         dispatch_async(dispatch_get_main_queue(), ^{
             self.progressDisplay.progress = progress;
         });
+      */
     }
 }
 
@@ -818,12 +800,12 @@
         NSLog(@"Task: %@ completed with error: %@", task, [error localizedDescription]);
         
     }
-	
+	/*
     double progress = (double)task.countOfBytesReceived / (double)task.countOfBytesExpectedToReceive;
 	dispatch_async(dispatch_get_main_queue(), ^{
 		self.progressDisplay.progress = progress;
 	});
-    
+    */
     self.backgroundDownloadTask = nil;
 }
 
@@ -850,6 +832,9 @@
     [request setEntity:[NSEntityDescription entityForName:@"Slide"inManagedObjectContext:self.managedObjectContext]];
     NSArray *slideArray = [self.managedObjectContext executeFetchRequest:request error:nil];
     
+    NSUInteger index = 0;
+    [self.progressDisplay setProgress:0.0f];
+    
     for(Slide *slide in slideArray){
         
         
@@ -860,6 +845,17 @@
         
         NSURL *originURL =[NSURL URLWithString:imageURL];
         
+        index++;
+        float progress = (double)(index)/(double)(slideArray.count);
+        //Main Thread for progress bar update
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.progressDisplay.progress = progress;
+          //  NSLog(@"Slide download %f",progress);
+            
+        });
+        
+
+        
         
         //background download the thumbnail and store it to the thumb file path
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -867,25 +863,27 @@
                          options:SDWebImageHighPriority
                         progress:nil
                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-         {
-             if (image) {
+                        {
+                            
+                            if (image) {
                  
-                 NSData *thumbData =[NSData dataWithData:UIImageJPEGRepresentation(image,1.0f)];
-                 //Save the file to slideImagePath
-                 NSError *error =nil;
+                                NSData *thumbData =[NSData dataWithData:UIImageJPEGRepresentation(image,1.0f)];
+                                //Save the file to slideImagePath
+                                NSError *error =nil;
+                                NSString *filepath =[self documentsPathForFileName:slide.slideImagePath];
+                                [thumbData writeToFile:filepath options:NSDataWritingAtomic error:&error];
                  
-                 NSString *filepath =[self documentsPathForFileName:slide.slideImagePath];
-                 [thumbData writeToFile:filepath options:NSDataWritingAtomic error:&error];
-                 
-                 // NSLog(@"Write returned error: %@", [error localizedDescription]);
-             }
+                                // NSLog(@"Write returned error: %@", [error localizedDescription]);
+                            }
              
-             if(slide == slideArray.lastObject) {
-                 NSLog(@"last slide downloaded");
-                 self.loading =NO;
-             }
+                            if(slide == slideArray.lastObject) {
+                                NSLog(@"last slide downloaded");
+                                self.loading =NO;
+                                [self.progressDisplay setHidden:YES];
+                            }
              
-         }];
+                        }];
+        
         
     }
     

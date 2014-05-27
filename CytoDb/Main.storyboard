@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Idg-vC-rRM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Idg-vC-rRM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -75,10 +75,6 @@
                         <outlet property="searchResultsDelegate" destination="ayT-Ue-gNq" id="4bc-EA-5Qq"/>
                     </connections>
                 </searchDisplayController>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="t24-bo-aO6">
-                    <rect key="frame" x="0.0" y="0.0" width="150" height="2"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </progressView>
             </objects>
             <point key="canvasLocation" x="308" y="-1095"/>
         </scene>
@@ -167,29 +163,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <pageControl opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dD1-n2-95P">
-                                <rect key="frame" x="20" y="539" width="280" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsh-e9-Q64">
+                                <rect key="frame" x="288" y="542" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </pageControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsh-e9-Q64">
-                                <rect key="frame" x="288" y="539" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="22" id="Egh-uc-RcE"/>
+                                    <constraint firstAttribute="height" constant="22" id="IcA-zk-z3K"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <pageControl opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dD1-n2-95P">
+                                <rect key="frame" x="0.0" y="410" width="320" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="dD1-n2-95P" secondAttribute="trailing" constant="20" symbolic="YES" id="EA9-50-t1Y"/>
-                            <constraint firstItem="dD1-n2-95P" firstAttribute="leading" secondItem="765-tv-fM0" secondAttribute="leading" constant="20" symbolic="YES" id="Hed-p8-ITN"/>
-                            <constraint firstAttribute="bottom" secondItem="dD1-n2-95P" secondAttribute="bottom" constant="-8" id="WL7-fs-n3h"/>
+                            <constraint firstAttribute="trailing" secondItem="wsh-e9-Q64" secondAttribute="trailing" constant="10" id="2bL-Q5-RJU"/>
+                            <constraint firstAttribute="trailing" secondItem="dD1-n2-95P" secondAttribute="trailing" id="EA9-50-t1Y"/>
+                            <constraint firstItem="dD1-n2-95P" firstAttribute="leading" secondItem="765-tv-fM0" secondAttribute="leading" id="Hed-p8-ITN"/>
+                            <constraint firstItem="lC8-Ap-4nW" firstAttribute="top" secondItem="wsh-e9-Q64" secondAttribute="bottom" constant="4" id="emi-72-WEW"/>
+                            <constraint firstItem="dD1-n2-95P" firstAttribute="top" secondItem="YPP-t7-HoG" secondAttribute="bottom" constant="346" id="rQ3-LL-qjW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WMO-Ef-8fN"/>
                     <connections>
                         <outlet property="detailsViewButton" destination="wsh-e9-Q64" id="GzX-YB-J0T"/>
                         <outlet property="pageControl" destination="dD1-n2-95P" id="QRH-48-ou1"/>
+                        <outlet property="pageControlXposition" destination="rQ3-LL-qjW" id="OXZ-2r-TLs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDQ-Si-icw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -208,14 +211,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description of Slide" translatesAutoresizingMaskIntoConstraints="NO" id="F2s-dp-6GK">
-                                <rect key="frame" x="10" y="424" width="300" height="109"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Loading" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="owM-0E-bLM">
+                                <rect key="frame" x="60" y="189" width="200" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="68" id="Scm-06-Uvp"/>
+                                    <constraint firstAttribute="width" constant="200" id="VgT-3O-K8l"/>
+                                </constraints>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description of Slide" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2s-dp-6GK">
+                                <rect key="frame" x="10" y="426" width="300" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="m3g-bO-b9v">
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" maximumZoomScale="2" translatesAutoresizingMaskIntoConstraints="NO" id="m3g-bO-b9v">
                                 <rect key="frame" x="10" y="60" width="300" height="360"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -245,6 +260,8 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="m3g-bO-b9v" firstAttribute="top" secondItem="SlL-qL-NVc" secondAttribute="bottom" constant="40" id="515-Rq-iS9"/>
+                            <constraint firstAttribute="centerX" secondItem="owM-0E-bLM" secondAttribute="centerX" id="SYM-Py-GDN"/>
+                            <constraint firstItem="owM-0E-bLM" firstAttribute="top" secondItem="SlL-qL-NVc" secondAttribute="bottom" constant="169" id="oFU-Q3-nTp"/>
                             <constraint firstAttribute="centerX" secondItem="m3g-bO-b9v" secondAttribute="centerX" id="wOx-Qf-38x"/>
                         </constraints>
                     </view>
@@ -252,6 +269,7 @@
                     <connections>
                         <outlet property="imageDisplay" destination="Hzw-IM-DDn" id="Lkg-ld-I1n"/>
                         <outlet property="imageHeight" destination="vWD-m8-fwu" id="dV1-9A-flv"/>
+                        <outlet property="imageLoadingText" destination="owM-0E-bLM" id="xdX-r9-kCX"/>
                         <outlet property="imageScrollView" destination="m3g-bO-b9v" id="irq-gX-iab"/>
                         <outlet property="imageTopConstraint" destination="515-Rq-iS9" id="FKo-AR-xqR"/>
                         <outlet property="imageWidth" destination="YtG-d2-CWC" id="3ca-pN-fMa"/>
