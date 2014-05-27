@@ -123,7 +123,13 @@
     self.pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     self.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     [self.view addSubview:_pageControl.viewForBaselineLayout];
-  
+    
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+        self.pageControlXPosition.constant = 122.0f;
+    else
+        self.pageControlXPosition.constant = -8.0f;
+
+            
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial02"]){
         [self displayTutorial];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"hasSeenTutorial02"];
@@ -493,26 +499,17 @@
         [taggedToolbar setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
     }
 
+    
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
+        self.pageControlXPosition.constant = 122.0f;
+    else
+        self.pageControlXPosition.constant = -8.0f;
+    
+    
+
 }
 
 
--(void)autoRotateView:(UIView *)viewToAutoRotate toInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    ;
-    switch (toInterfaceOrientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-    
-            self.pageControlXposition.constant = 100.0f;
-            break;
-            
-        case UIInterfaceOrientationPortraitUpsideDown:
-        default:
-            self.pageControlXposition.constant = 346.0f;
-            break;
-    }
-    
-}
 
 
 

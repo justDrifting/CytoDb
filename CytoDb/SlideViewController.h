@@ -31,7 +31,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *detailsViewButton;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageControlXposition;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pageControlXPosition;
+
 
 
 @property BOOL showingSubview;

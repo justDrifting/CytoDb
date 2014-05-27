@@ -163,6 +163,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <pageControl opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dD1-n2-95P">
+                                <rect key="frame" x="0.0" y="408" width="320" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="1K1-ZJ-SXz"/>
+                                    <constraint firstAttribute="width" constant="320" id="ka8-gV-Fd5"/>
+                                </constraints>
+                            </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsh-e9-Q64">
                                 <rect key="frame" x="288" y="542" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -174,25 +182,21 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <pageControl opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dD1-n2-95P">
-                                <rect key="frame" x="0.0" y="410" width="320" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dD1-n2-95P" secondAttribute="trailing" id="1mh-ew-aj2"/>
                             <constraint firstAttribute="trailing" secondItem="wsh-e9-Q64" secondAttribute="trailing" constant="10" id="2bL-Q5-RJU"/>
-                            <constraint firstAttribute="trailing" secondItem="dD1-n2-95P" secondAttribute="trailing" id="EA9-50-t1Y"/>
-                            <constraint firstItem="dD1-n2-95P" firstAttribute="leading" secondItem="765-tv-fM0" secondAttribute="leading" id="Hed-p8-ITN"/>
+                            <constraint firstItem="lC8-Ap-4nW" firstAttribute="top" secondItem="dD1-n2-95P" secondAttribute="bottom" constant="123" id="MX7-eO-MBi"/>
+                            <constraint firstItem="dD1-n2-95P" firstAttribute="leading" secondItem="765-tv-fM0" secondAttribute="leading" id="cgK-2T-03o"/>
                             <constraint firstItem="lC8-Ap-4nW" firstAttribute="top" secondItem="wsh-e9-Q64" secondAttribute="bottom" constant="4" id="emi-72-WEW"/>
-                            <constraint firstItem="dD1-n2-95P" firstAttribute="top" secondItem="YPP-t7-HoG" secondAttribute="bottom" constant="346" id="rQ3-LL-qjW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WMO-Ef-8fN"/>
                     <connections>
                         <outlet property="detailsViewButton" destination="wsh-e9-Q64" id="GzX-YB-J0T"/>
                         <outlet property="pageControl" destination="dD1-n2-95P" id="QRH-48-ou1"/>
-                        <outlet property="pageControlXposition" destination="rQ3-LL-qjW" id="OXZ-2r-TLs"/>
+                        <outlet property="pageControlXPosition" destination="MX7-eO-MBi" id="ScC-VP-38h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vDQ-Si-icw" userLabel="First Responder" sceneMemberID="firstResponder"/>
