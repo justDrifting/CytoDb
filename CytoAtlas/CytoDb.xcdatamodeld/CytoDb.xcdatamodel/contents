@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Condition" representedClassName="Condition" syncable="YES">
+        <attribute name="conditionDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="conditionDifferentialGroup" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="conditionName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="conditionOrder" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="features" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Features" inverseName="condition" inverseEntity="Features" syncable="YES"/>
+        <relationship name="organ" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Organ" inverseName="conditions" inverseEntity="Organ" syncable="YES"/>
+        <relationship name="slides" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Slide" inverseName="condition" inverseEntity="Slide" syncable="YES"/>
+    </entity>
+    <entity name="Features" representedClassName="Features" syncable="YES">
+        <attribute name="featureDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="featureName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="featureOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="condition" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Condition" inverseName="features" inverseEntity="Condition" syncable="YES"/>
+    </entity>
+    <entity name="Organ" representedClassName="Organ" syncable="YES">
+        <attribute name="organName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="conditions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Condition" inverseName="organ" inverseEntity="Condition" syncable="YES"/>
+    </entity>
+    <entity name="Slide" representedClassName="Slide" syncable="YES">
+        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="slideDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="slideImagePath" optional="YES" attributeType="String" valueTransformerName="CDBImageTransformer" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="slideMag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="slideMark" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="slideName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="slideOrder" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="slideStain" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="condition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Condition" inverseName="slides" inverseEntity="Condition" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Condition" positionX="88" positionY="326" width="128" height="150"/>
+        <element name="Features" positionX="72" positionY="387" width="128" height="103"/>
+        <element name="Organ" positionX="-101" positionY="234" width="128" height="73"/>
+        <element name="Slide" positionX="250" positionY="459" width="128" height="208"/>
+    </elements>
+</model>
