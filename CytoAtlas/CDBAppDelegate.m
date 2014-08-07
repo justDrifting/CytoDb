@@ -23,7 +23,18 @@
     UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
     CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
     organViewController.managedObjectContext = self.managedObjectContext;
-  
+    
+    //Min Background Fetch Interval
+    
+    [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+ 
+    /*
+    // Let the device know we want to receive push notifications
+ 
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    */
+    
     /*
     //Page control dots
      //UIPageControl *pageControl = [UIPageControl appearance];
@@ -132,8 +143,8 @@
     
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CytoDb.sqlite"];
     
-    //**************UnComment to delete store*************
-  //[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+   //**************UnComment to delete store*************
+   //[[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -203,7 +214,48 @@
       self.managedObjectContext.persistentStoreCoordinator = nil;
 }
 
+#pragma mark - Background Fetch delegate
+-(void) application: (UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
 
+    NSLog(@"Calling background download");
+
+    
+    UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
+    [navigationController popToRootViewControllerAnimated:NO];
+    CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
+    organViewController.managedObjectContext = self.managedObjectContext;
+    
+    [organViewController retrieveDataWithCompletionHandler:completionHandler];
+    
+}
+
+
+
+/*
+#pragma mark - Silent Push Notification Delegate
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
+{
+    
+    //Success
+    handler(UIBackgroundFetchResultNewData);
+}
+
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
+}
+
+ 
+*/
 
 
 @end

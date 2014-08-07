@@ -12,14 +12,20 @@
 
     NSURLSession * _session;
     
+    UIAlertView *statusAlert;
+    
+    
 }
 
+
+
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-//@property (nonatomic,strong) NSMutableArray * organList;
 
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
 
+
 @property (weak, nonatomic) IBOutlet UIProgressView *progressDisplay;
+
 
 @property (nonatomic,strong) NSFetchedResultsController *frc;       //Fetch Results Controller For TableViewController
 @property (strong,nonatomic) NSFetchedResultsController *searchFrc; //Fetch Results Controller For SearchDisplayController
@@ -29,8 +35,15 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *showAllButton;
 
 
+
 @property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;//Not sure why this is used
 
 @property BOOL loading;
+
+
+@property (nonatomic, copy) void (^completionHandler)(UIBackgroundFetchResult fetchResult);
+
+-(void)retrieveData;
+-(void)retrieveDataWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler;
 
 @end

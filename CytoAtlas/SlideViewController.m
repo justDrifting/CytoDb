@@ -11,7 +11,7 @@
 #import "Condition.h"
 #import "Slide.h"
 #import "Features.h"
-#import "UIImageView+WebCache.h"
+
 
 
 @interface SlideViewController ()
@@ -452,8 +452,7 @@
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
-   // cell.backgroundView = [[UIView alloc] init];
-   // [cell.backgroundView setBackgroundColor:[UIColor clearColor]];
+   
     
     cell.backgroundColor=[UIColor clearColor];
     Features *feature = [_featureArray objectAtIndex:indexPath.section];
@@ -489,7 +488,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     // Background color
-  //  view.tintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.95f];
+    //  view.tintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.95f];
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]];

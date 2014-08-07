@@ -10,6 +10,8 @@
 		C515938A18D77CAE002EB250 /* Condition.m in Sources */ = {isa = PBXBuildFile; fileRef = C515938918D77CAE002EB250 /* Condition.m */; };
 		C515938D18D77CAF002EB250 /* Organ.m in Sources */ = {isa = PBXBuildFile; fileRef = C515938C18D77CAF002EB250 /* Organ.m */; };
 		C515939018D77CAF002EB250 /* Slide.m in Sources */ = {isa = PBXBuildFile; fileRef = C515938F18D77CAF002EB250 /* Slide.m */; };
+		C523697D1982E4B00065C52F /* reload-75.png in Resources */ = {isa = PBXBuildFile; fileRef = C523697C1982E4B00065C52F /* reload-75.png */; };
+		C523697F1982E7310065C52F /* paper_clip-75.png in Resources */ = {isa = PBXBuildFile; fileRef = C523697E1982E7310065C52F /* paper_clip-75.png */; };
 		C5896FD318CDF2620017DCFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD218CDF2620017DCFF /* Foundation.framework */; };
 		C5896FD518CDF2620017DCFF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD418CDF2620017DCFF /* CoreGraphics.framework */; };
 		C5896FD718CDF2620017DCFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD618CDF2620017DCFF /* UIKit.framework */; };
@@ -19,10 +21,6 @@
 		C5896FE518CDF2620017DCFF /* CDBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */; };
 		C5896FE818CDF2620017DCFF /* CytoDb.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5896FE618CDF2620017DCFF /* CytoDb.xcdatamodeld */; };
 		C5896FEA18CDF2620017DCFF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5896FE918CDF2620017DCFF /* Images.xcassets */; };
-		C5896FF118CDF2620017DCFF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FF018CDF2620017DCFF /* XCTest.framework */; };
-		C5896FF218CDF2620017DCFF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD218CDF2620017DCFF /* Foundation.framework */; };
-		C5896FF318CDF2630017DCFF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD618CDF2620017DCFF /* UIKit.framework */; };
-		C5896FF418CDF2630017DCFF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5896FD818CDF2620017DCFF /* CoreData.framework */; };
 		C589701818CE01CC0017DCFF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C589701718CE01CC0017DCFF /* Main.storyboard */; };
 		C589701B18CE04A50017DCFF /* CDBOrganViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C589701A18CE04A50017DCFF /* CDBOrganViewController.m */; };
 		C589701F18CE5DB50017DCFF /* CDBSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C589701E18CE5DB50017DCFF /* CDBSlideViewController.m */; };
@@ -38,6 +36,8 @@
 		C589704018D11ECA0017DCFF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C589703F18D11EC90017DCFF /* SystemConfiguration.framework */; };
 		C596F437193FF4F800C0F4FD /* Browsers.png in Resources */ = {isa = PBXBuildFile; fileRef = C596F435193FF4F800C0F4FD /* Browsers.png */; };
 		C596F438193FF4F800C0F4FD /* Browsers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C596F436193FF4F800C0F4FD /* Browsers@2x.png */; };
+		C5980293198BFD1F00E48CED /* cloudRefresh.png in Resources */ = {isa = PBXBuildFile; fileRef = C5980292198BFD1F00E48CED /* cloudRefresh.png */; };
+		C5980298198BFD4800E48CED /* reload-32.png in Resources */ = {isa = PBXBuildFile; fileRef = C5980296198BFD4800E48CED /* reload-32.png */; };
 		C5A49D5118DA529100386491 /* icon@2x-01.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A49D5018DA529100386491 /* icon@2x-01.png */; };
 		C5CF3BF318EBD04C00F9DCA8 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5CF3BF218EBD04C00F9DCA8 /* ImageIO.framework */; };
 		C5CF3C1318EBD52E00F9DCA8 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3BF718EBD52E00F9DCA8 /* MKAnnotationView+WebCache.m */; };
@@ -62,16 +62,6 @@
 		C5CF3C371900756000F9DCA8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CF3C361900756000F9DCA8 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		C5896FF518CDF2630017DCFF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C5896FC718CDF2620017DCFF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C5896FCE18CDF2620017DCFF;
-			remoteInfo = CytoDb;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		C515938818D77CAE002EB250 /* Condition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Condition.h; sourceTree = "<group>"; };
 		C515938918D77CAE002EB250 /* Condition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Condition.m; sourceTree = "<group>"; };
@@ -80,6 +70,9 @@
 		C515938E18D77CAF002EB250 /* Slide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slide.h; sourceTree = "<group>"; };
 		C515938F18D77CAF002EB250 /* Slide.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slide.m; sourceTree = "<group>"; };
 		C5218E021901BC46003478DB /* CytoDb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = CytoDb.entitlements; sourceTree = "<group>"; };
+		C523697A1982E3360065C52F /* reload-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload-32.png"; sourceTree = "<group>"; };
+		C523697C1982E4B00065C52F /* reload-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload-75.png"; sourceTree = "<group>"; };
+		C523697E1982E7310065C52F /* paper_clip-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paper_clip-75.png"; sourceTree = "<group>"; };
 		C5896FCF18CDF2620017DCFF /* CytoAtlas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CytoAtlas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5896FD218CDF2620017DCFF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5896FD418CDF2620017DCFF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -93,7 +86,6 @@
 		C5896FE418CDF2620017DCFF /* CDBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDBAppDelegate.m; sourceTree = "<group>"; };
 		C5896FE718CDF2620017DCFF /* CytoDb.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CytoDb.xcdatamodel; sourceTree = "<group>"; };
 		C5896FE918CDF2620017DCFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C5896FEF18CDF2620017DCFF /* CytoAtlasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CytoAtlasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5896FF018CDF2620017DCFF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C589701718CE01CC0017DCFF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C589701918CE04A50017DCFF /* CDBOrganViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBOrganViewController.h; sourceTree = "<group>"; };
@@ -114,6 +106,10 @@
 		C589703F18D11EC90017DCFF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C596F435193FF4F800C0F4FD /* Browsers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Browsers.png; sourceTree = "<group>"; };
 		C596F436193FF4F800C0F4FD /* Browsers@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Browsers@2x.png"; sourceTree = "<group>"; };
+		C5980292198BFD1F00E48CED /* cloudRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloudRefresh.png; sourceTree = "<group>"; };
+		C5980294198BFD3300E48CED /* paper_clip-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paper_clip-75.png"; sourceTree = "<group>"; };
+		C5980296198BFD4800E48CED /* reload-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload-32.png"; sourceTree = "<group>"; };
+		C5980297198BFD4800E48CED /* reload-75.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload-75.png"; sourceTree = "<group>"; };
 		C5A49D5018DA529100386491 /* icon@2x-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x-01.png"; sourceTree = "<group>"; };
 		C5CF3BF218EBD04C00F9DCA8 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		C5CF3BF618EBD52E00F9DCA8 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -176,17 +172,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5896FEC18CDF2620017DCFF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C5896FF118CDF2620017DCFF /* XCTest.framework in Frameworks */,
-				C5896FF418CDF2630017DCFF /* CoreData.framework in Frameworks */,
-				C5896FF318CDF2630017DCFF /* UIKit.framework in Frameworks */,
-				C5896FF218CDF2620017DCFF /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -203,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				C5896FCF18CDF2620017DCFF /* CytoAtlas.app */,
-				C5896FEF18CDF2620017DCFF /* CytoAtlasTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +230,13 @@
 		C5896FDB18CDF2620017DCFF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C5980296198BFD4800E48CED /* reload-32.png */,
+				C5980297198BFD4800E48CED /* reload-75.png */,
+				C5980292198BFD1F00E48CED /* cloudRefresh.png */,
+				C523697E1982E7310065C52F /* paper_clip-75.png */,
+				C5980294198BFD3300E48CED /* paper_clip-75.png */,
+				C523697C1982E4B00065C52F /* reload-75.png */,
+				C523697A1982E3360065C52F /* reload-32.png */,
 				C596F435193FF4F800C0F4FD /* Browsers.png */,
 				C596F436193FF4F800C0F4FD /* Browsers@2x.png */,
 				C5CF3C2D190038CE00F9DCA8 /* tutorial.png */,
@@ -352,24 +343,6 @@
 			productReference = C5896FCF18CDF2620017DCFF /* CytoAtlas.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C5896FEE18CDF2620017DCFF /* CytoAtlas.Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoAtlas.Tests" */;
-			buildPhases = (
-				C5896FEB18CDF2620017DCFF /* Sources */,
-				C5896FEC18CDF2620017DCFF /* Frameworks */,
-				C5896FED18CDF2620017DCFF /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C5896FF618CDF2630017DCFF /* PBXTargetDependency */,
-			);
-			name = CytoAtlas.Tests;
-			productName = CytoDbTests;
-			productReference = C5896FEF18CDF2620017DCFF /* CytoAtlasTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -383,6 +356,9 @@
 					C5896FCE18CDF2620017DCFF = {
 						DevelopmentTeam = 5VK22XQ77P;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
@@ -390,9 +366,6 @@
 								enabled = 0;
 							};
 						};
-					};
-					C5896FEE18CDF2620017DCFF = {
-						TestTargetID = C5896FCE18CDF2620017DCFF;
 					};
 				};
 			};
@@ -409,7 +382,6 @@
 			projectRoot = "";
 			targets = (
 				C5896FCE18CDF2620017DCFF /* CytoAtlas */,
-				C5896FEE18CDF2620017DCFF /* CytoAtlas.Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -421,21 +393,18 @@
 			files = (
 				C589701818CE01CC0017DCFF /* Main.storyboard in Resources */,
 				C5CF3C2318EC587100F9DCA8 /* placeholder.png in Resources */,
+				C5980298198BFD4800E48CED /* reload-32.png in Resources */,
 				C596F437193FF4F800C0F4FD /* Browsers.png in Resources */,
+				C523697F1982E7310065C52F /* paper_clip-75.png in Resources */,
+				C5980293198BFD1F00E48CED /* cloudRefresh.png in Resources */,
 				C5CF3C301900605100F9DCA8 /* page1Tutorial.png in Resources */,
 				C5896FDF18CDF2620017DCFF /* InfoPlist.strings in Resources */,
 				C596F438193FF4F800C0F4FD /* Browsers@2x.png in Resources */,
 				C5CF3C2E190038CE00F9DCA8 /* tutorial.png in Resources */,
 				C5A49D5118DA529100386491 /* icon@2x-01.png in Resources */,
+				C523697D1982E4B00065C52F /* reload-75.png in Resources */,
 				C5896FEA18CDF2620017DCFF /* Images.xcassets in Resources */,
 				C5CF3C34190065B100F9DCA8 /* tutorialPage2.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C5896FED18CDF2620017DCFF /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,22 +444,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C5896FEB18CDF2620017DCFF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C5896FF618CDF2630017DCFF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C5896FCE18CDF2620017DCFF /* CytoAtlas */;
-			targetProxy = C5896FF518CDF2630017DCFF /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C5896FDD18CDF2620017DCFF /* InfoPlist.strings */ = {
@@ -581,8 +535,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: ABHIJIT ROY CHOWDHURI (5VK22XQ77P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ABHIJIT ROY CHOWDHURI (5VK22XQ77P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: ABHIJIT ROY CHOWDHURI (4GG277AW2T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ABHIJIT ROY CHOWDHURI (4GG277AW2T)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Bobby/Documents/iPhoneDevelopment/CytoAtlas,
@@ -593,7 +547,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/CytoAtlas/CytoAtlas-Info.plist";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = CytoAtlas;
-				PROVISIONING_PROFILE = "95A0B488-3B1A-425D-8D57-65CD128875A5";
+				PROVISIONING_PROFILE = "DB8F011D-48D2-4B45-A954-662E41028AC0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -603,8 +557,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: ABHIJIT ROY CHOWDHURI (5VK22XQ77P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ABHIJIT ROY CHOWDHURI (5VK22XQ77P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: ABHIJIT ROY CHOWDHURI (4GG277AW2T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ABHIJIT ROY CHOWDHURI (4GG277AW2T)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Bobby/Documents/iPhoneDevelopment/CytoAtlas,
@@ -615,48 +569,8 @@
 				INFOPLIST_FILE = "$(SRCROOT)/CytoAtlas/CytoAtlas-Info.plist";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = CytoAtlas;
-				PROVISIONING_PROFILE = "95A0B488-3B1A-425D-8D57-65CD128875A5";
+				PROVISIONING_PROFILE = "DB8F011D-48D2-4B45-A954-662E41028AC0";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		C589700518CDF2630017DCFF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CytoDb.app/CytoDb";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CytoAtlas/CytoDb-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "CytoDbTests/CytoAtlasTests-Info.plist";
-				PRODUCT_NAME = CytoAtlasTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		C589700618CDF2630017DCFF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CytoDb.app/CytoDb";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CytoAtlas/CytoDb-Prefix.pch";
-				INFOPLIST_FILE = "CytoDbTests/CytoAtlasTests-Info.plist";
-				PRODUCT_NAME = CytoAtlasTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -677,15 +591,6 @@
 			buildConfigurations = (
 				C589700218CDF2630017DCFF /* Debug */,
 				C589700318CDF2630017DCFF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C589700418CDF2630017DCFF /* Build configuration list for PBXNativeTarget "CytoAtlas.Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C589700518CDF2630017DCFF /* Debug */,
-				C589700618CDF2630017DCFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

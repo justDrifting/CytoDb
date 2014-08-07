@@ -19,10 +19,13 @@
 
 
 
+
 //#define dataURLString @"http://localhost/json.php"
-#define dataURLString @"http://proqms.info/json.php"
-#define zDataURLString @"http://proqms.info/json04.php"
+//#define dataURLString @"http://proqms.info/json.php"
+#define zDataURLString @"http://proqms.info/json0_1_2.php"
 //#define zDataURLString @"http://localhost/json04_local.php"
+
+#define kAlertViewOne 801
 
 @interface CDBOrganViewController ()
 
@@ -32,6 +35,7 @@
 @end
 
 @implementation CDBOrganViewController
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -60,15 +64,14 @@
         [self retrieveData];
         
         NSLog(@"Nothing in Core Data Downloading Database");
-      UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100.0, 100.0, 120.0, 40.0)];
-        // UILabel *loadingLabel = [UILabel alloc];
+        UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100.0, 100.0, 120.0, 40.0)];
         [loadingLabel setBackgroundColor:[UIColor darkGrayColor]];
         [loadingLabel setTextColor:[UIColor whiteColor]];
         [loadingLabel setTextAlignment:NSTextAlignmentCenter];
         [loadingLabel setCenter:self.view.center];
         [self.view addSubview:loadingLabel];
         loadingLabel.tag = 888;
-        loadingLabel.text = @"Loading";
+        loadingLabel.text = @"Loading Database";
     }
     
 
@@ -180,9 +183,14 @@
     
     //Custom refresh logic
     
-    //pull data from URL
     
+    //Clear Cached Images
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
+    NSLog(@"Delete Cache");
    
+    //pull data from URL
     [self retrieveData];
     
     //....After Refresh.....
@@ -338,12 +346,7 @@
                 slide.slideImagePath = thumbnailPath;
                 
                 
-            /*  NSBundle *mainBundle = [NSBundle mainBundle];
-                NSString *myFile = [mainBundle pathForResource: @"placeholder" ofType: @"png"];
-              
-                NSLog(@"my file %@", myFile);
-            */
-               
+  
                 
                 [slide setCondition:condition];
               
@@ -405,153 +408,16 @@
     NSError *error = nil;
     if ([context save:&error]) {
         NSLog(@"The save was successful!");
+        
     } else {
         NSLog(@"The save wasn't successful: %@", [error userInfo]);
+        
     }
     
     
     
 }
 
-
-
-//This is unused
-
--(void)insertNewSlide:(NSDictionary *)jsonDictionary
-{
- 
-    //Grab the context
-    NSManagedObjectContext *context = [self managedObjectContext ];
-    
-    //Is the Slide duplicate?
-    BOOL duplicateSlide = [self duplicateSlideForSlideName:[jsonDictionary objectForKey:@"slideName"]
-                                                ForContext:context];
-    
-    if(!duplicateSlide){  //If Slide is not duplicate
-        
-        //CreateSlide
-        Slide *slide = [NSEntityDescription insertNewObjectForEntityForName:@"Slide"
-                                                 inManagedObjectContext:context];
-    
-        slide.slideName = [jsonDictionary objectForKey:@"slideName"];
-        //slide.slideOrder= [jsonDictionary objectForKey:@"slideOrder"];
-        slide.slideDescription=[jsonDictionary objectForKey:@"slideDescription"];
-        //slide.slideMag = [jsonDictionary objectForKey:@"slideMag"];
-        slide.imageURL= [jsonDictionary objectForKey:@"imageURL"];
-
-        //Fetch or Create the Condition entity
-        NSManagedObjectID *conditionID =
-        [self fetchOrCreateConditionIDForConditionName:[jsonDictionary objectForKey:@"dxName"]
-                              ConditionDiffertialGroup:[jsonDictionary objectForKey:@"conditiondifferentialGroup"]ConditionDescription:[jsonDictionary objectForKey:@"dxDescription"]
-                                            ForContext:context];
-        
-        Condition *condition = (Condition *)[context existingObjectWithID:conditionID error:nil];
-        
-        //Fetch or Create the organ entity
-        NSManagedObjectID *organID =
-        [self fetchOrCreateOrganIDForOrganName:[jsonDictionary objectForKey:@"sourceName"]
-                                    ForContext:context];
-        Organ *organ= (Organ *)[context existingObjectWithID:organID error:nil];
-        
-        //Update Relations
-        [organ addConditionsObject:condition];
-        [condition setOrgan:organ];
-        [condition addSlidesObject:slide];
-        [slide setCondition:condition];
-        
-        //Download Images
-      //  NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[jsonDictionary objectForKey:@"imageURL"]]];
-        //UIImage *image = [UIImage imageWithData:imageData];
-        //slide.slideImage = imageData;
-        
-        
-  
-        // Save everything
-        NSError *error = nil;
-        if ([context save:&error]) {
-              NSLog(@"The save was successful!");
-        } else {
-             NSLog(@"The save wasn't successful: %@", [error userInfo]);
-        }
-     }
-    else
-    {
-        NSLog(@"Duplicate slide");
-    }
-}
-
-//Fetch or create unused
-
-#pragma -fetchOrCreate
-
--(NSManagedObjectID *)fetchOrCreateOrganIDForOrganName:(NSString *)organName
-                                            ForContext:(NSManagedObjectContext *)context
-{
-    NSFetchRequest *request = [[NSFetchRequest alloc]init];
-    [request setEntity:[NSEntityDescription entityForName:@"Organ"inManagedObjectContext:context]];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"organName == %@",organName]];
-    NSArray *result = [context executeFetchRequest:request error:nil];
-    
-    if(result.count == 0){
-        // NSLog(@"No Duplicate for %@ need to create",organName);
-        Organ *organ = [NSEntityDescription insertNewObjectForEntityForName:@"Organ" inManagedObjectContext:context];
-        [organ setValue:organName forKeyPath:@"organName"];
-        return [organ objectID];
-        
-    }
-    else {
-        //NSLog(@"Found Duplicate entry with organ name as %@",organName);
-        Organ *organ = [result objectAtIndex:0];
-        return [organ objectID];
-    }
-}
-
-
--(NSManagedObjectID *)fetchOrCreateConditionIDForConditionName:(NSString *)conditionName
-                                      ConditionDiffertialGroup:(NSString *)conditionDifferentialGroup
-                                          ConditionDescription:(NSString *)conditionDescription
-                                                    ForContext:(NSManagedObjectContext *)context
-{
-    NSFetchRequest *request = [[NSFetchRequest alloc]init];
-    [request setEntity:[NSEntityDescription entityForName:@"Condition"inManagedObjectContext:context]];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"conditionName == %@",conditionName]];
-    NSArray *result = [context executeFetchRequest:request error:nil];
-    
-    if(result.count ==0){
-        //NSLog(@"No Duplicate for %@ need to create",conditionName);
-        Condition *condition = [NSEntityDescription insertNewObjectForEntityForName:@"Condition" inManagedObjectContext:context];
-        [condition setValue:conditionName forKeyPath:@"conditionName"];
-        [condition setValue:conditionDifferentialGroup forKeyPath:@"conditionDifferentialGroup"];
-        [condition setValue:conditionDescription forKeyPath:@"conditionDescription"];
-        return [condition objectID];
-        
-    }
-    else {
-        //NSLog(@"Found Duplicate entry with organ name as %@",conditionName);
-        Condition *condition = [result objectAtIndex:0];
-        return [condition objectID];
-    }
-}
-
-
--(BOOL)duplicateSlideForSlideName:(NSString *)slideName
-                       ForContext:(NSManagedObjectContext *)context
-{
-    NSFetchRequest *request = [[NSFetchRequest alloc]init];
-    [request setEntity:[NSEntityDescription entityForName:@"Slide"inManagedObjectContext:context]];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"slideName == %@",slideName]];
-    NSArray *result = [context executeFetchRequest:request error:nil];
-    
-    if(result.count == 0){
-        NSLog(@"New slide %@ need to create",slideName);
-        return NO;
-        
-    }
-    else {
-        
-        return YES;
-    }
-}
 
 #pragma mark -fetch Objects
     
@@ -623,15 +489,21 @@
 	return backgroundSession;
 }
 
+-(void)retrieveDataWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    self.completionHandler=completionHandler;
+    [self retrieveData];
 
+}
 
 -(void)retrieveData
 {
+   
     //Check if background session exists, if yes then do nothing
      if (self.backgroundDownloadTask)
      {   NSLog(@" DOWNLOAD TASK EXISTS");
         return;
-    }
+     }
     
     if(![self internetIsActive]){
         
@@ -641,6 +513,8 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
+        
+        alert.tag=kAlertViewOne;
             [alert show];
             
             NSLog(@"Showing alert");
@@ -670,6 +544,14 @@
     //start download
     [self.backgroundDownloadTask resume];
     
+    //Check if completionHandler is not nil
+    //otherwise it will crash!
+    if(self.completionHandler){
+        //This will let the background fetch know that the fetch has ended
+        self.completionHandler(UIBackgroundFetchResultNewData);
+    }
+
+    
 }
 
 
@@ -679,68 +561,62 @@
 //Finished Downloading
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
   
-    
+ 
    if(downloadTask == self.backgroundDownloadTask)
     {
     
         NSData *data = [NSData dataWithContentsOfURL:location];
+        
         
         //Send the parsing task to GCD
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
         dispatch_async(queue, ^{
             
             NSArray *jsonArray= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            //NSLog(@"jsonArray  = %@",jsonArray);
-            
             //If array is empty do nothing
             if(jsonArray == nil || jsonArray.count == 0){
                 
                 NSLog(@"Downloaded Empty Array");
-                //[self.progressDisplay setHidden:YES];
-                //[self.tableView reloadData];
+                //Check if completionHandler is not nil
+                //otherwise it will crash!
+               /* if(self.completionHandler){
+                    //This will let the background fetch know that the fetch has ended
+                    self.completionHandler(UIBackgroundFetchResultNoData);
+                }
+                */
 
             }
             else {
                 
-               // [self insertSlide:jsonArray];
-                //[self.progressDisplay setHidden:YES];
-               //[self fetchOrgans];
-               // [self.tableView reloadData];
-                //[self downloadThumbnailsForSlides];
-                
-                
                 //Main Thread for progress bar update
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // UI updates always come from the main queue!
-                    // float progress = ((double)(i)+1.0)/(double)(jsonArray.count);
-                    //[self.progressDisplay setProgress:progress];
-                    //if(progress >= 1){
-                    //[self.progressDisplay setHidden:YES];
+                    
                     
                     NSLog(@"Going to the main thread to insert Slides");
                     [self insertSlide:jsonArray];
                     [self fetchOrgans];
                     UIView *loadingLable = [self.view viewWithTag:888];
-                    [loadingLable setHidden:YES];
                     [self.tableView reloadData];
-               /*
-                    if(!self.loading){
-                    dispatch_queue_t queue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-                    dispatch_async(queue2, ^{
-                        self.loading = YES;
-                        
-                        [self downloadThumbnailsForSlides];
-                    });
+                    [loadingLable setHidden:YES];
+                    
+                    //Check if completionHandler is not nil
+                    //otherwise it will crash!
+                  /*
+                    if(self.completionHandler){
+                        //This will let the background fetch know that the fetch has ended
+                        self.completionHandler(UIBackgroundFetchResultNewData);
                     }
-                */
-
+                   */
+             
                 });
                 
             }
 
         });
+        
   
     }
+    
 }
                        
 
@@ -766,18 +642,18 @@
     });
         
     }
-    */
+    
     //Background Task
     if(downloadTask == self.backgroundDownloadTask){
     
-     /*
+    
         double progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
         NSLog(@"DownloadTask: progress: %lf", progress);
         dispatch_async(dispatch_get_main_queue(), ^{
             self.progressDisplay.progress = progress;
         });
-      */
     }
+    */
 }
 
 
@@ -788,6 +664,7 @@
     if (error == nil)
     {
         NSLog(@"Task: %@ completed successfully", task);
+      //  [[UIApplication sharedApplication] endBackgroundTask:task];
     }
     else
     {
@@ -809,20 +686,32 @@
     
     CDBAppDelegate *appDelegate = (CDBAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (appDelegate.backgroundSessionCompletionHandler) {
+        
+        
         void (^completionHandler)() = appDelegate.backgroundSessionCompletionHandler;
         appDelegate.backgroundSessionCompletionHandler = nil;
         completionHandler();
+        NSLog(@"*************All tasks are finished***************");
+        
+       
     }
     
+  /*  if(self.completionHandler){
+        //This will let the background fetch know that the fetch has ended
+        self.completionHandler(UIBackgroundFetchResultNewData);
+         NSLog(@"************All tasks are finished****************");
+    }
+ */
+    
     NSLog(@"All tasks are finished");
-
+    
 }
 
-
+/*
 #pragma download Thumbnails
 -(void)downloadThumbnailsForSlides
 {
-   
+ 
     NSFetchRequest *request = [[NSFetchRequest alloc]init];
     [request setEntity:[NSEntityDescription entityForName:@"Slide"inManagedObjectContext:self.managedObjectContext]];
     NSArray *slideArray = [self.managedObjectContext executeFetchRequest:request error:nil];
@@ -885,6 +774,7 @@
     
 }
 
+ */
 
 #pragma -Delete Objects By Name
 
@@ -1002,6 +892,8 @@
 
 - (IBAction)showAll:(id)sender {
 }
+
+
                              
 
 - (NSManagedObject*)managedObjectFromStructure:(NSDictionary*)structureDictionary withManagedObjectContext:(NSManagedObjectContext*)moc
@@ -1029,7 +921,10 @@
         }*/
         return managedObject;
     }
-                             
+
+
+
+
 - (NSArray*)managedObjectsFromJSONStructure:(NSArray*)structureArray withManagedObjectContext:(NSManagedObjectContext*)moc
 {
         NSMutableArray *objectArray = [[NSMutableArray alloc] init];
@@ -1038,7 +933,9 @@
         }
         return objectArray;
 }
-                             
+
+
+
 #pragma -mark
 #pragma -is Core Data Empty
 
@@ -1160,12 +1057,57 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    // the user clicked OK
-    if (buttonIndex == 0 && ![self coreDataHasEntriesForEntityName:@"Slide"]) {
-        // do something here..
-        NSLog(@"No Internet and empty core dat : app is unusable");
-        [self retrieveData];
+    
+    if(alertView.tag == kAlertViewOne) {
+       // the user clicked OK
+       if (buttonIndex == 0 && ![self coreDataHasEntriesForEntityName:@"Slide"]) {
+            // do something here..
+            NSLog(@"No Internet and empty core data : app is unusable");
+            [self retrieveData];
+       }
     }
+   
+
+    
 }
+
+/*
+
+- (IBAction)refreshButton:(id)sender {
+ 
+    //Clear Cached Images
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
+     NSLog(@"Delete Cache");
+    
+    [self retrieveData];
+    
+    
+    [self showStatus:@"Reloading Database" timeout:0.5];
+    
+}
+
+
+
+- (void)showStatus:(NSString *)message timeout:(double)timeout {
+    statusAlert = [[UIAlertView alloc] initWithTitle:nil
+                                             message:message
+                                            delegate:nil
+                                   cancelButtonTitle:nil
+                                   otherButtonTitles:nil];
+    [statusAlert show];
+    [NSTimer scheduledTimerWithTimeInterval:timeout
+                                     target:self
+                                   selector:@selector(timerExpired:)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+- (void)timerExpired:(NSTimer *)timer {
+    [statusAlert dismissWithClickedButtonIndex:0 animated:YES];
+}
+
+ */
 
 @end

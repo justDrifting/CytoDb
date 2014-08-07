@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Idg-vC-rRM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Idg-vC-rRM">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -179,14 +179,14 @@
                                     <constraint firstAttribute="height" constant="37" id="1K1-ZJ-SXz"/>
                                 </constraints>
                             </pageControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsh-e9-Q64">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsh-e9-Q64">
                                 <rect key="frame" x="293" y="542" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="Egh-uc-RcE"/>
                                     <constraint firstAttribute="height" constant="22" id="IcA-zk-z3K"/>
                                 </constraints>
-                                <state key="normal" image="Browsers.png"/>
+                                <state key="normal" image="paper_clip-75.png"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -341,7 +341,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Browsers.png" width="24" height="24"/>
+        <image name="paper_clip-75.png" width="75" height="75"/>
         <image name="tutorial.png" width="1371" height="2942"/>
         <image name="tutorialPage2.png" width="2424" height="2561"/>
     </resources>

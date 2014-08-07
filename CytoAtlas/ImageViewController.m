@@ -45,38 +45,11 @@
     self.textDisplay.text = self.descriptionText;
   
    
-   //Filepath for the thumbnail
-    //NSString *filepath = [self documentsPathForFileName:self.thumbURL];
-    //NSData *data = [NSData dataWithContentsOfFile:filepath];
-    //UIImage *placeholderImage = [UIImage imageWithData:data];
-  
     //convert imageURL to thumbURL
      NSString *thumbURL = self.imageURL;
      thumbURL = [thumbURL stringByReplacingOccurrencesOfString:@"Images" withString:@"thumbnails"];
      thumbURL = [thumbURL stringByReplacingOccurrencesOfString:@"png" withString:@"jpg"];
     
-   // NSURL *smallImageURL =[NSURL URLWithString:thumbURL];
-   /* if(placeholderImage == nil){
-        
-        placeholderImage = [UIImage imageNamed:@"placeholder.png"];
-        NSLog(@"no image yet");
-    }
- 
-    
-    [self.imageDisplay setImageWithURL:smallImageURL
-                        placeholderImage:nil
-                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                            [self.imageDisplay setImageWithURL:[NSURL URLWithString: self.imageURL]
-                                              placeholderImage:image];
-                        }];
-
- */
-   
-   // _progressView.frame = self.imageDisplay.bounds;
-    //[self.imageDisplay addSubview:_progressView];
-    
-    //[self.imageDisplay addSubview:activityIndicator];
-    //[activityIndicator startAnimating];
     
     NSURL *iURL= [NSURL URLWithString: self.imageURL];
     
@@ -109,28 +82,6 @@
     
     
     
-   /*  [self.imageDisplay setImageWithURL:iURL
-                     placeholderImage:nil
-                              options:SDWebImageLowPriority
-                             progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                 [_progressView setProgress:(float)receivedSize/(float)expectedSize];
-                                 [_imageLoadingText setText:@"Loading"];
-                             }
-                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-                                 
-                                 [_progressView setHidden:YES];
-
-                                 
-                                 //If no image
-                                 if(!image){
-                                     
-                                     [_imageLoadingText setText:[NSString stringWithFormat:@"%@\r%@", @"Image Unavilable",@"Check Internet Connection"]];
-                                 
-                                 }
-                             }];
- 
-    */
-    
     // CHECK IF HAVE SHOWN SETTINGS
     NSUserDefaults* ud = [NSUserDefaults standardUserDefaults];
     BOOL hasShownSettings = [ud boolForKey: @"hasShownGuide"];
@@ -151,7 +102,7 @@
     self.imageDisplay.contentMode= UIViewContentModeScaleAspectFill;
    
 
-   //Setting up tap gesture
+    //Setting up tap gesture
     _doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
     _doubleTap.numberOfTapsRequired = 2;
     
@@ -165,9 +116,6 @@
     //Double tap enables Zoom
     [self.imageScrollView addGestureRecognizer:_doubleTap];
  
-    
-   
-
   
 }
 
@@ -188,7 +136,6 @@
         
     }
     
-   // [[self.parentViewController.view viewWithTag:99 ] removeFromSuperview];
 }
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
@@ -398,6 +345,7 @@
 
 }
 */
+
 
 
 #pragma -document path
