@@ -9,7 +9,14 @@
 #import "CDBAppDelegate.h"
 #import "CDBOrganViewController.h"
 
+@interface CDBAppDelegate ()
 
+@property (nonatomic, unsafe_unretained)
+UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+
+@property (nonatomic, strong) NSTimer *myTimer;
+
+@end
 
 @implementation CDBAppDelegate
 
@@ -71,11 +78,13 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+   
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -210,24 +219,39 @@
     }
     [self.managedObjectContext unlock];
    //  self.managedObjectModel = nil;
-    //  self.managedObjectContext = nil;
+   //  self.managedObjectContext = nil;
       self.managedObjectContext.persistentStoreCoordinator = nil;
 }
 
 #pragma mark - Background Fetch delegate
 -(void) application: (UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-
-    NSLog(@"Calling background download");
-
+    
+    //Record Start of Background Fetch (needed for using background DwnLd time monitor
+    
+    NSDate *fetchStart = [NSDate date];
+    
     
     UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
     [navigationController popToRootViewControllerAnimated:NO];
     CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
     organViewController.managedObjectContext = self.managedObjectContext;
     
-    [organViewController retrieveDataWithCompletionHandler:completionHandler];
+    [organViewController retrieveDataWithCompletionHandler:^(UIBackgroundFetchResult result) {
+        
+        completionHandler(result);
+        organViewController.completionHandler = nil;
+       
+    // Block of code to monitor background download
+   
+        NSDate *fetchEnd = [NSDate date];
+        NSTimeInterval timeElapsed = [fetchEnd timeIntervalSinceDate:fetchStart];
+        NSLog(@"Background Fetch Duration: %f seconds", timeElapsed);
+        NSLog(@"Background Fetch result: %lu ", result);
+        
+    }];
     
+  
 }
 
 
@@ -256,6 +280,9 @@
 
  
 */
+
+
+
 
 
 @end

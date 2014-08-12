@@ -21,10 +21,10 @@
 
 
 //#define dataURLString @"http://localhost/json.php"
-//#define dataURLString @"http://proqms.info/json.php"
-#define zDataURLString @"http://proqms.info/json0_1_2.php"
 //#define zDataURLString @"http://localhost/json04_local.php"
+//#define dataURLString @"http://proqms.info/json.php"
 
+#define DataURLString @"http://proqms.info/json0_1_2.php"
 #define kAlertViewOne 801
 
 @interface CDBOrganViewController ()
@@ -527,16 +527,17 @@
     [self.progressDisplay setHidden:NO];
     [self.progressDisplay setProgress:0.0f];
     
-    NSURL *downloadURL = [NSURL URLWithString:zDataURLString];
+    NSURL *downloadURL = [NSURL URLWithString:DataURLString];
 	NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
 	self.backgroundDownloadTask = [self.session downloadTaskWithRequest:request];
     [self.backgroundDownloadTask resume];
+    
     
    
 }
 
 //This is not being used
--(void)retrieveThumbnailFromURL:(NSURL *)thumbnailURL
+/*-(void)retrieveThumbnailFromURL:(NSURL *)thumbnailURL
 {
     
     self.backgroundDownloadTask = [self.backgroundSession downloadTaskWithURL:thumbnailURL];
@@ -549,12 +550,13 @@
     if(self.completionHandler){
         //This will let the background fetch know that the fetch has ended
         self.completionHandler(UIBackgroundFetchResultNewData);
+        
     }
 
     
 }
 
-
+*/
 
 #pragma - protocol methods for NSURLSessionDelegate and NSURLDataDelegate
 
@@ -579,11 +581,12 @@
                 NSLog(@"Downloaded Empty Array");
                 //Check if completionHandler is not nil
                 //otherwise it will crash!
-               /* if(self.completionHandler){
+                if(self.completionHandler){
                     //This will let the background fetch know that the fetch has ended
                     self.completionHandler(UIBackgroundFetchResultNoData);
+                    
                 }
-                */
+               
 
             }
             else {
@@ -592,7 +595,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     
-                    NSLog(@"Going to the main thread to insert Slides");
+                    //NSLog(@"Going to the main thread to insert Slides");
                     [self insertSlide:jsonArray];
                     [self fetchOrgans];
                     UIView *loadingLable = [self.view viewWithTag:888];
@@ -601,12 +604,15 @@
                     
                     //Check if completionHandler is not nil
                     //otherwise it will crash!
-                  /*
+                  
                     if(self.completionHandler){
                         //This will let the background fetch know that the fetch has ended
+                        //NSLog(@"Completion handler called");
                         self.completionHandler(UIBackgroundFetchResultNewData);
+                        
+                        
                     }
-                   */
+                  
              
                 });
                 
@@ -669,7 +675,10 @@
     else
     {
         NSLog(@"Task: %@ completed with error: %@", task, [error localizedDescription]);
-        
+        if(self.completionHandler){
+            //This will let the background fetch know that the fetch has ended
+            self.completionHandler(UIBackgroundFetchResultFailed);
+        }
     }
 	/*
     double progress = (double)task.countOfBytesReceived / (double)task.countOfBytesExpectedToReceive;
