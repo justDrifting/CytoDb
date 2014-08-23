@@ -228,9 +228,9 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 {
     
     //Record Start of Background Fetch (needed for using background DwnLd time monitor
-    
+    /*
     NSDate *fetchStart = [NSDate date];
-    
+    */
     
     UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
     [navigationController popToRootViewControllerAnimated:NO];
@@ -244,11 +244,13 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
        
     // Block of code to monitor background download
    
+    /*
         NSDate *fetchEnd = [NSDate date];
         NSTimeInterval timeElapsed = [fetchEnd timeIntervalSinceDate:fetchStart];
         NSLog(@"Background Fetch Duration: %f seconds", timeElapsed);
         NSLog(@"Background Fetch result: %lu ", result);
-        
+      */
+     
     }];
     
   

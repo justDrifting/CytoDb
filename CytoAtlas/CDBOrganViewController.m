@@ -95,6 +95,15 @@
    
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+
+  //  [self.tableView reloadData];
+  //  [self.searchDisplayController.searchResultsTableView reloadData];
+
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -123,33 +132,43 @@
     {
         id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
         numberOfRows = [sectionInfo numberOfObjects];
+       
     }
-    return numberOfRows;
+     return numberOfRows;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"OrganCell";
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil && tableView != self.tableView) {
         cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
     
     //if search display is active
-    if(self.searchDisplayController.active){
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
         
+       // NSLog(@" Index sec: %li  row : %li", (long)indexPath.section, (long)indexPath.row);
         Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
         cell.textLabel.text= [condition valueForKey:@"conditionName"];
+        
     }
-    else{
+    else
+    {
+        
+        
         Organ *organ= [[self frc] objectAtIndexPath:indexPath];
         cell.textLabel.text = [organ valueForKey:@"organName"];
+        
     }
+
     
-    cell.textLabel.font= [UIFont boldSystemFontOfSize:16.0];
-    
-     return cell;
+        cell.textLabel.font= [UIFont boldSystemFontOfSize:16.0];
+        return cell;
+        
 }
 
 
@@ -176,6 +195,7 @@
 }
 
 
+#pragma mark - Refresh
 #pragma  -Refresh table
 -(void) refreshView: (UIRefreshControl *)refresh
 {
@@ -183,12 +203,13 @@
     
     //Custom refresh logic
     
+
     
     //Clear Cached Images
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
     [imageCache clearMemory];
     [imageCache clearDisk];
-    NSLog(@"Delete Cache");
+  //  NSLog(@"Delete Cache");
    
     //pull data from URL
     [self retrieveData];
@@ -303,7 +324,6 @@
         
         [organ setValue:[sourceDict objectForKey:@"sourceName"] forKey:@"organName"];
         
-       // organ.organName = [sourceDict objectForKey:@"sourceName"];
         
 
         NSArray *conditionArray = [[NSArray alloc] initWithArray:[sourceDict objectForKey:@"dxs"]];
@@ -407,7 +427,8 @@
     // Save everything
     NSError *error = nil;
     if ([context save:&error]) {
-        NSLog(@"The save was successful!");
+       // NSLog(@"The save was successful!");
+
         
     } else {
         NSLog(@"The save wasn't successful: %@", [error userInfo]);
@@ -536,27 +557,6 @@
    
 }
 
-//This is not being used
-/*-(void)retrieveThumbnailFromURL:(NSURL *)thumbnailURL
-{
-    
-    self.backgroundDownloadTask = [self.backgroundSession downloadTaskWithURL:thumbnailURL];
-    
-    //start download
-    [self.backgroundDownloadTask resume];
-    
-    //Check if completionHandler is not nil
-    //otherwise it will crash!
-    if(self.completionHandler){
-        //This will let the background fetch know that the fetch has ended
-        self.completionHandler(UIBackgroundFetchResultNewData);
-        
-    }
-
-    
-}
-
-*/
 
 #pragma - protocol methods for NSURLSessionDelegate and NSURLDataDelegate
 
@@ -595,16 +595,17 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
                     
-                    //NSLog(@"Going to the main thread to insert Slides");
+                   // NSLog(@"Going to the main thread to insert Slides");
                     [self insertSlide:jsonArray];
                     [self fetchOrgans];
                     UIView *loadingLable = [self.view viewWithTag:888];
                     [self.tableView reloadData];
+                    //[self.searchDisplayController.searchResultsTableView reloadData];
                     [loadingLable setHidden:YES];
                     
                     //Check if completionHandler is not nil
                     //otherwise it will crash!
-                  
+             
                     if(self.completionHandler){
                         //This will let the background fetch know that the fetch has ended
                         //NSLog(@"Completion handler called");
@@ -613,6 +614,7 @@
                         
                     }
                   
+                   // NSLog(@"Main thread completed");
              
                 });
                 
@@ -669,7 +671,7 @@
     
     if (error == nil)
     {
-        NSLog(@"Task: %@ completed successfully", task);
+       // NSLog(@"Task: %@ completed successfully", task);
       //  [[UIApplication sharedApplication] endBackgroundTask:task];
     }
     else
@@ -716,74 +718,7 @@
     
 }
 
-/*
-#pragma download Thumbnails
--(void)downloadThumbnailsForSlides
-{
- 
-    NSFetchRequest *request = [[NSFetchRequest alloc]init];
-    [request setEntity:[NSEntityDescription entityForName:@"Slide"inManagedObjectContext:self.managedObjectContext]];
-    NSArray *slideArray = [self.managedObjectContext executeFetchRequest:request error:nil];
-    
-    NSUInteger index = 0;
-    [self.progressDisplay setProgress:0.0f];
-    
-    for(Slide *slide in slideArray){
-        
-        
-        //convert imageURL to thumbURL
-        NSString *imageURL = slide.imageURL;
-        imageURL = [imageURL stringByReplacingOccurrencesOfString:@"Images" withString:@"thumbnails"];
-        imageURL = [imageURL stringByReplacingOccurrencesOfString:@"png" withString:@"jpg"];
-        
-        NSURL *originURL =[NSURL URLWithString:imageURL];
-        
-        index++;
-        float progress = (double)(index)/(double)(slideArray.count);
-        //Main Thread for progress bar update
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.progressDisplay.progress = progress;
-          //  NSLog(@"Slide download %f",progress);
-            
-        });
-        
 
-        
-        
-        //background download the thumbnail and store it to the thumb file path
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        [manager downloadWithURL:originURL
-                         options:SDWebImageHighPriority
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
-                        {
-                            
-                            if (image) {
-                 
-                                NSData *thumbData =[NSData dataWithData:UIImageJPEGRepresentation(image,1.0f)];
-                                //Save the file to slideImagePath
-                                NSError *error =nil;
-                                NSString *filepath =[self documentsPathForFileName:slide.slideImagePath];
-                                [thumbData writeToFile:filepath options:NSDataWritingAtomic error:&error];
-                 
-                                // NSLog(@"Write returned error: %@", [error localizedDescription]);
-                            }
-             
-                            if(slide == slideArray.lastObject) {
-                                NSLog(@"last slide downloaded");
-                                self.loading =NO;
-                                [self.progressDisplay setHidden:YES];
-                            }
-             
-                        }];
-        
-        
-    }
-    
-    
-}
-
- */
 
 #pragma -Delete Objects By Name
 
@@ -860,6 +795,7 @@
     NSError *error = nil;
     [self.searchFrc performFetch:&error];
     
+    
 }
 
 
@@ -895,9 +831,26 @@
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
-    
+   // self.searchIsOn = NO;
 }
 
+-(void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
+  //  [self.searchDisplayController.searchResultsTableView in];
+   // NSLog(@"Did begin Search");
+   // self.searchIsOn = YES;
+
+}
+
+-(void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+{
+    // NSLog(@"Will begin Search");
+    
+    //self.searchIsOn = YES;
+    //[self fetchOrgans];
+   // [self.tableView reloadData];
+    //[self.searchDisplayController.searchResultsTableView reloadData];
+}
 
 - (IBAction)showAll:(id)sender {
 }
@@ -1058,7 +1011,7 @@
         NSLog(@"There IS NO internet connection");
         return NO;
     } else {
-        NSLog(@"There IS internet connection");
+       // NSLog(@"There IS internet connection");
         
         return YES;
     }

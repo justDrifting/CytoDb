@@ -136,11 +136,14 @@
     self.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     [self.view addSubview:_pageControl.viewForBaselineLayout];
     
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        self.pageControlXPosition.constant = 122.0f;
-    else
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)){
+        CGRect screenRect = [[UIScreen mainScreen]bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    self.pageControlXPosition.constant = screenHeight - 446.0f;
+    }
+    else {
         self.pageControlXPosition.constant = -8.0f;
-
+    }
             
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"hasSeenTutorial02"]){
         [self displayTutorial];
@@ -177,6 +180,7 @@
     CGRect screenRect = [[UIScreen mainScreen]bounds];
     CGFloat screenWidth = screenRect.size.width;
     CGFloat screenHeight = screenRect.size.height;
+    
     CGFloat fractionOfView = 0.20f;
     
     UITableView *featureTable = [[UITableView alloc] initWithFrame:CGRectMake(0, screenHeight, screenWidth, 0)];
@@ -456,10 +460,11 @@
     
     cell.backgroundColor=[UIColor clearColor];
     Features *feature = [_featureArray objectAtIndex:indexPath.section];
-    cell.textLabel.text = feature.featureDescription;
+    
     cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
-    cell.textLabel.numberOfLines=0;
     cell.textLabel.lineBreakMode= NSLineBreakByWordWrapping;
+    cell.textLabel.numberOfLines=0;
+    cell.textLabel.text = feature.featureDescription;
     
     return cell;
 }
@@ -472,6 +477,7 @@
     NSString *cellText =feature.featureDescription;
     UIFont *cellFont = [UIFont systemFontOfSize:15.0f];
     
+  
     NSAttributedString *attributedText =
     [[NSAttributedString alloc]
      initWithString:cellText
@@ -479,11 +485,14 @@
      {
      NSFontAttributeName: cellFont
      }];
+   
+    
     CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(tableView.bounds.size.width, CGFLOAT_MAX)
                                                options:NSStringDrawingUsesLineFragmentOrigin
                                                context:nil];
     return rect.size.height + 20;
 }
+
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
@@ -512,11 +521,17 @@
     }
 
     
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation))
-        self.pageControlXPosition.constant = 122.0f;
-    else
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)){
+        //self.pageControlXPosition.constant = 122.0f;
+        
+        CGRect screenRect = [[UIScreen mainScreen]bounds];
+        CGFloat screenHeight = screenRect.size.height;
+        self.pageControlXPosition.constant = screenHeight - 446.0f;
+        
+    }
+    else {
         self.pageControlXPosition.constant = -8.0f;
-    
+    }
     
 
 }

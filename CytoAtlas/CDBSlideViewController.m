@@ -211,11 +211,6 @@
                             ascending:YES];
     [request setSortDescriptors:[NSArray arrayWithObjects:sd1, sd2, nil]];
     
-   // NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sd, nil];
-    
-   //[request setSortDescriptors:sortDescriptors];
-
-   // NSFetchedResultsController
     
     self.frc = [[NSFetchedResultsController alloc]
                                        initWithFetchRequest:request

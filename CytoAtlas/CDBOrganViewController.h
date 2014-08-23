@@ -19,6 +19,7 @@
 
 
 
+
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
@@ -39,6 +40,7 @@
 @property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;//Not sure why this is used
 
 @property BOOL loading;
+//@property BOOL searchIsOn;
 
 
 @property (nonatomic, copy) void (^completionHandler)(UIBackgroundFetchResult fetchResult);
