@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Condition.h"
+
 
 
 @interface CDBSlideViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, NSFetchedResultsControllerDelegate>
+{
+
+   
+}
 
 
 @property (nonatomic) NSString *selectedRowName;

@@ -5,29 +5,41 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>3C727F09-20FE-48EA-859A-1E5B205831BD</string>
+	<string>0B968FA8-C8D9-4BC6-BC7A-EBC1E87BACC7</string>
 	<key>IDESourceControlProjectName</key>
 	<string>CytoAtlas</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>6DF05F0C9C710F64AECED9CC719B9E2BEBA2F673</key>
+		<string>https://github.com/justDrifting/CytoDb.git</string>
 		<key>DB77008A-73C1-4D1F-BB42-229D27AC345B</key>
 		<string>https://github.com/justDrifting/CytoDb.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CytoAtlas.xcodeproj/project.xcworkspace</string>
+	<string>CytoAtlas.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>DB77008A-73C1-4D1F-BB42-229D27AC345B</key>
+		<key>6DF05F0C9C710F64AECED9CC719B9E2BEBA2F673</key>
 		<string>../..</string>
+		<key>DB77008A-73C1-4D1F-BB42-229D27AC345B</key>
+		<string>../../../CytoDb</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/justDrifting/CytoDb.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>DB77008A-73C1-4D1F-BB42-229D27AC345B</string>
+	<string>6DF05F0C9C710F64AECED9CC719B9E2BEBA2F673</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6DF05F0C9C710F64AECED9CC719B9E2BEBA2F673</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CytoAtlas_4_1_ipad</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

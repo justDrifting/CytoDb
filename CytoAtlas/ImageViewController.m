@@ -12,6 +12,7 @@
 #import "Features.h"
 
 #define TMP NSTemporaryDirectory()
+#define IS_PAD  (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
 
 @interface ImageViewController ()
 
@@ -39,11 +40,21 @@
 {
     [super viewDidLoad];
     
-   
-    
     //Do any additional setup after loading the view.
+    //Set Font to 0.8 of preffered font size
+    UIFontDescriptor *userFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+    float fontSize = [userFont pointSize] * 0.8f;
+    self.textDisplay.font = [UIFont fontWithDescriptor:userFont size:fontSize];
     self.textDisplay.text = self.descriptionText;
-  
+    
+    //Listen for changes in font Size user preference
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(preferredContentSizeChanged:)
+     name:UIContentSizeCategoryDidChangeNotification
+     object:nil];
+    
+    
    
     //convert imageURL to thumbURL
      NSString *thumbURL = self.imageURL;
@@ -55,17 +66,17 @@
     
    // [self.imageDisplay setImageWithURL:[NSURL URLWithString:thumbURL]];
     
-    [self.imageDisplay setImageWithURL:[NSURL URLWithString:thumbURL]
+    [self.imageDisplay sd_setImageWithURL:[NSURL URLWithString:thumbURL]
                       placeholderImage:nil
-                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
                           
                           // Slowly download the larger version of the image
                           SDWebImageManager *manager = [SDWebImageManager sharedManager];
-                          [manager downloadWithURL:iURL
+                          [manager downloadImageWithURL:iURL
                                            options:0
                                           progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                           }
-                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
+                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *url) {
                                              
                                              
                                              //If no image
@@ -106,7 +117,11 @@
     _doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
     _doubleTap.numberOfTapsRequired = 2;
     
-    _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
+    //Single Tap on Image to hide nav bar (For iPhone only)
+   // _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleNavigationBar)];
+    
+    _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleTextDisplay)];
+    
     _singleTap.numberOfTapsRequired = 1;
   
     //Isolating Single Taps From DoubleTaps
@@ -120,10 +135,22 @@
 }
 
 
+
+//Selector to check prefered font size update
+- (void)preferredContentSizeChanged:(NSNotification *)notification {
+    
+    //Set Font to 0.8 of preffered font size
+    UIFontDescriptor *userFont = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+    float fontSize = [userFont pointSize] * 0.8f;
+    self.textDisplay.font = [UIFont fontWithDescriptor:userFont size:fontSize];
+}
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
-   
-    [self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(self.interfaceOrientation)];
+   //Hide text Display in iPhone Landscape
+    //[self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(self.interfaceOrientation)];
+    
     [self autoRotateView:self.imageScrollView toInterfaceOrientation:self.interfaceOrientation];
     
 }
@@ -131,11 +158,28 @@
 
 -(void)toggleNavigationBar
 {
-    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
-        [self.navigationController setNavigationBarHidden:!self.navigationController.navigationBarHidden];
+    if(!IS_PAD){
+        if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
+            [self.navigationController setNavigationBarHidden:!self.navigationController.navigationBarHidden];
         
+        }
     }
-    
+}
+
+
+-(void)toggleTextDisplay
+{
+    if(IS_PAD){
+        if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
+         //   [self.navigationController setNavigationBarHidden:!self.navigationController.navigationBarHidden];
+            if(![self.textDisplay isHidden]){
+                [self.textDisplay setHidden:YES];
+            }
+            else{
+                [self.textDisplay setHidden:NO];
+            }
+        }
+    }
 }
 
 - (void)scrollViewDoubleTapped:(UITapGestureRecognizer*)recognizer {
@@ -234,9 +278,15 @@
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
    // [[self navigationController] setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation) animated:YES];
-    [self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+   
+    //Hide text Display in iPhone Landscape
+    //[self.textDisplay setHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+    
+    //Show text Display in iPad Portrait
+    [self.textDisplay setHidden:!(UIInterfaceOrientationIsPortrait(toInterfaceOrientation))];
+    
     [self autoRotateView:self.imageScrollView toInterfaceOrientation:toInterfaceOrientation];
-    [self.navigationController setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
+    //[self.navigationController setNavigationBarHidden:UIInterfaceOrientationIsLandscape(toInterfaceOrientation)];
     
       
 }
@@ -244,107 +294,56 @@
 
 -(void)autoRotateView:(UIView *)viewToAutoRotate toInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-   // CGRect screenRect = [[UIScreen mainScreen]bounds];
+    
+   
+    // CGRect screenRect = [[UIScreen mainScreen]bounds];
    // CGFloat screenWidth = screenRect.size.width;
    // CGFloat screenHeight = screenRect.size.height;
     
     switch (toInterfaceOrientation) {
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            viewToAutoRotate.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90 degress
+           // viewToAutoRotate.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90 degress
            // self.progressView.transform = CGAffineTransformMakeRotation(M_PI/2);
-            self.imageTopConstraint.constant = 0.0f;
-            self.imageHeight.constant = 500.0f;
-            self.imageWidth.constant = 280.0f;
-            self.scrollHeight.constant = 500.0f;
-            self.scrollWidth.constant = 280.0f;
+          //  self.imageTopConstraint.constant = 0.0f;
+            self.imageHeight.constant = 660.0f;
+            self.imageWidth.constant = 600.0f;
+            self.scrollHeight.constant = 660.0f;
+            self.scrollWidth.constant = 600.0f;
+            if(IS_PAD) self.textBoxTopFromBottom.constant = 100.0f;
             [self.view addGestureRecognizer:_singleTap];
             
             break;
  
         case UIInterfaceOrientationPortraitUpsideDown:
         default:
+          /*  viewToAutoRotate.transform = CGAffineTransformMakeRotation(0); // 0 degrees
+            //self.progressView.transform = CGAffineTransformMakeRotation(0);
+           // self.imageTopConstraint.constant = 40.0f;
+            self.imageHeight.constant = 760.0f;
+            self.imageWidth.constant = 700.0f;
+            self.scrollHeight.constant = 760.0f;
+            self.scrollWidth.constant = 700.0f;
+            self.textBoxTopFromBottom.constant = 200.0f;
+        //  [[self navigationController] setNavigationBarHidden:NO];
+           */
+            
             viewToAutoRotate.transform = CGAffineTransformMakeRotation(0); // 0 degrees
             //self.progressView.transform = CGAffineTransformMakeRotation(0);
-            self.imageTopConstraint.constant = 40.0f;
-            self.imageHeight.constant = 360.0f;
-            self.imageWidth.constant = 300.0f;
-            self.scrollHeight.constant = 360.0f;
-            self.scrollWidth.constant = 300.0f;
+            //self.textViewToScrollView.constant= 8.0f;
+            self.imageWidth.constant = self.scaledImageWidth;
+            self.imageHeight.constant = self.scaledImageHeight;
+            self.scrollWidth.constant = self.imageWidth.constant;
+            self.scrollHeight.constant = self.imageHeight.constant;
+            //self.imageTopToTop.constant=64.0f;
+            self.textDisplayHeight.constant= self.screenHeight-self.scaledImageHeight-64.0f-20.0f;
+            //self.vertSpaceTextViewTopToView.constant = self.scaledImageHeight+64.0f+8.0f;
             [[self navigationController] setNavigationBarHidden:NO];
-
+            
             break;
     }
-
+  
 }
-/*
-
-- (void) getCachedImage: (NSURL *) imageURL
-{
-    // Generate a unique path to a resource representing the image you want
-    NSString *filename = [imageURL absoluteString];
-    
-    
-    NSString *uniquePath = [TMP stringByAppendingPathComponent: filename];
-    UIImage *image;
-    
-    // Check for a cached version
-    if([[NSFileManager defaultManager] fileExistsAtPath: uniquePath])
-    {
-        NSLog(@"image is in Cache");
-        image = [UIImage imageWithContentsOfFile: uniquePath]; // this is the cached image
-    }
-    else
-    {
-        // get a new one
-        NSLog(@"Need to get image %@ from URL",filename);
-        [self cacheImage: imageURL];
-        image = [UIImage imageWithContentsOfFile: uniquePath];
-    }
-    self.imageDisplay.image= image;
-    //return image;
-    
-}
-
-
-- (void) cacheImage: (NSURL *) imageURL
-{
-    // Generate a unique path to a resource representing the image you want
-    NSString *filename = [imageURL absoluteString];
-    NSString *uniquePath = [TMP stringByAppendingPathComponent: filename];
-    
-    // Check for file existence
-    if(![[NSFileManager defaultManager] fileExistsAtPath: uniquePath])
-    {
-        // The file doesn't exist, we should get a copy of it
-        
-        // Fetch image
-        dispatch_async(dispatch_get_global_queue(0,0), ^{
-            
-            NSData *imageData = [NSData dataWithContentsOfURL:self.imageURL];
-            UIImage *image = [[UIImage alloc] initWithData: imageData];
-            
-        
-                // STORE IN FILESYSTEM
-               // NSString* cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-               // NSString *file = [cachesDirectory stringByAppendingPathComponent:[self.imageURL absoluteString]];
-                //[imageData writeToFile:file atomically:YES];
-                [UIImagePNGRepresentation(image) writeToFile: uniquePath atomically: YES];
-                // STORE IN MEMORY
-               // [memoryCache setObject:imageData forKey:[self.imageURL absoluteString]];
-                
-                //Main Dispatch Task to decompressData
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    // WARNING: is the cell still using the same data by this point??
-                    
-                      self.imageDisplay.image= [UIImage imageWithData:imageData];
-                }); //End Inner Block
-            
-        });//End GCD Block
-    }
-
-}
-*/
 
 
 

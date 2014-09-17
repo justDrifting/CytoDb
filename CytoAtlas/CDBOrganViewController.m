@@ -50,13 +50,13 @@
 {
   [super viewDidLoad];
 
-    
+    NSLog(@"Loaded Organview");
 
     self.searchDisplayController.delegate = self;
     self.searchDisplayController.searchResultsDataSource=self;
     self.searchDisplayController.searchResultsDelegate=self;
     
-    
+ 
     //If core data is empty start downloading database
     if(![self coreDataHasEntriesForEntityName:@"Slide"])
     {
@@ -229,17 +229,21 @@
 
 #pragma mark - Navigation
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if(!self.searchDisplayController.active){
+    if(tableView == self.searchDisplayController.searchResultsTableView){
+        
+        UITableViewCell *sender = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        [self performSegueWithIdentifier:@"searchToSlides" sender:sender];
+        
+    }
+    else{
+       
         
         UITableViewCell *sender = [self.tableView cellForRowAtIndexPath:indexPath];
         [self performSegueWithIdentifier:@"pushToConditions" sender:sender];
-    }
-    else{
-        UITableViewCell *sender = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
-        [self performSegueWithIdentifier:@"pushToSlides" sender:sender];
     }
 
 }
@@ -269,10 +273,19 @@
         
     }
     
-    if([[segue identifier]isEqualToString:@"pushToSlides"])
+    if([[segue identifier]isEqualToString:@"searchToSlides"])
     {
         // Get the new view controller using [segue destinationViewController].
-        SlideViewController *slideViewController =(SlideViewController *)segue.destinationViewController;
+        UINavigationController *navigationController = [segue destinationViewController];
+        
+        SlideViewController *slideViewController=(SlideViewController *)[navigationController topViewController];
+        //SlideViewController *slideViewController =(SlideViewController *)segue.destinationViewController;
+        
+        UISplitViewController *splitViewController = (UISplitViewController *)self.view.window.rootViewController;
+        
+        splitViewController.delegate = slideViewController;
+        
+
         
         //get indexPath for the  selected Row
         NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
@@ -427,7 +440,7 @@
     // Save everything
     NSError *error = nil;
     if ([context save:&error]) {
-       // NSLog(@"The save was successful!");
+        NSLog(@"The save was successful!");
 
         
     } else {
@@ -858,66 +871,6 @@
 
                              
 
-- (NSManagedObject*)managedObjectFromStructure:(NSDictionary*)structureDictionary withManagedObjectContext:(NSManagedObjectContext*)moc
-    {
-        NSString *objectName = [structureDictionary objectForKey:@"ManagedObjectName"];
-        NSManagedObject *managedObject = [NSEntityDescription insertNewObjectForEntityForName:objectName inManagedObjectContext:moc];
-        [managedObject setValuesForKeysWithDictionary:structureDictionary];
-        
-  /*
-        for (NSString *relationshipName in [[[managedObject entity] relationshipsByName] allKeys]) {
-            NSRelationshipDescription *description = [relationshipName objectForKey:relationshipName];
-            if (![description isToMany]) {
-                NSDictionary *childStructureDictionary = [structureDictionary objectForKey:relationshipName];
-                NSManagedObject *childObject = [self managedObjectFromStructure:childStructureDictionary withManagedObjectContext:moc];
-                
-             //   [managedObject  setObject:childObject forKey:relationshipName];
-                continue;
-            }
-            NSMutableSet *relationshipSet = [managedObject mutableSetValueForKey:relationshipName];
-            NSArray *relationshipArray = [structureDictionary objectForKey:relationshipName];
-            for (NSDictionary *childStructureDictionary in relationshipArray) {
-                NSManagedObject *childObject = [self managedObjectFromStructure:childStructureDictionary withManagedObjectContext:moc];
-                [relationshipSet addObject:childObject];
-            }
-        }*/
-        return managedObject;
-    }
-
-
-
-
-- (NSArray*)managedObjectsFromJSONStructure:(NSArray*)structureArray withManagedObjectContext:(NSManagedObjectContext*)moc
-{
-        NSMutableArray *objectArray = [[NSMutableArray alloc] init];
-        for (NSDictionary *structureDictionary in structureArray) {
-            [objectArray addObject:[self managedObjectFromStructure:structureDictionary withManagedObjectContext:moc]];
-        }
-        return objectArray;
-}
-
-
-
-#pragma -mark
-#pragma -is Core Data Empty
-
-- (BOOL)coreDataHasEntriesForEntityName:(NSString *)entityName {
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
-    [request setEntity:entity];
-    [request setFetchLimit:1];
-    NSError *error = nil;
-    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
-    if (!results) {
-        NSLog(@"Fetch error: %@", error);
-        abort();
-    }
-    if ([results count] == 0) {
-        return NO;
-    }
-    return YES;
-}
-
 #pragma -file path generator
 
 - (NSString *)documentsPathForFileName:(NSString *)name
@@ -1018,6 +971,30 @@
     
 }
 
+#pragma -mark
+#pragma -is Core Data Empty
+
+- (BOOL)coreDataHasEntriesForEntityName:(NSString *)entityName {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.managedObjectContext];
+    [request setEntity:entity];
+    [request setFetchLimit:1];
+    NSError *error = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (!results) {
+        NSLog(@"Fetch error: %@", error);
+        abort();
+    }
+    if ([results count] == 0) {
+        return NO;
+    }
+    return YES;
+}
+
+
+
+
+
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
     if(alertView.tag == kAlertViewOne) {
@@ -1032,6 +1009,8 @@
 
     
 }
+
+
 
 /*
 

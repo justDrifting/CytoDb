@@ -21,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollHeight;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textBoxTopFromBottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *vertSpaceTextViewTopToView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textDisplayHeight;
 
 @property NSUInteger pageIndex;
 @property NSString *descriptionText;
@@ -28,6 +31,13 @@
 @property NSString *imageURL;
 @property NSString *thumbURL;
 @property UIImage *pageImage;
+
+@property CGFloat screenWidth;
+@property CGFloat screenHeight;
+@property CGFloat heightDelta;
+@property CGFloat padding;
+@property CGFloat scaledImageWidth;
+@property CGFloat scaledImageHeight;
 
 @property UITapGestureRecognizer *singleTap;
 @property UITapGestureRecognizer *doubleTap;

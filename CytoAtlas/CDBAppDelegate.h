@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CDBAppDelegate : UIResponder <UIApplicationDelegate>
+@interface CDBAppDelegate : UIResponder <UIApplicationDelegate, NSFetchedResultsControllerDelegate, UISplitViewControllerDelegate>
+
+{
+    
+    NSURLSession * _session;
+    
+    UIAlertView *statusAlert;
+    
+    
+}
+
 
 @property (strong, nonatomic) UIWindow *window;
 @property (copy) void (^backgroundSessionCompletionHandler)();
@@ -18,6 +28,10 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+@property (nonatomic, copy) void (^completionHandler)(UIBackgroundFetchResult fetchResult);
+@property (strong, nonatomic) NSURLSessionDownloadTask *downloadTask;
+
+@property (nonatomic,strong) NSFetchedResultsController *frc;       //Fetch Results Controller For TableViewController
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

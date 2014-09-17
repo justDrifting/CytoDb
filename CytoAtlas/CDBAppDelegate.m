@@ -8,6 +8,17 @@
 
 #import "CDBAppDelegate.h"
 #import "CDBOrganViewController.h"
+#import "SlideViewController.h"
+#import "Organ.h"
+#import "Condition.h"
+#import "Slide.h"
+#import "Features.h"
+#import "UIImageView+WebCache.h"
+#import "Reachability.h"
+
+
+#define DataURLString @"http://proqms.info/json0_1_2.php"
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 @interface CDBAppDelegate ()
 
@@ -15,6 +26,9 @@
 UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 @property (nonatomic, strong) NSTimer *myTimer;
+
+@property (nonatomic) NSURLSession *backgroundSession;
+@property (nonatomic) NSURLSessionDownloadTask *backgroundDownloadTask;
 
 @end
 
@@ -26,10 +40,56 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     //[self flushDatabase];
-    UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
-    CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
-    organViewController.managedObjectContext = self.managedObjectContext;
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    //For iPad
+        
+        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+        UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
+        //Master Nav Controller holds the two tableView
+    
+        splitViewController.delegate = (id)navigationController.topViewController;
+        SlideViewController *slideViewController = (SlideViewController *)[navigationController topViewController];
+        CDBOrganViewController *organViewController =(CDBOrganViewController *)[masterNavigationController.viewControllers objectAtIndex:0];
+    
+        organViewController.managedObjectContext = self.managedObjectContext;
+        slideViewController.managedObjectContext = self.managedObjectContext;
+    }
+    else{
+    
+      
+        UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
+        CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
+        organViewController.managedObjectContext = self.managedObjectContext;
+    
+    }
+    
+    /*
+    
+    
+    
+    //If core data is empty start downloading database
+    if(![self coreDataHasEntriesForEntityName:@"Slide"])
+    {
+       // [self.showAllButton setEnabled:NO];
+        [self retrieveData];
+        
+        NSLog(@"Nothing in Core Data Downloading Database");
+        UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(100.0, 100.0, 120.0, 40.0)];
+        [loadingLabel setBackgroundColor:[UIColor darkGrayColor]];
+        [loadingLabel setTextColor:[UIColor whiteColor]];
+        [loadingLabel setTextAlignment:NSTextAlignmentCenter];
+       // [loadingLabel setCenter:self.view.center];
+        //[self.view addSubview:loadingLabel];
+        loadingLabel.tag = 888;
+        loadingLabel.text = @"Loading Database";
+    }
+    
+    
+    */
     
     //Min Background Fetch Interval
     
@@ -49,20 +109,6 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
      //pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
      //pageControl.backgroundColor = [UIColor clearColor];
     
-    
-    //Parse key:
-    //[Parse setApplicationId:@"bkV5yRYdimjXSsKuJJn59rjklg9JIR2bX3B0ZIrx"clientKey:@"KtkLMjXXlnqmoQPWstKkdUO66ffA88XWiSPfykSA"];
- 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
-    {
-        // app already launched
-    }
-    else
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        // This is the first launch ever
-    }
     */
     
     return YES;
@@ -208,6 +254,7 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+/*
 
 #pragma -flush Database
 -(void) flushDatabase{
@@ -222,6 +269,8 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
    //  self.managedObjectContext = nil;
       self.managedObjectContext.persistentStoreCoordinator = nil;
 }
+ 
+ */
 
 #pragma mark - Background Fetch delegate
 -(void) application: (UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
@@ -232,9 +281,18 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
     NSDate *fetchStart = [NSDate date];
     */
     
+   /* //This section was for iPhone, now replaced by the section for iPad
+    
     UINavigationController * navigationController = (UINavigationController *)self.window.rootViewController;
     [navigationController popToRootViewControllerAnimated:NO];
     CDBOrganViewController *organViewController =(CDBOrganViewController *)[[navigationController viewControllers]objectAtIndex:0];
+   */
+    
+    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+    UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
+
+    CDBOrganViewController *organViewController =(CDBOrganViewController *)[masterNavigationController.viewControllers objectAtIndex:0];
+    
     organViewController.managedObjectContext = self.managedObjectContext;
     
     [organViewController retrieveDataWithCompletionHandler:^(UIBackgroundFetchResult result) {
@@ -255,6 +313,8 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
     
   
 }
+
+
 
 
 
@@ -282,6 +342,7 @@ UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
  
 */
+
 
 
 

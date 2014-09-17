@@ -13,7 +13,7 @@
 #import "Slide.h"
 #import "Features.h"
 #import <QuartzCore/QuartzCore.h>
-
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 
 @interface CDBSlideViewController ()
@@ -43,6 +43,9 @@
     self.searchDisplayController.delegate = self;
     self.searchDisplayController.searchResultsDataSource=self;
     self.searchDisplayController.searchResultsDelegate=self;
+    
+    
+    //self.delegate =
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -138,6 +141,29 @@
 
 
 
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if(tableView == self.searchDisplayController.searchResultsTableView){
+        
+        UITableViewCell *sender = [self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
+        [self performSegueWithIdentifier:@"pushToImage" sender:sender];
+    }
+    else{
+       
+        UITableViewCell *sender = [self.tableView cellForRowAtIndexPath:indexPath];
+        [self performSegueWithIdentifier:@"pushToImage" sender:sender];
+        
+    }
+
+
+
+}
+ 
+
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -146,31 +172,85 @@
     // Pass the selected object to the new view controller.
     
     if([[segue identifier]isEqualToString:@"pushToImage"]){
-        
-        
-        SlideViewController *slideViewController = (SlideViewController *)segue.destinationViewController;
-        
-        if(self.searchDisplayController.active){
- 
-           NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
-         
-           Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
-           slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
-           slideViewController.conditionID =[condition objectID];
+       
+        if (IS_IPAD) {
+            //For iPad
+            NSLog(@"we are in ipad");
+            UISplitViewController *splitViewController = (UISplitViewController *)self.view.window.rootViewController;
+            UINavigationController *currentNavigationController = [splitViewController.viewControllers lastObject];
+            UINavigationController *navigationController = [segue destinationViewController];
+            
+            SlideViewController *slideViewController=(SlideViewController *)[navigationController topViewController];
+            
+            SlideViewController *currentSlideViewController =(SlideViewController *)[currentNavigationController topViewController];
+            
+            splitViewController.delegate = slideViewController;
+            
+             //If popover button exists pass it to the next view
+             if(currentSlideViewController.rootPopoverButtonItem !=nil)
+             {
+                 NSLog(@"PopoverButtonExists");
+                 slideViewController.rootPopoverButtonItem = currentSlideViewController.rootPopoverButtonItem;
+             }
+            
+            
+            //Check if search is active or list is active then go to SlideVC and show the image etc.
+            if(self.searchDisplayController.active){
+                
+                NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+                Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
+                slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+                slideViewController.conditionID =[condition objectID];
+            }
+            else{
+                
+                NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+                
+                Condition *condition= [[self frc] objectAtIndexPath:indexPath];
+                slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+                slideViewController.conditionID =[condition objectID];
+            }
+            
+            //Pass the MOC to SlideVC
+            slideViewController.managedObjectContext=self.managedObjectContext;
+
         }
         else{
-           
-            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            //iPhone
+            NSLog(@"we are in iPhone");
+            SlideViewController *slideViewController = (SlideViewController *)segue.destinationViewController;
             
-            Condition *condition= [[self frc] objectAtIndexPath:indexPath];
-            slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
-            slideViewController.conditionID =[condition objectID];
-
+    
+            if(self.searchDisplayController.active){
+                
+                NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+                
+                Condition *condition= [[self searchFrc] objectAtIndexPath:indexPath];
+                slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+                slideViewController.conditionID =[condition objectID];
+            }
+            else{
+                
+                NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+                
+                Condition *condition= [[self frc] objectAtIndexPath:indexPath];
+                slideViewController.selectedConditionName =[condition valueForKey:@"conditionName"];
+                slideViewController.conditionID =[condition objectID];
+            }
+        
+            slideViewController.managedObjectContext=self.managedObjectContext;
+            
             
         }
         
-
-        slideViewController.managedObjectContext=self.managedObjectContext;
+     
+      /*
+        if (slideViewController.masterPopoverController != nil) {
+            [slideViewController.masterPopoverController dismissPopoverAnimated:YES];
+        }
+       */
+        
+        
     }
 
 }
@@ -334,9 +414,11 @@
  
 }
 
+
+/*
 #pragma mark -
 #pragma mark FetchedResults Controller Delegate Methods
-/*
+
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -403,5 +485,7 @@
 }
 
 */
+
+
 
 @end
